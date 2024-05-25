@@ -23,6 +23,13 @@ Experience the demo at [Sink.Cool](https://sink.cool/dashboard). Log in using th
 Site Token: SinkCool
 ```
 
+<details>
+  <summary><b>Screenshots</b></summary>
+  <img alt="Analytics" src="./docs/images/sink.cool_dashboard.png"/>
+  <img alt="Links" src="./docs/images/sink.cool_dashboard_links.png"/>
+  <img alt="Link Analytics" src="./docs/images/sink.cool_dashboard_link_slug.png"/>
+</details>
+
 ## 🧱 Technologies Used
 
 - **Framework**: [Nuxt](https://nuxt.com/)
