@@ -1,0 +1,64 @@
+{
+  "name": "sink",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.1.2",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "wrangler pages dev dist",
+    "deploy": "wrangler pages deploy dist",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "wrangler": "wrangler",
+    "lint-staged": "lint-staged"
+  },
+  "dependencies": {
+    "@unovis/ts": "^1.4.1",
+    "@unovis/vue": "^1.4.1",
+    "@vee-validate/zod": "^4.12.8",
+    "@vueuse/core": "^10.9.0",
+    "intl-parse-accept-language": "^1.0.0",
+    "lucide-vue-next": "^0.379.0",
+    "mysql-bricks": "^1.1.2",
+    "nanoid": "^5.0.7",
+    "pluralize": "^8.0.0",
+    "qr-code-styling": "1.6.0-rc.1",
+    "radix-vue": "^1.8.1",
+    "ua-parser-js": "next",
+    "vee-validate": "^4.12.8",
+    "virtua": "^0.31.0",
+    "vue-sonner": "^1.1.2",
+    "vue3-simple-icons": "^11.13.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.18.1",
+    "@nuxt/eslint": "^0.3.13",
+    "@nuxt/eslint-config": "^0.3.13",
+    "@nuxthub/core": "^0.5.17",
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "eslint": "^8.57.0",
+    "lint-staged": "^15.2.4",
+    "nuxt": "^3.11.2",
+    "shadcn-nuxt": "^0.10.4",
+    "simple-git-hooks": "^2.11.1",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "vue-tsc": "^2.0.19",
+    "wrangler": "^3.57.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,vue}": [
+      "eslint --fix"
+    ]
+  }
+}

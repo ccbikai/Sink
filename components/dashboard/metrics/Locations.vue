@@ -1,0 +1,93 @@
+<script setup>
+import { VisSingleContainer, VisTopoJSONMap, VisTopoJSONMapSelectors } from '@unovis/vue'
+import { WorldMapSimplestTopoJSON } from '@unovis/ts/maps'
+import WorldMapTopoJSON from '@/assets/location/world-topo.json' // https://github.com/apache/echarts/blob/master/test/data/map/json/world.json
+import { ChartTooltip } from '@/components/ui/chart'
+
+WorldMapTopoJSON.objects.states.geometries.map((state) => {
+  const name = state.properties.name
+  const country = WorldMapSimplestTopoJSON.objects.countries.geometries.find(country => country.properties.name === name)
+  state.id = state.name || ''
+  if (country) {
+    state.id = country.id || ''
+    state.properties = country.properties
+  }
+  return state
+})
+
+const id = inject('id')
+const startAt = inject('startAt')
+const endAt = inject('endAt')
+
+const areaData = ref([])
+
+async function getMapData() {
+  areaData.value = []
+  const { data } = await useAPI('/api/stats/metrics', {
+    query: {
+      type: 'country',
+      id: id.value,
+      startAt: startAt.value,
+      endAt: endAt.value,
+    },
+  })
+  if (Array.isArray(data)) {
+    areaData.value = data.map((country) => {
+      country.id = country.name
+      return country
+    })
+  }
+}
+
+const stopWatchTime = watch([startAt, endAt], getMapData)
+
+onMounted(() => {
+  getMapData()
+})
+
+onBeforeUnmount(() => {
+  stopWatchTime()
+})
+
+const valueFormatter = v => v
+const Tooltip = {
+  props: ['title', 'data'],
+  setup(props) {
+    const title = props.data[1]?.value?.name
+    const data = [{
+      name: props.title,
+      value: props.data[3]?.value?.count,
+      color: 'black',
+    }]
+    return () => h(ChartTooltip, { title, data })
+  },
+}
+</script>
+
+<template>
+  <Card class="flex flex-col md:h-[500px]">
+    <CardHeader>
+      <CardTitle>Locations</CardTitle>
+    </CardHeader>
+    <CardContent class="flex-1 flex [&_[data-radix-aspect-ratio-wrapper]]:flex-1">
+      <AspectRatio :ratio="65 / 30">
+        <VisSingleContainer
+          :data="{ areas: areaData }"
+          class="h-full"
+        >
+          <VisTopoJSONMap
+            :topojson="WorldMapTopoJSON"
+            map-feature-name="states"
+          />
+          <ChartSingleTooltip
+            index="id"
+            :selector="VisTopoJSONMapSelectors.feature"
+            :items="areaData"
+            :value-formatter="valueFormatter"
+            :custom-tooltip="Tooltip"
+          />
+        </VisSingleContainer>
+      </AspectRatio>
+    </CardContent>
+  </Card>
+</template>
