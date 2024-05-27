@@ -1,6 +1,6 @@
 # ⚡ Sink
 
-**A Simple / Speedy / Secrue Link Shortener with Analytics, 100% run on Cloudflare.**
+**A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.**
 
 ![Hero](./public/image.png)
 
