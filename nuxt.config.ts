@@ -6,7 +6,11 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
   ],
+  colorMode: {
+    classSuffix: '',
+  },
   routeRules: {
     '/': {
       prerender: true,

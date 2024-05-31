@@ -8,7 +8,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="text-gray-700 bg-white md:pt-6">
+  <section class="md:pt-6">
     <div class="container flex flex-col items-center py-8 mx-auto sm:flex-row">
       <a
         href="/"
