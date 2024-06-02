@@ -12,6 +12,7 @@ export default withNuxt(
       '@typescript-eslint/ban-ts-comment': 'off',
       'no-console': 'off',
       'node/prefer-global/process': 'off',
+      'vue/no-v-html': 'off',
     },
   },
 )

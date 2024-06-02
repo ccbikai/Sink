@@ -72,6 +72,9 @@ importers:
       '@nuxthub/core':
         specifier: ^0.5.17
         version: 0.5.17(ioredis@5.4.1)(nuxt@3.11.2(@opentelemetry/api@1.8.0)(@parcel/watcher@2.4.1)(@types/node@20.12.11)(@unocss/reset@0.60.0)(encoding@0.1.13)(eslint@8.57.0)(floating-vue@5.2.2(@nuxt/kit@3.11.2(rollup@4.17.2))(vue@3.4.27(typescript@5.4.5)))(ioredis@5.4.1)(optionator@0.9.4)(rollup@4.17.2)(terser@5.31.0)(typescript@5.4.5)(unocss@0.60.0(postcss@8.4.38)(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0)))(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))(vue-tsc@2.0.19(typescript@5.4.5)))(rollup@4.17.2)(vite@5.2.11(@types/node@20.12.11)(terser@5.31.0))
+      '@nuxtjs/color-mode':
+        specifier: ^3.4.1
+        version: 3.4.1(rollup@4.17.2)
       '@nuxtjs/tailwindcss':
         specifier: ^6.12.0
         version: 6.12.0(rollup@4.17.2)
@@ -1029,6 +1032,9 @@ packages:
 
   '@nuxthub/core@0.5.17':
     resolution: {integrity: sha512-vMizOqQUqEZNjn5Z5/9If34j8ssNqA2qekK4U55BnrweJAUgG//BOLJvRx5nzizqt8Yp7yIsz3O7yEwUb0IVCA==}
+
+  '@nuxtjs/color-mode@3.4.1':
+    resolution: {integrity: sha512-vZgJqDstxInGw3RGSWbLoCLXtU1mvh1LLeuEA/X3a++DYA4ifwSbNoiSiOyb9qZHFEwz1Xr99H71sXV4IhOaEg==}
 
   '@nuxtjs/tailwindcss@6.12.0':
     resolution: {integrity: sha512-vXvEq8z177TQcx0tc10mw3O6T9WeN0iTL8hIKGDfidmr+HKReexJU01aPgHefFrCu4LJB70egYFYnywzB9lMyQ==}
@@ -7151,6 +7157,16 @@ snapshots:
       - supports-color
       - uWebSockets.js
       - vite
+
+  '@nuxtjs/color-mode@3.4.1(rollup@4.17.2)':
+    dependencies:
+      '@nuxt/kit': 3.11.2(rollup@4.17.2)
+      pathe: 1.1.2
+      pkg-types: 1.1.1
+      semver: 7.6.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
 
   '@nuxtjs/tailwindcss@6.12.0(rollup@4.17.2)':
     dependencies:
