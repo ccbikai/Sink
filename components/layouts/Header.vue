@@ -36,7 +36,7 @@ const showMenu = ref(false)
           @touchmove.prevent
         >
           <div
-            class="flex-col w-full h-auto overflow-hidden bg-background rounded-lg md:overflow-visible md:rounded-none md:relative md:flex md:flex-row"
+            class="flex-col w-full h-auto overflow-hidden rounded-lg bg-background md:overflow-visible md:rounded-none md:relative md:flex md:flex-row"
           >
             <a
               href="/"
@@ -59,13 +59,13 @@ const showMenu = ref(false)
               class="flex flex-col items-start justify-end w-full pt-4 md:items-center md:w-1/3 md:flex-row md:py-0"
             >
               <a
-                class="w-full px-6 py-2 mr-0 text-gray-700 dark:text-gray-300 cursor-pointer md:px-3 md:mr-2 lg:mr-3 md:w-auto"
+                class="w-full px-6 py-2 mr-0 text-gray-700 cursor-pointer dark:text-gray-300 md:px-3 md:mr-2 lg:mr-3 md:w-auto"
                 href="/dashboard"
               >Dashboard</a>
               <a
                 href="https://github.com/ccbikai/sink"
                 target="_blank"
-                class="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 md:px-3 md:mr-2 lg:mr-3 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800"
+                class="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 md:px-3 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800"
               >
                 <GitHubIcon
                   class="w-5 h-5 mr-1"
@@ -79,7 +79,7 @@ const showMenu = ref(false)
         </div>
 
         <div
-          class="absolute right-0 flex flex-col items-center justify-center w-10 h-10rounded-full cursor-pointer md:hidden"
+          class="absolute right-0 flex flex-col items-center justify-center w-10 cursor-pointer h-10rounded-full md:hidden"
           @click="showMenu = !showMenu"
         >
           <Ellipsis
