@@ -14,7 +14,7 @@ async function getLinks() {
       cursor,
     },
   })
-  links.value = links.value.concat(data.links)
+  links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
   cursor = data.cursor
   listComplete = data.list_complete
 }
