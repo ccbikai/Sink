@@ -1,5 +1,5 @@
 <script setup>
-import { Sun, Moon } from 'lucide-vue-next'
+import { Sun, Moon, Laptop } from 'lucide-vue-next'
 
 const colorMode = useColorMode()
 </script>
@@ -9,10 +9,10 @@ const colorMode = useColorMode()
     <DropdownMenuTrigger as-child>
       <Button variant="ghost">
         <Sun
-          class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+          class="absolute w-5 h-5 transition-all scale-100 dark:scale-0"
         />
         <Moon
-          class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+          class="w-5 h-5 transition-all scale-0 dark:scale-100"
         />
         <span class="sr-only">Toggle theme</span>
       </Button>
@@ -21,13 +21,25 @@ const colorMode = useColorMode()
       align="end"
       class="min-w-min"
     >
-      <DropdownMenuItem @click="colorMode.preference = 'light'">
+      <DropdownMenuItem
+        class="cursor-pointer"
+        @click="colorMode.preference = 'light'"
+      >
+        <Sun class="w-4 h-4 mr-1" />
         Light
       </DropdownMenuItem>
-      <DropdownMenuItem @click="colorMode.preference = 'dark'">
+      <DropdownMenuItem
+        class="cursor-pointer"
+        @click="colorMode.preference = 'dark'"
+      >
+        <Moon class="w-4 h-4 mr-1" />
         Dark
       </DropdownMenuItem>
-      <DropdownMenuItem @click="colorMode.preference = 'system'">
+      <DropdownMenuItem
+        class="cursor-pointer"
+        @click="colorMode.preference = 'system'"
+      >
+        <Laptop class="w-4 h-4 mr-1" />
         System
       </DropdownMenuItem>
     </DropdownMenuContent>

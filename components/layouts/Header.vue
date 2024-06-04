@@ -71,7 +71,7 @@ const showMenu = ref(false)
                   class="w-5 h-5 mr-1"
                 />
                 GitHub</a>
-              <span class="px-2 py-2">
+              <span class="ml-1">
                 <SwitchTheme />
               </span>
             </div>
