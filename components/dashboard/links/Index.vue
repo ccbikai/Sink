@@ -22,7 +22,7 @@ async function getLinks() {
 const { isLoading } = useInfiniteScroll(
   document,
   getLinks,
-  { distance: 10, interval: 1000, canLoadMore: () => !listComplete },
+  { distance: 150, interval: 1000, canLoadMore: () => !listComplete },
 )
 
 function updateLinkList(link, type) {
@@ -58,6 +58,12 @@ function updateLinkList(link, type) {
       class="flex items-center justify-center"
     >
       <Loader class="animate-spin" />
+    </div>
+    <div
+      v-if="!isLoading && listComplete"
+      class="flex items-center justify-center text-sm"
+    >
+      No more
     </div>
   </main>
 </template>
