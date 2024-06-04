@@ -73,6 +73,10 @@ We welcome your contributions and PRs.
 
 [Configuration Docs](./docs/configuration.md)
 
+## 🙋🏻 FAQs
+
+[FAQs](./docs/faqs.md)
+
 ## 💖 Credits
 
 1. [**Cloudflare**](https://www.cloudflare.com/)
