@@ -25,3 +25,7 @@ Analytics data needs to read Cloudflare's data, check if `NUXT_CF_ACCOUNT_ID` an
 ## 4. I don't want the current homepage? Can it be redirected to my blog?
 
 Of course. Please set the environment variable `NUXT_HOME_URL` to your blog or official website address.
+
+## 5. Why can't I see the statistics after deploying with NuxtHub?
+
+NuxtHub's ANALYTICS points to its dataset, you need to set the `NUXT_DATASET` environment variable to point to the same dataset.
