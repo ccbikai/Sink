@@ -16,4 +16,4 @@ WorldMapTopoJSON.objects.states.geometries.map((state) => {
   return state
 })
 
-writeFileSync(join(import.meta.dirname, '../assets/location/world-topo.json'), JSON.stringify(WorldMapTopoJSON), 'utf8')
+writeFileSync(join(import.meta.dirname, '../public/world.json'), JSON.stringify(WorldMapTopoJSON), 'utf8')

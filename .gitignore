@@ -25,4 +25,4 @@ logs
 .wrangler
 site
 cache
-assets/location/world-topo.json
+public/world.json
