@@ -72,7 +72,7 @@ const Tooltip = {
         >
           <VisTopoJSONMap
             :topojson="worldMapTopoJSON"
-            map-feature-name="states"
+            map-feature-name="countries"
           />
           <ChartSingleTooltip
             index="id"
