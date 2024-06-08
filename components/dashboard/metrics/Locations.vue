@@ -10,11 +10,7 @@ const worldMapTopoJSON = ref({})
 const areaData = ref([])
 
 async function getWorldMapJSON() {
-  const data = await $fetch('/world.json', {
-    query: {
-      type: 'world',
-    },
-  })
+  const data = await $fetch('/world.json')
   worldMapTopoJSON.value = data
 }
 
