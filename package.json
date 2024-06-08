@@ -7,9 +7,10 @@
   "scripts": {
     "dev": "nuxt dev",
     "build": "nuxt build",
+    "build:map": "node scripts/build-map.js",
     "preview": "wrangler pages dev dist",
     "deploy": "wrangler pages deploy dist",
-    "postinstall": "nuxt prepare",
+    "postinstall": "npm run build:map && nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",

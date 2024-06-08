@@ -5,7 +5,7 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 export default withNuxt(
   // antfu(),
   {
-    ignores: ['components/ui'],
+    ignores: ['components/ui', 'scripts/build-map.js'],
   },
   {
     rules: {
