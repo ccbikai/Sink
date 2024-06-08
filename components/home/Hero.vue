@@ -23,6 +23,7 @@ const { title, description } = useAppConfig()
         <HomeLink
           href="/dashboard"
           target="_blank"
+          title="Dashboard"
           class="flex items-center justify-center gap-1"
           rel="noopener"
         >
@@ -36,6 +37,7 @@ const { title, description } = useAppConfig()
           type="outline"
           rel="noopener"
           href="https://github.com/ccbikai/sink"
+          title="Github"
           class="flex items-center justify-center gap-1"
           target="_blank"
         >
