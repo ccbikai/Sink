@@ -1,19 +1,7 @@
 <script setup>
 import { VisSingleContainer, VisTopoJSONMap, VisTopoJSONMapSelectors } from '@unovis/vue'
-import { WorldMapSimplestTopoJSON } from '@unovis/ts/maps'
 import WorldMapTopoJSON from '@/assets/location/world-topo.json' // https://github.com/apache/echarts/blob/master/test/data/map/json/world.json
 import { ChartTooltip } from '@/components/ui/chart'
-
-WorldMapTopoJSON.objects.states.geometries.map((state) => {
-  const name = state.properties.name
-  const country = WorldMapSimplestTopoJSON.objects.countries.geometries.find(country => country.properties.name === name)
-  state.id = state.name || ''
-  if (country) {
-    state.id = country.id || ''
-    state.properties = country.properties
-  }
-  return state
-})
 
 const id = inject('id')
 const startAt = inject('startAt')

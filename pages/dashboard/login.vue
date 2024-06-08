@@ -1,5 +1,5 @@
 <template>
   <main class="flex items-center justify-center h-full">
-    <Login />
+    <LazyLogin />
   </main>
 </template>

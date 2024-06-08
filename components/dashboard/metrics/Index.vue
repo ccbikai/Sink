@@ -1,6 +1,6 @@
 <template>
   <main class="grid gap-8 lg:grid-cols-12">
-    <DashboardMetricsLocations class="col-span-1 lg:col-span-8" />
+    <LazyDashboardMetricsLocations class="col-span-1 lg:col-span-8" />
     <DashboardMetricsGroup
       class="lg:col-span-4"
       :tabs="['country', 'region', 'city']"
