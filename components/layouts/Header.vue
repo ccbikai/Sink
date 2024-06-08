@@ -79,7 +79,8 @@ const showMenu = ref(false)
         </div>
 
         <div
-          class="absolute right-0 flex flex-col items-center justify-center w-10 cursor-pointer h-10rounded-full md:hidden"
+          class="absolute right-0 flex flex-col items-center justify-center w-10 h-10 rounded-full cursor-pointer md:hidden hover:bg-muted"
+          :class="{ 'right-2': showMenu }"
           @click="showMenu = !showMenu"
         >
           <Ellipsis
