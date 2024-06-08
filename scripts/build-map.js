@@ -9,7 +9,9 @@ WorldMapTopoJSON.objects.states.geometries.map((state) => {
   state.id = state.name || ''
   if (country) {
     state.id = country.id || ''
-    state.properties = country.properties
+    state.properties = {
+      name: country.properties?.name || '',
+    }
   }
   return state
 })
