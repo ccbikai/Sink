@@ -17,6 +17,9 @@
     "wrangler": "wrangler",
     "lint-staged": "lint-staged"
   },
+  "engines": {
+    "node": ">=20.11.0"
+  },
   "dependencies": {
     "@unovis/ts": "^1.4.1",
     "@unovis/vue": "^1.4.1",
