@@ -1,13 +1,18 @@
 <script setup>
 import { VisSingleContainer, VisTopoJSONMap, VisTopoJSONMapSelectors } from '@unovis/vue'
-import WorldMapTopoJSON from '@/assets/location/world-topo.json' // https://github.com/apache/echarts/blob/master/test/data/map/json/world.json
 import { ChartTooltip } from '@/components/ui/chart'
 
 const id = inject('id')
 const startAt = inject('startAt')
 const endAt = inject('endAt')
 
+const worldMapTopoJSON = ref({})
 const areaData = ref([])
+
+async function getWorldMapJSON() {
+  const data = await $fetch('/world.json')
+  worldMapTopoJSON.value = data
+}
 
 async function getMapData() {
   areaData.value = []
@@ -30,6 +35,7 @@ async function getMapData() {
 const stopWatchTime = watch([startAt, endAt], getMapData)
 
 onMounted(() => {
+  getWorldMapJSON()
   getMapData()
 })
 
@@ -60,11 +66,12 @@ const Tooltip = {
     <CardContent class="flex-1 flex [&_[data-radix-aspect-ratio-wrapper]]:flex-1">
       <AspectRatio :ratio="65 / 30">
         <VisSingleContainer
+          v-if="worldMapTopoJSON.type"
           :data="{ areas: areaData }"
           class="h-full"
         >
           <VisTopoJSONMap
-            :topojson="WorldMapTopoJSON"
+            :topojson="worldMapTopoJSON"
             map-feature-name="states"
           />
           <ChartSingleTooltip
