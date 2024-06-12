@@ -73,6 +73,10 @@ We welcome your contributions and PRs.
 
 [Configuration Docs](./docs/configuration.md)
 
+## 🔌 API
+
+[API Docs](./docs/api.md)
+
 ## 🙋🏻 FAQs
 
 [FAQs](./docs/faqs.md)
