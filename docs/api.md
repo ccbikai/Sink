@@ -1,6 +1,8 @@
 # Sink API
 
-Sink has a basic API implementation but it is not stable written yet.
+Writing API documentation manually can be very laborious, and we will automatically generate documents after the official release of [Nitro's OpenAPI](https://nitro.unjs.io/config#openapi).
+
+This place provides an example of creating a short link API. Other APIs are currently available for viewing through browser developer tools.
 
 ## API Reference
 
@@ -15,15 +17,15 @@ Sink has a basic API implementation but it is not stable written yet.
 | `authorization` | `Bearer SinkCool` |
 | `content-type` | `application/json` |
 
-
 #### Example
 
 ```http
   POST /api/link/create
-  HEADER authorization:Bearer SinkCool, content-type:application/json
-  BODY {
-        "url": "https://github.com/ccbikai/Sink/issues/14",
-        "slug": issue14
+  HEADER authorization: Bearer SinkCool
+  HEADER content-type: application/json
+  BODY  {
+          "url": "https://github.com/ccbikai/Sink/issues/14",
+          "slug": "issue14"
         }
 ```
 
@@ -31,14 +33,14 @@ The BODY data must be JSON.
 
 ```http
   RESPONSE 201
-  BODY {
-            "link": {
-                "id": "xpqhaurv5q",
-                "url": "https://github.com/ccbikai/Sink/issues/14",
-                slug": "issue14",
-                "createdAt": 1718119809,
-                "updatedAt": 1718119809
-            }
+  BODY  {
+          "link": {
+            "id": "xpqhaurv5q",
+            "url": "https://github.com/ccbikai/Sink/issues/14",
+            "slug": "issue14",
+            "createdAt": 1718119809,
+            "updatedAt": 1718119809
+          }
         }
 ```
 
