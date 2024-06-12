@@ -18,7 +18,7 @@
     "lint-staged": "lint-staged"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20.11"
   },
   "dependencies": {
     "@unovis/ts": "^1.4.1",
