@@ -1,8 +1,9 @@
 <script setup>
 const { title, description, image } = useAppConfig()
 useSeoMeta({
-  title,
+  title: title + ' - ' + description,
   description,
+  ogType: 'website',
   ogTitle: title,
   ogDescription: description,
   ogImage: image,
@@ -20,7 +21,7 @@ useHead({
     {
       rel: 'icon',
       type: 'image/png',
-      href: '/sink.png',
+      href: '/icon-192.png',
     },
   ],
 })
