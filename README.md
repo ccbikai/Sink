@@ -2,6 +2,13 @@
 
 **A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.**
 
+<a href="https://trendshift.io/repositories/10421" target="_blank"><img src="https://trendshift.io/api/badge/repositories/10421" alt="ccbikai/Sink | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+
+![Cloudflare](https://img.shields.io/badge/Cloudflare-F69652?style=flat&logo=cloudflare&logoColor=white)
+![Nuxt](https://img.shields.io/badge/Nuxt-00DC82?style=flat&logo=nuxtdotjs&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
+![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=shadcnui&logoColor=white)
+
 ![Hero](./public/image.png)
 
 ----
