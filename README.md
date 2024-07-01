@@ -96,5 +96,5 @@ We welcome your contributions and PRs.
 
 ## ☕ Sponsor
 
-1. [Follow Me on X(Twitter)](https://x.com/ccbikai).
+1. [Follow Me on X(Twitter)](https://x.com/xkaibi).
 2. [Become a sponsor to on GitHub](https://github.com/sponsors/ccbikai).
