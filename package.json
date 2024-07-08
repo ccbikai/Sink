@@ -1,7 +1,7 @@
 {
   "name": "sink",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "packageManager": "pnpm@9.1.2",
   "scripts": {

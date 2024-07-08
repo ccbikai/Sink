@@ -61,7 +61,7 @@ onMounted(() => {
         </a>
 
         <a
-          href="https://x.com/ccbikai"
+          href="https://x.com/xkaibi"
           target="_blank"
           title="Twitter"
           class="text-gray-400 hover:text-gray-500"
