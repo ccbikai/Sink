@@ -1,8 +1,8 @@
 <script setup>
 // https://vue3-simple-icons.wyatt-herkamp.dev/
 import {
-  AppleIcon,
   AndroidIcon,
+  AppleIcon,
   DebianIcon,
   FacebookIcon,
   FirefoxBrowserIcon,

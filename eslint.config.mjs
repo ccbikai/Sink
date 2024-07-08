@@ -1,11 +1,11 @@
 // @ts-check
-// import antfu from '@antfu/eslint-config'
+import antfu from '@antfu/eslint-config'
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
-  // antfu(),
+  antfu(),
   {
-    ignores: ['components/ui'],
+    ignores: ['components/ui', '.data', 'public/world.json'],
   },
   {
     rules: {

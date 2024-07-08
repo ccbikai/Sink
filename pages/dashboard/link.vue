@@ -17,10 +17,11 @@ async function getLink() {
 }
 
 function updateLink(link, type) {
-  if (type === 'delete')
+  if (type === 'delete') {
     navigateTo('/dashboard/links', {
       replace: true,
     })
+  }
 }
 
 onMounted(() => {
