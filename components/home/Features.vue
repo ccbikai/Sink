@@ -1,5 +1,5 @@
 <script setup>
-import { Link, AreaChart, ServerOff, Paintbrush, Sparkles, Hourglass } from 'lucide-vue-next'
+import { AreaChart, Hourglass, Link, Paintbrush, ServerOff, Sparkles } from 'lucide-vue-next'
 
 const features = ref([
   {

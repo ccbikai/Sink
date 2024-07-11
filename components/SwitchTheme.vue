@@ -1,5 +1,5 @@
 <script setup>
-import { Sun, Moon, Laptop } from 'lucide-vue-next'
+import { Laptop, Moon, Sun } from 'lucide-vue-next'
 
 const colorMode = useColorMode()
 </script>

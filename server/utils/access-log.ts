@@ -2,11 +2,12 @@ import type { H3Event } from 'h3'
 import { parseURL } from 'ufo'
 import { UAParser } from 'ua-parser-js'
 import {
-  Apps,
-  Bots,
   CLIs,
+  Crawlers,
   Emails,
   ExtraDevices,
+  Fetchers,
+  InApps,
   MediaPlayers,
   Modules,
 } from 'ua-parser-js/extensions'
@@ -68,7 +69,7 @@ export function useAccessLog(event: H3Event) {
 
   const userAgent = getHeader(event, 'user-agent') || ''
   const uaInfo = (new UAParser(userAgent, {
-    browser: [Apps.browser || [], Bots.browser || [], CLIs.browser || [], Emails.browser || [], MediaPlayers.browser || [], Modules.browser || []].flat(),
+    browser: [Crawlers.browser || [], CLIs.browser || [], Emails.browser || [], Fetchers.browser || [], InApps.browser || [], MediaPlayers.browser || [], Modules.browser || []].flat(),
     device: [ExtraDevices.device || []].flat(),
   })).getResult()
 
@@ -90,7 +91,6 @@ export function useAccessLog(event: H3Event) {
     language,
     os: uaInfo?.os?.name,
     browser: uaInfo?.browser?.name,
-    // @ts-expect-error todo
     browserType: uaInfo?.browser?.type,
     device: uaInfo?.device?.model,
     deviceType: uaInfo?.device?.type,
