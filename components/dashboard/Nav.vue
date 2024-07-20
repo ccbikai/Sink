@@ -10,14 +10,15 @@ const route = useRoute()
       @update:model-value="navigateTo"
     >
       <TabsList>
-        <TabsTrigger value="/dashboard">
-          Analysis
-        </TabsTrigger>
         <TabsTrigger
           value="/dashboard/links"
         >
           Links
         </TabsTrigger>
+        <TabsTrigger value="/dashboard">
+          Analysis
+        </TabsTrigger>
+
       </TabsList>
     </Tabs>
     <slot name="left" />
