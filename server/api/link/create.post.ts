@@ -12,6 +12,7 @@ export default eventHandler(async (event) => {
       statusText: 'Link already exists',
     })
   }
+
   else {
     const expiration = getExpiration(event, link.expiration)
 

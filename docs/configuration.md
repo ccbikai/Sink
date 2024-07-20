@@ -14,6 +14,14 @@ Sets the default length of the generated SLUG.
 
 Redirects default to use HTTP 301 status code, you can set it to `302`/`307`/`308`.
 
+## `NUXT_LINK_CACHE_TTL`
+
+Cache links can speed up access, but setting them too long may result in slow changes taking effect. The default value is 60 seconds.
+
+## `NUXT_REDIRECT_WITH_QUERY`
+
+URL parameters are not carried during link redirection by default and it is not recommended to enable this feature.
+
 ## `NUXT_HOME_URL`
 
 The default Sink homepage is the introduction page, you can replace it with your own website.
