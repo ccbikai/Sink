@@ -53,6 +53,7 @@ export default defineNuxtConfig({
     siteToken: 'SinkCool',
     redirectStatusCode: '301',
     linkCacheTtl: 60,
+    redirectWithQuery: false,
     homeURL: '',
     cfAccountId: '',
     cfApiToken: '',
