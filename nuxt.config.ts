@@ -21,6 +21,9 @@ export default defineNuxtConfig({
     '/dashboard/**': {
       ssr: false,
     },
+    '/dashboard': {
+      redirect: '/dashboard/links',
+    },
   },
 
   hub: {
@@ -49,6 +52,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     siteToken: 'SinkCool',
     redirectStatusCode: '301',
+    linkCacheTtl: 60,
+    redirectWithQuery: false,
     homeURL: '',
     cfAccountId: '',
     cfApiToken: '',
