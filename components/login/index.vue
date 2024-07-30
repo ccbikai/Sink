@@ -36,10 +36,10 @@ async function onSubmit(form) {
   <Card class="w-full max-w-sm">
     <CardHeader>
       <CardTitle class="text-2xl">
-        Login
+        Anmelden
       </CardTitle>
       <CardDescription>
-        Enter your site token to login.
+        Gib deinen Token ein, um dich anzumelden.
       </CardDescription>
     </CardHeader>
     <CardContent class="grid gap-4">
@@ -57,7 +57,7 @@ async function onSubmit(form) {
           </AlertDescription>
         </Alert>
         <Button class="w-full">
-          Login
+          Anmelden
         </Button>
       </AutoForm>
     </CardContent>

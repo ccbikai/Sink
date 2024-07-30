@@ -15,19 +15,10 @@ const showMenu = ref(false)
         <div class="flex items-center justify-start w-1/4 h-full pr-4">
           <a
             href="/"
-            title="Sink"
+            title="atef aloui"
             class="flex items-center py-4 space-x-2 text-xl font-black text-gray-900 dark:text-gray-100 md:py-0"
           >
-            <span
-              class="flex items-center justify-center w-8 h-8 rounded-full"
-            >
-              <img
-                src="/sink.png"
-                alt="Sink"
-                class="w-full h-full rounded-full"
-              >
-            </span>
-            <span class="mx-2">Sink</span>
+            <span class="mx-2">atef aloui</span>
           </a>
         </div>
 
@@ -59,21 +50,6 @@ const showMenu = ref(false)
             <div
               class="flex flex-col items-start justify-end w-full pt-4 md:items-center md:w-1/3 md:flex-row md:py-0"
             >
-              <a
-                class="w-full px-6 py-2 mr-0 text-gray-700 cursor-pointer dark:text-gray-300 md:px-3 md:mr-2 lg:mr-3 md:w-auto"
-                href="/dashboard"
-                title="Sink Dashboard"
-              >Dashboard</a>
-              <a
-                href="https://github.com/ccbikai/sink"
-                target="_blank"
-                title="Github"
-                class="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 md:px-3 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800"
-              >
-                <GitHubIcon
-                  class="w-5 h-5 mr-1"
-                />
-                GitHub</a>
               <span class="ml-1">
                 <SwitchTheme />
               </span>

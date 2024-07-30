@@ -1,9 +1,5 @@
 <template>
-  <main class="flex flex-col justify-center">
-    <HomeTwitter />
-    <HomeHero />
-    <HomeFeatures />
-    <HomeLogos />
-    <HomeCta />
+  <main class="flex items-center justify-center h-full">
+    <Login />
   </main>
 </template>
