@@ -23,6 +23,7 @@ import {
   WeChatIcon,
   WearOsIcon,
   // WindowsIcon,
+  XIcon,
   XiaomiIcon,
   YandexCloudIcon,
 } from 'vue3-simple-icons'
