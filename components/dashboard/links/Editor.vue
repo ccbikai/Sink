@@ -114,8 +114,13 @@ async function onSubmit(formData) {
     body: link,
   })
   dialogOpen.value = false
-  emit('update:link', newLink, isEdit ? 'edit' : 'create')
-  isEdit ? toast('Link updated successfully') : toast('Link created successfully')
+  emit('update:link', newLink)
+  if (isEdit) {
+    toast('Link updated successfully')
+  }
+  else {
+    toast('Link created successfully')
+  }
 }
 
 const { previewMode } = useRuntimeConfig().public
