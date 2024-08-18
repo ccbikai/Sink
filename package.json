@@ -43,7 +43,7 @@
     "@antfu/eslint-config": "^2.21.3",
     "@nuxt/eslint": "^0.3.13",
     "@nuxt/eslint-config": "^0.3.13",
-    "@nuxthub/core": "^0.7.0",
+    "@nuxthub/core": "^0.7.3",
     "@nuxtjs/color-mode": "^3.4.2",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "class-variance-authority": "^0.7.0",
