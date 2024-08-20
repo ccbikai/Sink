@@ -7,6 +7,10 @@ export function useAPI(api: string, options?: object): Promise<unknown> {
       Authorization: `Bearer ${localStorage.getItem('SinkSiteToken') || ''}`,
     },
   })).catch((error) => {
+    if (error?.status === 401) {
+      localStorage.removeItem('SinkSiteToken')
+      navigateTo('/dashboard/login')
+    }
     if (error?.data?.statusMessage) {
       toast(error?.data?.statusMessage)
     }
