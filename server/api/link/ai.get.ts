@@ -31,7 +31,8 @@ export default eventHandler(async (event) => {
         content: url,
       },
     ]
-    const { response } = await AI.run(aiModel, { messages })
+    // @ts-expect-error Workers AI is not typed
+    const { response } = await hubAI().run(aiModel, { messages })
     return destr(response)
   }
   else {
