@@ -68,8 +68,9 @@ Site Token: SinkCool
 We welcome your contributions and PRs.
 
 - [x] Browser Extension
-      - [Skin Tool](https://github.com/zhuzhuyule/sink-extension)
-- [ ] Raycast Extension
+      - [Sink Tool](https://github.com/zhuzhuyule/sink-extension)
+- [x] Raycast Extension
+      - [Raycast-Sink](https://github.com/foru17/raycast-sink)
 - [ ] Apple Shortcuts
 - [ ] Enhanced Link Management (with Cloudflare D1)
 - [ ] Analytics Enhancements (Support for merging filter conditions)
