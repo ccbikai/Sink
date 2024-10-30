@@ -3,7 +3,7 @@ import { parsePath, withQuery } from 'ufo'
 import type { LinkSchema } from '@/schemas/link'
 
 export default eventHandler(async (event) => {
-  const { pathname: slug } = parsePath(event.path.slice(1)) // remove leading slash
+  const { pathname: slug } = parsePath(event.path.replace(/^\/|\/$/g, '')) // remove leading and trailing slashes
   const { slugRegex, reserveSlug } = useAppConfig(event)
   const { homeURL, linkCacheTtl, redirectWithQuery } = useRuntimeConfig(event)
   const { cloudflare } = event.context
