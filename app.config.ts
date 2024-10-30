@@ -4,7 +4,7 @@ export default defineAppConfig({
   github: 'https://github.com/ccbikai/sink',
   email: 'sink.cool@miantiao.me',
   telegram: 'https://t.me/htmlzone',
-  mastodon: 'https://miantiao.me/@chi',
+  mastodon: 'https://c.im/@mt',
   blog: 'https://mt.ci',
   description: 'A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.',
   image: 'https://sink.cool/banner.png',
