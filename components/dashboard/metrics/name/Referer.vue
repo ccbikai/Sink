@@ -18,12 +18,7 @@ defineProps({
         :src="`https://unavatar.io/${name}?fallback=false`"
         alt="@radix-vue"
       />
-      <AvatarFallback>
-        <img
-          src="/sink.png"
-          alt="Sink"
-        >
-      </AvatarFallback>
+      <AvatarFallback />
     </Avatar>
     <span>{{ name }}</span>
   </a>

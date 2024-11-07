@@ -19,15 +19,6 @@ const { title, github } = useAppConfig()
             :title="title"
             class="flex items-center py-4 space-x-2 text-xl font-black text-gray-900 dark:text-gray-100 md:py-0"
           >
-            <span
-              class="flex items-center justify-center w-8 h-8 rounded-full"
-            >
-              <img
-                src="/sink.png"
-                :alt="title"
-                class="w-full h-full rounded-full"
-              >
-            </span>
             <span class="mx-2">{{ title }}</span>
           </a>
         </div>
@@ -47,13 +38,7 @@ const { title, github } = useAppConfig()
             >
               <span
                 class="flex items-center justify-center w-8 h-8 text-white bg-gray-900 rounded-full"
-              >
-                <img
-                  src="/sink.png"
-                  :alt="title"
-                  class="w-full h-full rounded-full"
-                >
-              </span>
+              />
               <span class="mx-2">{{ title }}</span>
             </a>
             <div class="w-full mx-4" />
