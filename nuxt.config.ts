@@ -16,7 +16,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': {
-      prerender: true,
+      redirect: 'https://kinimae.com',
     },
     '/dashboard/**': {
       ssr: false,
