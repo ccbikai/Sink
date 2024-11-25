@@ -65,16 +65,6 @@ const { title, github } = useAppConfig()
                 href="/dashboard"
                 :title="`${title} Dashboard`"
               >Dashboard</a>
-              <a
-                :href="github"
-                target="_blank"
-                title="Github"
-                class="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 md:px-3 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800"
-              >
-                <GitHubIcon
-                  class="w-5 h-5 mr-1"
-                />
-                GitHub</a>
               <span class="ml-1">
                 <SwitchTheme />
               </span>
