@@ -71,7 +71,8 @@ We welcome your contributions and PRs.
       - [Sink Tool](https://github.com/zhuzhuyule/sink-extension)
 - [x] Raycast Extension
       - [Raycast-Sink](https://github.com/foru17/raycast-sink)
-- [ ] Apple Shortcuts
+- [x] Apple Shortcuts
+      - [Sink Shortcuts](https://s.search1api.com/sink001)
 - [ ] Enhanced Link Management (with Cloudflare D1)
 - [ ] Analytics Enhancements (Support for merging filter conditions)
 - [ ] Dashboard Performance Optimization (Infinite loading)
