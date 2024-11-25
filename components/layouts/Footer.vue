@@ -18,21 +18,12 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
         target="_blank"
         title="HTML.ZONE"
       >
-        &copy; {{ new Date().getFullYear() }} Products of HTML.ZONE
+        &copy; {{ new Date().getFullYear() }} Indonesian Export Channel
       </a>
       <span
         class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
       >
-        <a
-          v-if="email"
-          :href="`mailto:${email}`"
-          title="Email"
-          class="text-gray-400 hover:text-gray-500"
-        >
-          <span class="sr-only">Email</span>
-          <GmailIcon
-            class="w-6 h-6"
-          />
+
         </a>
         <a
           v-if="telegram"
@@ -46,56 +37,13 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
             class="w-6 h-6"
           />
         </a>
-        <a
-          v-if="blog"
-          :href="blog"
-          target="_blank"
-          title="Blog"
-          class="text-gray-400 hover:text-gray-500"
-        >
-          <span class="sr-only">Blog</span>
-          <BloggerIcon
-            class="w-6 h-6"
-          />
+
         </a>
 
-        <a
-          v-if="twitter"
-          :href="twitter"
-          target="_blank"
-          title="Twitter"
-          class="text-gray-400 hover:text-gray-500"
-        >
-          <span class="sr-only">Twitter</span>
-          <XIcon
-            class="w-6 h-6"
-          />
         </a>
 
-        <a
-          v-if="mastodon"
-          :href="mastodon"
-          target="_blank"
-          title="Mastodon"
-          class="text-gray-400 hover:text-gray-500"
-        >
-          <span class="sr-only">Mastodon</span>
-          <MastodonIcon
-            class="w-6 h-6"
-          />
         </a>
 
-        <a
-          v-if="github"
-          :href="github"
-          target="_blank"
-          title="GitHub"
-          class="text-gray-400 hover:text-gray-500"
-        >
-          <span class="sr-only">GitHub</span>
-          <GitHubIcon
-            class="w-6 h-6"
-          />
         </a>
       </span>
     </div>
