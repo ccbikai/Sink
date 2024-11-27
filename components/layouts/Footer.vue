@@ -20,22 +20,6 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
       >
         &copy; {{ new Date().getFullYear() }} Indonesian Export Channel
       </a>
-      <span
-        class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
-      >
-        <a
-          v-if="telegram"
-          :href="https://t.me/indonesianexportchannel"
-          target="_blank"
-          title="Telegram"
-          class="text-gray-400 hover:text-gray-500"
-        >
-          <span class="sr-only">Telegram</span>
-          <TelegramIcon
-            class="w-6 h-6"
-          />
-        </a>
-      </span>
     </div>
   </section>
 </template>
