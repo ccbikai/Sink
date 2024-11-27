@@ -25,7 +25,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
       >
         <a
           v-if="telegram"
-          :href="telegram"
+          :href="https://t.me/indonesianexportchannel"
           target="_blank"
           title="Telegram"
           class="text-gray-400 hover:text-gray-500"
