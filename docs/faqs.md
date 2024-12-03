@@ -32,3 +32,13 @@ Of course. Please set the environment variable `NUXT_HOME_URL` to your blog or o
 ## 5. Why can't I see statistics after deploying with NuxtHub?
 
 NuxtHub's ANALYTICS points to its dataset, you need to set the `NUXT_DATASET` environment variable to point to the same dataset.
+
+## 6. Why are links always case-insensitive?
+
+This is a feature of Sink. By default, we automatically convert all links to lowercase to avoid case-sensitive issues and improve usability. This ensures users don’t encounter errors due to accidental capitalization differences.
+
+However, you can disable this feature by setting the `NUXT_CASE_SENSITIVE` environment variable to `true`.
+
+### What happens when `NUXT_CASE_SENSITIVE` is `true`?
+
+Newly generated links will be case-sensitive, treating `MyLink` and `mylink` as distinct. Randomly generated slugs will include both uppercase and lowercase characters, offering a larger pool of unique combinations (but not user-friendly that why we default to non-case-sensitive).
