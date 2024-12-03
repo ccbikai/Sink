@@ -2,10 +2,15 @@ import { z } from 'zod'
 import { customAlphabet } from 'nanoid'
 
 const { slugRegex } = useAppConfig()
+const { caseSensitive } = useRuntimeConfig()
 
 const slugDefaultLength = +useRuntimeConfig().public.slugDefaultLength
 
-export const nanoid = (length: number = slugDefaultLength) => customAlphabet('23456789abcdefghjkmnpqrstuvwxyz', length)
+export function nanoid(length: number = slugDefaultLength) {
+  return caseSensitive
+    ? customAlphabet('23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ', length)
+    : customAlphabet('23456789abcdefghjkmnpqrstuvwxyz', length)
+}
 
 export const LinkSchema = z.object({
   id: z.string().trim().max(26).default(nanoid(10)),
