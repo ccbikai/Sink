@@ -13,10 +13,16 @@ export default eventHandler(async (event) => {
 
   if (slug && !reserveSlug.includes(slug) && slugRegex.test(slug) && cloudflare) {
     const { KV } = cloudflare.env
-    const link: z.infer<typeof LinkSchema> | null = await KV.get(
-      `link:${caseSensitive ? slug : slug.toLowerCase()}`,
-      { type: 'json', cacheTtl: linkCacheTtl },
-    )
+
+    let link: z.infer<typeof LinkSchema> | null = null
+
+    const getLink = async (key: string) =>
+      await KV.get(`link:${key}`, { type: 'json', cacheTtl: linkCacheTtl })
+
+    link = await getLink(slug)
+    if (!caseSensitive && !link) {
+      link = await getLink(slug.toLowerCase())
+    }
 
     if (link) {
       event.context.link = link
