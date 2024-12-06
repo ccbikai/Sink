@@ -20,8 +20,9 @@ export default eventHandler(async (event) => {
       await KV.get(`link:${key}`, { type: 'json', cacheTtl: linkCacheTtl })
 
     link = await getLink(slug)
-    if (!caseSensitive && !link) {
-      link = await getLink(slug.toLowerCase())
+    const lowercaseSlug = slug.toLowerCase()
+    if (!caseSensitive && !link && lowercaseSlug !== slug) {
+      link = await getLink(lowercaseSlug)
     }
 
     if (link) {
