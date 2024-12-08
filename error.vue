@@ -1,4 +1,7 @@
 <script setup>
+definePageMeta({
+  layout: false, // Disable the layout entirely
+})
 </script>
 
 <template>
@@ -19,6 +22,21 @@
             <meta property='og:description' content='Not found :(' />
             <link href='https://fonts.googleapis.com/css2?display=swap&family=Alata:ital,wght@0,400;1,400' rel='stylesheet' type='text/css' />
             <link rel='stylesheet' href='/404.css' />
+            <style>
+              body, html {
+                margin: 0;
+                padding: 0;
+                overflow: hidden; /* Prevent scrolling inside the iframe */
+                width: 100%;
+                height: 100%;
+              }
+              #wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+              }
+            </style>
           </head>
           <body>
             <div id='wrapper'>
@@ -34,11 +52,11 @@
                 </div>
               </div>
             </div>
-            <script src='/404.js'></script>
           </body>
         </html>
       "
       class="w-screen h-screen border-0"
+      style="overflow: hidden;" <!-- Prevent iframe scrollbars -->
     ></iframe>
   </div>
 </template>
