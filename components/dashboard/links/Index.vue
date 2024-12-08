@@ -11,7 +11,7 @@ async function getLinks() {
   const data = await useAPI('/api/link/list', {
     query: {
       limit,
-      cursor: cursor || undefined,
+      cursor,
     },
   })
   links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
