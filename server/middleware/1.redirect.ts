@@ -5,7 +5,7 @@ import type { LinkSchema } from '@/schemas/link'
 export default eventHandler(async (event) => {
   const { pathname: slug } = parsePath(event.path.replace(/^\/|\/$/g, '')) // remove leading and trailing slashes
   const { slugRegex, reserveSlug } = useAppConfig(event)
-  const { homeURL, linkCacheTtl, redirectWithQuery } = useRuntimeConfig(event)
+  const { homeURL, linkCacheTtl, redirectWithQuery, caseSensitive } = useRuntimeConfig(event)
   const { cloudflare } = event.context
 
   if (event.path === '/' && homeURL)
@@ -13,7 +13,18 @@ export default eventHandler(async (event) => {
 
   if (slug && !reserveSlug.includes(slug) && slugRegex.test(slug) && cloudflare) {
     const { KV } = cloudflare.env
-    const link: z.infer<typeof LinkSchema> | null = await KV.get(`link:${slug}`, { type: 'json', cacheTtl: linkCacheTtl })
+
+    let link: z.infer<typeof LinkSchema> | null = null
+
+    const getLink = async (key: string) =>
+      await KV.get(`link:${key}`, { type: 'json', cacheTtl: linkCacheTtl })
+
+    link = await getLink(slug)
+    const lowercaseSlug = slug.toLowerCase()
+    if (!caseSensitive && !link && lowercaseSlug !== slug) {
+      link = await getLink(lowercaseSlug)
+    }
+
     if (link) {
       event.context.link = link
       try {

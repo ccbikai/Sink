@@ -102,10 +102,12 @@ onMounted(() => {
   }
 })
 
+const { caseSensitive } = useRuntimeConfig()
+
 async function onSubmit(formData) {
   const link = {
     url: formData.url,
-    slug: formData.slug,
+    slug: caseSensitive ? formData.slug : formData.slug.toLowerCase(),
     ...(formData.optional || []),
     expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
   }
