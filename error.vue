@@ -2,6 +2,11 @@
 </script>
 
 <template>
+    <NuxtLayout name="default">
+    <div id="error-page" class="w-full h-full flex items-center justify-center">
+      <iframe
+        srcdoc="
+          <!DOCTYPE HTML>
     <!DOCTYPE HTML>
           <html lang='en'>
             <head>
@@ -36,6 +41,7 @@
           </html>
         "
         class="w-full h-full border-0"
-      >
+      ></iframe>
     </div>
+      </NuxtLayout>
 </template>
