@@ -38,6 +38,7 @@
 - **Customizable Slug:** Support for personalized slugs.
 - **🪄 AI Slug:** Leverage AI to generate slugs.
 - **Link Expiration:** Set expiration dates for your links.
+- **Switch between case sensitivity:** Toggle between case sensitivity for slugs.
 
 ## 🪧 Demo
 
