@@ -23,6 +23,7 @@ export default eventHandler(async (event) => {
       },
     })
     setResponseStatus(event, 201)
-    return { link }
+    const shortLink = `${getRequestProtocol(event)}://${getRequestHost(event)}/${link.slug}`
+    return { link, shortLink }
   }
 })
