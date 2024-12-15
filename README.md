@@ -35,10 +35,9 @@
 - **URL Shortening:** Compress your URLs to their minimal length.
 - **Analytics:** Monitor link analytics and gather insightful statistics.
 - **Serverless:** Deploy without the need for traditional servers.
-- **Customizable Slug:** Support for personalized slugs.
+- **Customizable Slug:** Support for personalized slugs and case sensitivity.
 - **🪄 AI Slug:** Leverage AI to generate slugs.
 - **Link Expiration:** Set expiration dates for your links.
-- **Switch between case sensitivity:** Toggle between case sensitivity for slugs.
 
 ## 🪧 Demo
 
