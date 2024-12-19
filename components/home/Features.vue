@@ -23,7 +23,7 @@ const features = ref([
   {
     title: 'Customizable Slug',
     description:
-          'Support for personalized slugs.',
+          'Support for personalized slugs and case sensitivity.',
     icon: Paintbrush,
   },
   {
