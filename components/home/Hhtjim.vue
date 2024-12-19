@@ -1,5 +1,5 @@
 <script setup>
-import { XIcon } from 'vue3-simple-icons'
+import { WordPressIcon } from 'vue3-simple-icons'
 import { ArrowRight } from 'lucide-vue-next'
 
 // const { twitter } = useAppConfig()
@@ -17,7 +17,7 @@ import { ArrowRight } from 'lucide-vue-next'
       orientation="vertical"
       class="h-4"
     />
-    <span>Visit My Blog</span>
+    <span>Visit HomePage</span>
     <ArrowRight class="w-4 h-4" />
   </a>
 </template>
