@@ -26,6 +26,7 @@ import {
   XIcon,
   XiaomiIcon,
   YandexCloudIcon,
+  WordPressIcon,
 } from 'vue3-simple-icons'
 
 import {
