@@ -3,7 +3,7 @@ import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 import heroImg from '@/assets/images/hero.svg?raw'
 
-const { title, description } = useAppConfig()
+const { title, description, github } = useAppConfig()
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const { title, description } = useAppConfig()
           size="lg"
           type="outline"
           rel="noopener"
-          href="https://github.com/ccbikai/sink"
+          :href="github"
           title="Github"
           class="flex items-center justify-center gap-1"
           target="_blank"
