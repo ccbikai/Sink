@@ -35,7 +35,7 @@
 - **URL Shortening:** Compress your URLs to their minimal length.
 - **Analytics:** Monitor link analytics and gather insightful statistics.
 - **Serverless:** Deploy without the need for traditional servers.
-- **Customizable Slug:** Support for personalized slugs.
+- **Customizable Slug:** Support for personalized slugs and case sensitivity.
 - **🪄 AI Slug:** Leverage AI to generate slugs.
 - **Link Expiration:** Set expiration dates for your links.
 
@@ -71,7 +71,8 @@ We welcome your contributions and PRs.
       - [Sink Tool](https://github.com/zhuzhuyule/sink-extension)
 - [x] Raycast Extension
       - [Raycast-Sink](https://github.com/foru17/raycast-sink)
-- [ ] Apple Shortcuts
+- [x] Apple Shortcuts
+      - [Sink Shortcuts](https://s.search1api.com/sink001)
 - [ ] Enhanced Link Management (with Cloudflare D1)
 - [ ] Analytics Enhancements (Support for merging filter conditions)
 - [ ] Dashboard Performance Optimization (Infinite loading)
@@ -100,6 +101,7 @@ We welcome your contributions and PRs.
      - Bind the variable name `ANALYTICS` to the `sink` dataset.
 
 7. Redeploy the project.
+8. Update code, refer to the official GitHub documentation [Syncing a fork branch from the web UI](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui).
 
 ## ⚒️ Configuration
 

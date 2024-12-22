@@ -10,7 +10,7 @@ export default eventHandler(async (event) => {
   const list = await KV.list({
     prefix: `link:`,
     limit,
-    cursor,
+    cursor: cursor || undefined,
   })
   if (Array.isArray(list.keys)) {
     list.links = await Promise.all(list.keys.map(async (key: { name: string }) => {
