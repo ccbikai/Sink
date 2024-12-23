@@ -20,6 +20,8 @@ export default eventHandler(async (event) => {
       expiration,
       metadata: {
         expiration,
+        url: link.url,
+        comment: link.comment,
       },
     })
     setResponseStatus(event, 201)
