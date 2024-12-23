@@ -73,7 +73,7 @@ function selectLink(link) {
                     </div>
                   </div>
                   <Badge v-if="link.item?.comment" variant="secondary">
-                    <div class="w-24 truncate">
+                    <div class="max-w-24 truncate">
                       {{ link.item?.comment }}
                     </div>
                   </Badge>
