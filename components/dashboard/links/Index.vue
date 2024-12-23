@@ -46,7 +46,7 @@ function updateLinkList(link, type) {
       <DashboardNav class="flex-1">
         <DashboardLinksEditor @update:link="updateLinkList" />
       </DashboardNav>
-      <DashboardLinksSearch />
+      <LazyDashboardLinksSearch />
     </div>
     <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <DashboardLinksLink
