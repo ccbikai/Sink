@@ -3,7 +3,7 @@ const route = useRoute()
 </script>
 
 <template>
-  <nav class="flex justify-between">
+  <section class="flex justify-between">
     <Tabs
       v-if="route.path !== '/dashboard/link'"
       :default-value="route.path"
@@ -24,5 +24,5 @@ const route = useRoute()
     <div>
       <slot />
     </div>
-  </nav>
+  </section>
 </template>

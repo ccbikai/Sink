@@ -101,6 +101,7 @@ We welcome your contributions and PRs.
      - Bind the variable name `ANALYTICS` to the `sink` dataset.
 
 7. Redeploy the project.
+8. Update code, refer to the official GitHub documentation [Syncing a fork branch from the web UI](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork#syncing-a-fork-branch-from-the-web-ui).
 
 ## ⚒️ Configuration
 
