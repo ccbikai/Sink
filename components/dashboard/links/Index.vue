@@ -42,9 +42,12 @@ function updateLinkList(link, type) {
 
 <template>
   <main class="space-y-6">
-    <DashboardNav>
-      <DashboardLinksEditor @update:link="updateLinkList" />
-    </DashboardNav>
+    <div class="flex flex-col gap-6 sm:gap-2 sm:flex-row sm:justify-between">
+      <DashboardNav class="flex-1">
+        <DashboardLinksEditor @update:link="updateLinkList" />
+      </DashboardNav>
+      <LazyDashboardLinksSearch />
+    </div>
     <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <DashboardLinksLink
         v-for="link in links"
