@@ -6,23 +6,37 @@ const links = ref([])
 const limit = 24
 let cursor = ''
 let listComplete = false
+let listError = false
 
 async function getLinks() {
-  const data = await useAPI('/api/link/list', {
-    query: {
-      limit,
-      cursor,
-    },
-  })
-  links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
-  cursor = data.cursor
-  listComplete = data.list_complete
+  try {
+    const data = await useAPI('/api/link/list', {
+      query: {
+        limit,
+        cursor,
+      },
+    })
+    links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
+    cursor = data.cursor
+    listComplete = data.list_complete
+    listError = false
+  }
+  catch (error) {
+    console.error(error)
+    listError = true
+  }
 }
 
 const { isLoading } = useInfiniteScroll(
   document,
   getLinks,
-  { distance: 150, interval: 1000, canLoadMore: () => !listComplete },
+  {
+    distance: 150,
+    interval: 1000,
+    canLoadMore: () => {
+      return !listError && !listComplete
+    },
+  },
 )
 
 function updateLinkList(link, type) {
@@ -67,6 +81,15 @@ function updateLinkList(link, type) {
       class="flex items-center justify-center text-sm"
     >
       No more
+    </div>
+    <div
+      v-if="listError"
+      class="flex items-center justify-center text-sm"
+    >
+      Loading links failed,
+      <Button variant="link" @click="getLinks">
+        Try again
+      </Button>
     </div>
   </main>
 </template>

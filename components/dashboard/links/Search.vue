@@ -8,7 +8,7 @@ const isOpen = ref(false)
 const searchTerm = ref('')
 const selectedLink = ref(null)
 
-const links = await useAPI('/api/link/search')
+const links = ref([])
 
 const { results: filteredLinks } = useFuse(searchTerm, links, {
   fuseOptions: {
@@ -37,6 +37,14 @@ function selectLink(link) {
     query: { slug: link.slug },
   })
 }
+
+async function getLinks() {
+  links.value = await useAPI('/api/link/search')
+}
+
+onMounted(() => {
+  getLinks()
+})
 </script>
 
 <template>
