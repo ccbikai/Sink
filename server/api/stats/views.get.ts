@@ -1,6 +1,6 @@
 import type { H3Event } from 'h3'
-import { z } from 'zod'
 import { QuerySchema } from '@/schemas/query'
+import { z } from 'zod'
 
 const { select } = SqlBricks
 
