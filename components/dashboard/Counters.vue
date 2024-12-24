@@ -1,5 +1,6 @@
 <script setup>
 import { Flame, MousePointerClick, Users } from 'lucide-vue-next'
+import NumberFlow from '@number-flow/vue'
 
 const defaultData = Object.freeze({
   visits: 0,
@@ -46,15 +47,7 @@ onBeforeUnmount(() => {
         <MousePointerClick class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div
-          class="text-2xl font-bold"
-          :class="{ 'blur-lg': !counters.visits }"
-        >
-          {{ formatNumber(counters.visits) }}
-        </div>
-        <!-- <p class="text-xs text-muted-foreground">
-          +90
-        </p> -->
+        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visits }" :value="counters.visits" />
       </CardContent>
     </Card>
     <Card>
@@ -65,15 +58,7 @@ onBeforeUnmount(() => {
         <Users class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div
-          class="text-2xl font-bold"
-          :class="{ 'blur-lg': !counters.visitors }"
-        >
-          {{ formatNumber(counters.visitors) }}
-        </div>
-        <!-- <p class="text-xs text-muted-foreground">
-          +90
-        </p> -->
+        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visitors }" :value="counters.visitors" />
       </CardContent>
     </Card>
     <Card>
@@ -84,15 +69,7 @@ onBeforeUnmount(() => {
         <Flame class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div
-          class="text-2xl font-bold"
-          :class="{ 'blur-lg': !counters.referers }"
-        >
-          {{ formatNumber(counters.referers) }}
-        </div>
-        <!-- <p class="text-xs text-muted-foreground">
-          -20
-        </p> -->
+        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.referers }" :value="counters.referers" />
       </CardContent>
     </Card>
   </div>
