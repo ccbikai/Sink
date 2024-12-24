@@ -14,7 +14,7 @@ export default eventHandler(async (event) => {
     while (true) {
       const { keys, list_complete, cursor } = await KV.list({
         prefix: `link:`,
-        limit: 1,
+        limit: 1000,
         cursor: finalCursor,
       })
 

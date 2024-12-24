@@ -1,7 +1,7 @@
 {
   "name": "sink",
   "type": "module",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "packageManager": "pnpm@9.7.1",
   "engines": {
@@ -21,6 +21,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@number-flow/vue": "^0.3.3",
     "@unovis/ts": "^1.4.4",
     "@unovis/vue": "^1.4.4",
     "@vee-validate/zod": "^4.13.2",

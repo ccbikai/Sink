@@ -8,7 +8,7 @@ const isOpen = ref(false)
 const searchTerm = ref('')
 const selectedLink = ref(null)
 
-const links = await useAPI('/api/link/search')
+const links = ref([])
 
 const { results: filteredLinks } = useFuse(searchTerm, links, {
   fuseOptions: {
@@ -37,6 +37,14 @@ function selectLink(link) {
     query: { slug: link.slug },
   })
 }
+
+async function getLinks() {
+  links.value = await useAPI('/api/link/search')
+}
+
+onMounted(() => {
+  getLinks()
+})
 </script>
 
 <template>
@@ -73,7 +81,7 @@ function selectLink(link) {
                     </div>
                   </div>
                   <Badge v-if="link.item?.comment" variant="secondary">
-                    <div class="w-24 truncate">
+                    <div class="max-w-24 truncate">
                       {{ link.item?.comment }}
                     </div>
                   </Badge>
