@@ -1,5 +1,5 @@
-import { z } from 'zod'
 import { destr } from 'destr'
+import { z } from 'zod'
 
 export default eventHandler(async (event) => {
   const url = (await getValidatedQuery(event, z.object({

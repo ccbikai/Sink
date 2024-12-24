@@ -1,6 +1,6 @@
 <script setup>
-import { Loader } from 'lucide-vue-next'
 import { useInfiniteScroll } from '@vueuse/core'
+import { Loader } from 'lucide-vue-next'
 
 const links = ref([])
 const limit = 24

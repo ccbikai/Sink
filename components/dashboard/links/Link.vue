@@ -1,8 +1,8 @@
 <script setup>
-import { CalendarPlus2, Copy, CopyCheck, Eraser, Hourglass, Link as LinkIcon, QrCode, SquareChevronDown, SquarePen } from 'lucide-vue-next'
 import { useClipboard } from '@vueuse/core'
-import { toast } from 'vue-sonner'
+import { CalendarPlus2, Copy, CopyCheck, Eraser, Hourglass, Link as LinkIcon, QrCode, SquareChevronDown, SquarePen } from 'lucide-vue-next'
 import { parseURL } from 'ufo'
+import { toast } from 'vue-sonner'
 import QRCode from './QRCode.vue'
 
 const props = defineProps({

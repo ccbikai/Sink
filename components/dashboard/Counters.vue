@@ -1,6 +1,6 @@
 <script setup>
-import { Flame, MousePointerClick, Users } from 'lucide-vue-next'
 import NumberFlow from '@number-flow/vue'
+import { Flame, MousePointerClick, Users } from 'lucide-vue-next'
 
 const defaultData = Object.freeze({
   visits: 0,

@@ -1,7 +1,7 @@
 <script setup>
 import { AlertCircle } from 'lucide-vue-next'
-import { z } from 'zod'
 import { toast } from 'vue-sonner'
+import { z } from 'zod'
 
 const LoginSchema = z.object({
   token: z.string().describe('SiteToken'),

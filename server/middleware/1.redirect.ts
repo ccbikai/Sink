@@ -1,6 +1,6 @@
+import type { LinkSchema } from '@/schemas/link'
 import type { z } from 'zod'
 import { parsePath, withQuery } from 'ufo'
-import type { LinkSchema } from '@/schemas/link'
 
 export default eventHandler(async (event) => {
   const { pathname: slug } = parsePath(event.path.replace(/^\/|\/$/g, '')) // remove leading and trailing slashes

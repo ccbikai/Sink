@@ -1,6 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
 
   modules: [
     '@nuxthub/core',
@@ -9,44 +8,10 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
   ],
+  devtools: { enabled: true },
 
   colorMode: {
     classSuffix: '',
-  },
-
-  routeRules: {
-    '/': {
-      prerender: true,
-    },
-    '/dashboard/**': {
-      ssr: false,
-    },
-    '/dashboard': {
-      redirect: '/dashboard/links',
-    },
-  },
-
-  hub: {
-    ai: true,
-    analytics: true,
-    blob: false,
-    cache: false,
-    database: false,
-    kv: true,
-  },
-
-  eslint: {
-    config: {
-      stylistic: true,
-      standalone: false,
-    },
-  },
-
-  nitro: {
-    experimental: {
-      // Enable Server API documentation within NuxtHub
-      openAPI: true,
-    },
   },
 
   runtimeConfig: {
@@ -67,5 +32,40 @@ export default defineNuxtConfig({
     },
   },
 
+  routeRules: {
+    '/': {
+      prerender: true,
+    },
+    '/dashboard/**': {
+      ssr: false,
+    },
+    '/dashboard': {
+      redirect: '/dashboard/links',
+    },
+  },
+
   compatibilityDate: '2024-07-08',
+
+  nitro: {
+    experimental: {
+      // Enable Server API documentation within NuxtHub
+      openAPI: true,
+    },
+  },
+
+  hub: {
+    ai: true,
+    analytics: true,
+    blob: false,
+    cache: false,
+    database: false,
+    kv: true,
+  },
+
+  eslint: {
+    config: {
+      stylistic: true,
+      standalone: false,
+    },
+  },
 })

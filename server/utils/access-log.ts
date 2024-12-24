@@ -1,5 +1,6 @@
 import type { H3Event } from 'h3'
-import { parseURL } from 'ufo'
+import { getFlag } from '@/utils/flag'
+import { parseAcceptLanguage } from 'intl-parse-accept-language'
 import { UAParser } from 'ua-parser-js'
 import {
   CLIs,
@@ -11,8 +12,7 @@ import {
   MediaPlayers,
   Modules,
 } from 'ua-parser-js/extensions'
-import { parseAcceptLanguage } from 'intl-parse-accept-language'
-import { getFlag } from '@/utils/flag'
+import { parseURL } from 'ufo'
 
 function toBlobNumber(blob: string) {
   return +blob.replace(/\D/g, '')

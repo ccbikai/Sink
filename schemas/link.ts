@@ -1,5 +1,5 @@
-import { z } from 'zod'
 import { customAlphabet } from 'nanoid'
+import { z } from 'zod'
 
 const { slugRegex } = useAppConfig()
 const { caseSensitive } = useRuntimeConfig()
