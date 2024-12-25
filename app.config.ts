@@ -1,6 +1,7 @@
 export default defineAppConfig({
   title: 'Slink',
   telegram: 'https://t.me/AccessDeny_bot',
+  github: 'https://github.com/a1445482881/Slink',
   description: '本页面为引导页面，请联系tgbot发送您需要缩短的链接。',
   image: 'https://sink.cool/banner.png',
   previewTTL: 24 * 3600, // 24h
