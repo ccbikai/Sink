@@ -32,20 +32,6 @@ const { title, description, github } = useAppConfig()
           />
           Dashboard
         </HomeLink>
-        <HomeLink
-          size="lg"
-          type="outline"
-          rel="noopener"
-          :href="github"
-          title="Github"
-          class="flex items-center justify-center gap-1"
-          target="_blank"
-        >
-          <GitHubIcon
-            class="w-5 h-5"
-          />
-          GitHub Repo
-        </HomeLink>
       </div>
     </div>
     <div class="hidden py-6 md:block">
