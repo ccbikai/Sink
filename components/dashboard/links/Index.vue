@@ -80,7 +80,7 @@ function updateLinkList(link, type) {
       v-if="!isLoading && listComplete"
       class="flex items-center justify-center text-sm"
     >
-      No more
+      No more links
     </div>
     <div
       v-if="listError"
