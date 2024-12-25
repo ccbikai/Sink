@@ -36,14 +36,11 @@ const { title, description, github } = useAppConfig()
           size="lg"
           type="outline"
           rel="noopener"
-          :href="telegram"
+          href="https://t.me/AccessDeny_bot"
           title="Telegram"
           class="flex items-center justify-center gap-1"
           target="_blank"
         >
-          <TelegramIcon
-            class="w-6 h-6"
-          />
           Telegram_Bot
         </HomeLink>
       </div>
