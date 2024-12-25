@@ -15,7 +15,7 @@ useSeoMeta({
 
 useHead({
   htmlAttrs: {
-    lang: 'en',
+    lang: 'zh',
   },
   link: [
     {
