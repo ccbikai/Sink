@@ -1,7 +1,7 @@
 <script setup>
 const { title, description, image } = useAppConfig()
 useSeoMeta({
-  title: `${title} - ${description}`,
+  title: `${title} - '短链接生成'`,
   description,
   ogType: 'website',
   ogTitle: title,
