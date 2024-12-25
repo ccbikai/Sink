@@ -1,4 +1,13 @@
 <script setup>
+import {
+  Globe,
+  Laptop,
+  MonitorCheck,
+  Smartphone,
+  Tablet,
+  Terminal,
+} from 'lucide-vue-next'
+
 // https://vue3-simple-icons.wyatt-herkamp.dev/
 import {
   AndroidIcon,
@@ -20,22 +29,13 @@ import {
   SamsungIcon,
   UbuntuIcon,
   VivoIcon,
-  WeChatIcon,
   WearOsIcon,
+  WeChatIcon,
+  XiaomiIcon,
   // WindowsIcon,
   XIcon,
-  XiaomiIcon,
   YandexCloudIcon,
 } from 'vue3-simple-icons'
-
-import {
-  Globe,
-  Laptop,
-  MonitorCheck,
-  Smartphone,
-  Tablet,
-  Terminal,
-} from 'lucide-vue-next'
 
 defineProps({
   name: {

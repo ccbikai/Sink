@@ -1,6 +1,6 @@
+import type { LinkSchema } from '@/schemas/link'
 import type { z } from 'zod'
 import { parsePath, withQuery } from 'ufo'
-import type { LinkSchema } from '@/schemas/link'
 
 export default eventHandler(async (event) => {
   const { pathname: slug } = parsePath(event.path.replace(/^\/|\/$/g, '')) // remove leading and trailing slashes
@@ -19,13 +19,13 @@ export default eventHandler(async (event) => {
     const getLink = async (key: string) =>
       await KV.get(`link:${key}`, { type: 'json', cacheTtl: linkCacheTtl })
 
-    link = await getLink(slug)
-
-    // fallback to lowercase slug if caseSensitive is false and the slug is not found
     const lowerCaseSlug = slug.toLowerCase()
+    link = await getLink(caseSensitive ? slug : lowerCaseSlug)
+
+    // fallback to original slug if caseSensitive is false and the slug is not found
     if (!caseSensitive && !link && lowerCaseSlug !== slug) {
-      console.log('lowerCaseSlug fallback:', `slug:${slug} lowerCaseSlug:${lowerCaseSlug}`)
-      link = await getLink(lowerCaseSlug)
+      console.log('original slug fallback:', `slug:${slug} lowerCaseSlug:${lowerCaseSlug}`)
+      link = await getLink(slug)
     }
 
     if (link) {

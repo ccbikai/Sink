@@ -1,11 +1,11 @@
 <script setup>
-import { z } from 'zod'
-import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { Shuffle, Sparkles } from 'lucide-vue-next'
-import { toast } from 'vue-sonner'
 import { DependencyType } from '@/components/ui/auto-form/interface'
 import { LinkSchema, nanoid } from '@/schemas/link'
+import { toTypedSchema } from '@vee-validate/zod'
+import { Shuffle, Sparkles } from 'lucide-vue-next'
+import { useForm } from 'vee-validate'
+import { toast } from 'vue-sonner'
+import { z } from 'zod'
 
 const props = defineProps({
   link: {
