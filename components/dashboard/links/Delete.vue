@@ -18,7 +18,7 @@ async function deleteLink() {
     },
   })
   emit('update:link', props.link, 'delete')
-  toast('Delete successful!')
+  toast('删除成功！')
 }
 </script>
 
@@ -29,15 +29,15 @@ async function deleteLink() {
     </AlertDialogTrigger>
     <AlertDialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <AlertDialogHeader>
-        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialogTitle>您非常确定吗？</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This will really delete your link from servers.
+          此操作无法撤消。这真的会从服务器中删除您的链接。
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction @click="deleteLink">
-          Continue
+          继续
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
