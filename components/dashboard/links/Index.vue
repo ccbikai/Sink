@@ -86,9 +86,9 @@ function updateLinkList(link, type) {
       v-if="listError"
       class="flex items-center justify-center text-sm"
     >
-      Loading links failed,
+      加载链接失败，
       <Button variant="link" @click="getLinks">
-        Try again
+        再试一次
       </Button>
     </div>
   </main>
