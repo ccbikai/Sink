@@ -16,7 +16,7 @@ function logOut() {
     </AlertDialogTrigger>
     <AlertDialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <AlertDialogHeader>
-        <AlertDialogTitle>LogOut ?</AlertDialogTitle>
+        <AlertDialogTitle>等出？</AlertDialogTitle>
         <AlertDialogDescription>
           您确定要登出吗？
         </AlertDialogDescription>
