@@ -74,32 +74,32 @@ watch(dateRange, (newValue) => {
     </SelectTrigger>
     <SelectContent>
       <SelectItem value="today">
-        Today
+        今天
       </SelectItem>
       <SelectItem value="last-24h">
-        Last 24 hours
+        过去的24小时
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="this-week">
-        This week
+        这周
       </SelectItem>
       <SelectItem value="last-7d">
-        Last 7 days
+        过去的7天
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="this-month">
-        This month
+        这个月
       </SelectItem>
       <SelectItem value="last-30d">
-        Last 30 days
+        过去的30天
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="last-90d">
-        Last 90 days
+        过去的90天
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="custom">
-        Custom
+        自定义
       </SelectItem>
     </SelectContent>
   </Select>
@@ -107,7 +107,7 @@ watch(dateRange, (newValue) => {
   <Dialog v-model:open="openCustomDateRange">
     <DialogContent class="w-auto max-w-[95svw] max-h-[95svh] md:max-w-screen-md grid-rows-[auto_minmax(0,1fr)_auto]">
       <DialogHeader>
-        <DialogTitle>Custom Date</DialogTitle>
+        <DialogTitle>自定义日期</DialogTitle>
       </DialogHeader>
       <Tabs
         default-value="range"
@@ -115,10 +115,10 @@ watch(dateRange, (newValue) => {
         <div class="flex justify-center">
           <TabsList>
             <TabsTrigger value="date">
-              Date
+              日期
             </TabsTrigger>
             <TabsTrigger value="range">
-              Date Range
+              日期范围
             </TabsTrigger>
           </TabsList>
         </div>
