@@ -29,13 +29,13 @@ async function deleteLink() {
     </AlertDialogTrigger>
     <AlertDialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <AlertDialogHeader>
-        <AlertDialogTitle>您非常确定吗？</AlertDialogTitle>
+        <AlertDialogTitle>您真的确定吗？</AlertDialogTitle>
         <AlertDialogDescription>
-          此操作无法撤消。这真的会从服务器中删除您的链接。
+          此操作无法撤消，这真的会从服务器中删除您的链接。
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>取消</AlertDialogCancel>
         <AlertDialogAction @click="deleteLink">
           继续
         </AlertDialogAction>
