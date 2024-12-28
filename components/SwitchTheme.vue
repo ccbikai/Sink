@@ -14,7 +14,7 @@ const colorMode = useColorMode()
         <Moon
           class="w-5 h-5 transition-all scale-0 dark:scale-100"
         />
-        <span class="sr-only">Toggle theme</span>
+        <span class="sr-only">切换主题</span>
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent
@@ -26,21 +26,21 @@ const colorMode = useColorMode()
         @click="colorMode.preference = 'light'"
       >
         <Sun class="w-4 h-4 mr-1" />
-        Light
+        亮
       </DropdownMenuItem>
       <DropdownMenuItem
         class="cursor-pointer"
         @click="colorMode.preference = 'dark'"
       >
         <Moon class="w-4 h-4 mr-1" />
-        Dark
+        暗
       </DropdownMenuItem>
       <DropdownMenuItem
         class="cursor-pointer"
         @click="colorMode.preference = 'system'"
       >
         <Laptop class="w-4 h-4 mr-1" />
-        System
+        跟随系统
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
