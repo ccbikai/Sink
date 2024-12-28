@@ -44,7 +44,7 @@ const { title, description, github } = useAppConfig()
           <GitHubIcon
             class="w-5 h-5"
           />
-          GitHub 仓库库
+          GitHub 仓库
         </HomeLink>
       </div>
     </div>
