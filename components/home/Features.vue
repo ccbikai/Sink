@@ -45,10 +45,10 @@ const features = ref([
   <main class="pt-16 md:py-12">
     <div class="md:pb-12">
       <h2 class="text-4xl font-bold lg:text-5xl lg:tracking-tight">
-        Features
+        特色
       </h2>
       <p class="my-8 text-lg md:mb-0 text-slate-600">
-        Simple and sufficient functionality
+        简单而充足的功能
       </p>
     </div>
 
