@@ -65,7 +65,7 @@ function formatTime(tick) {
       :is="chart"
       :data="views"
       index="time"
-      :categories="['visitors', 'visits']"
+      :categories="['访客', '访问']"
       :x-formatter="formatTime"
       :y-formatter="formatNumber"
     />
