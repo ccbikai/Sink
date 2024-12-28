@@ -30,7 +30,7 @@ const { title, description, github } = useAppConfig()
           <AreaChart
             class="w-5 h-5"
           />
-          Dashboard
+          仪表板
         </HomeLink>
         <HomeLink
           size="lg"
@@ -44,7 +44,7 @@ const { title, description, github } = useAppConfig()
           <GitHubIcon
             class="w-5 h-5"
           />
-          GitHub Repo
+          GitHub 仓库库
         </HomeLink>
       </div>
     </div>
