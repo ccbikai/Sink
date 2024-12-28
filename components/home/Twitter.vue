@@ -17,7 +17,7 @@ const { twitter } = useAppConfig()
       orientation="vertical"
       class="h-4"
     />
-    <span>Follow me on X(Twitter)</span>
+    <span>Follow me on Github</span>
     <ArrowRight class="w-4 h-4" />
   </a>
 </template>
