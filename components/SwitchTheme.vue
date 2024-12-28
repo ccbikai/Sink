@@ -40,7 +40,7 @@ const colorMode = useColorMode()
         @click="colorMode.preference = 'system'"
       >
         <Laptop class="w-4 h-4 mr-1" />
-        跟随系统
+        系统
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
