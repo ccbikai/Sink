@@ -3,7 +3,7 @@
     class="flex flex-col items-center max-w-4xl p-8 mx-auto my-12 text-center bg-black rounded-lg md:px-20 md:py-20"
   >
     <h2 class="text-4xl tracking-tight text-white md:text-6xl">
-      Deployment immediately
+      立即部署
     </h2>
     <p class="mt-4 text-lg text-slate-400 md:text-xl">
       With just a few simple clicks, you can start deploying without any expenses.
@@ -14,7 +14,7 @@
         type="inverted"
         title="Start Deploy"
       >
-        Start Deploy
+        开始部署
       </HomeLink>
     </div>
   </div>
