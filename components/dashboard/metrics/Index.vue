@@ -3,23 +3,23 @@
     <LazyDashboardMetricsLocations class="col-span-1 lg:col-span-8" />
     <DashboardMetricsGroup
       class="lg:col-span-4"
-      :tabs="['country', 'region', 'city']"
+      :tabs="['国家', '地区/省份', '城市']"
     />
     <DashboardMetricsGroup
       class="lg:col-span-6"
-      :tabs="['referer', 'slug']"
+      :tabs="['引用者', 'slug']"
     />
     <DashboardMetricsGroup
       class="lg:col-span-6"
-      :tabs="['language', 'timezone']"
+      :tabs="['语言', '时区']"
     />
     <DashboardMetricsGroup
       class="lg:col-span-6"
-      :tabs="['device', 'deviceType']"
+      :tabs="['设备', '设备类型']"
     />
     <DashboardMetricsGroup
       class="lg:col-span-6"
-      :tabs="['os', 'browser', 'browserType']"
+      :tabs="['系统', '浏览器', '浏览器类型']"
     />
   </main>
 </template>
