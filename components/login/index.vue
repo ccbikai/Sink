@@ -39,7 +39,7 @@ async function onSubmit(form) {
         登录
       </CardTitle>
       <CardDescription>
-        请输入Token来登录后台。
+        请输入Token来登录后台
       </CardDescription>
     </CardHeader>
     <CardContent class="grid gap-4">
