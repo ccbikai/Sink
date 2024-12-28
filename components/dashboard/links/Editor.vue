@@ -141,7 +141,7 @@ const { previewMode } = useRuntimeConfig().public
     </DialogTrigger>
     <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <DialogHeader>
-        <DialogTitle>{{ link.id ? 'Edit Link' : 'Create Link' }}</DialogTitle>
+        <DialogTitle>{{ link.id ? '编辑链接' : '创建链接' }}</DialogTitle>
       </DialogHeader>
       <p
         v-if="previewMode"
