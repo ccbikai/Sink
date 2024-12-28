@@ -6,7 +6,7 @@
       立即部署
     </h2>
     <p class="mt-4 text-lg text-slate-400 md:text-xl">
-      With just a few simple clicks, you can start deploying without any expenses.
+      只需单击几下，您就可以开始部署，无需任何费用。
     </p>
     <div class="flex mt-5">
       <HomeLink
