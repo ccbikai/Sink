@@ -3,39 +3,39 @@ import { AreaChart, Hourglass, Link, Paintbrush, ServerOff, Sparkles } from 'luc
 
 const features = ref([
   {
-    title: 'URL Shortening',
+    title: '缩短 URL',
     description:
-          'Compress your URLs to their minimal length.',
+          '将您的 URL 缩短到最小长度。',
     icon: Link,
   },
   {
-    title: 'Analytics',
+    title: '分析',
     description:
-          'Monitor link analytics and gather insightful statistics.',
+          '监控链接，分析并收集有洞察力的统计数据。',
     icon: AreaChart,
   },
   {
-    title: 'Serverless',
+    title: '无服务器',
     description:
-          'Deploy without the need for traditional servers.',
+          '无需传统服务器即可部署。',
     icon: ServerOff,
   },
   {
-    title: 'Customizable Slug',
+    title: '可定制的 Slug',
     description:
-          'Support for personalized slugs and case sensitivity.',
+          '支持个性化 slug 和区分大小写。',
     icon: Paintbrush,
   },
   {
     title: 'AI Slug',
     description:
-          'Leverage AI to generate slugs.',
+          '利用 AI 生成 slug。',
     icon: Sparkles,
   },
   {
-    title: 'Link Expiration',
+    title: '链接过期',
     description:
-          'Set expiration dates for your links.',
+          '设置链接的到期日期。',
     icon: Hourglass,
   },
 ])
