@@ -42,3 +42,7 @@ However, you can disable this feature by setting the `NUXT_CASE_SENSITIVE` envir
 ### What happens when `NUXT_CASE_SENSITIVE` is `true`?
 
 Newly generated links will be case-sensitive, treating `MyLink` and `mylink` as distinct. Randomly generated slugs will include both uppercase and lowercase characters, offering a larger pool of unique combinations (but not user-friendly that why we default to non-case-sensitive).
+
+## 7. Why does the Metric list only show the top 500 data entries?
+
+To improve query performance, we have limited the amount of data. If you need to query more data, you can adjust it through `NUXT_LIST_QUERY_LIMIT`.

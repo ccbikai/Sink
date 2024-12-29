@@ -1,6 +1,6 @@
 <script setup>
-import { Loader } from 'lucide-vue-next'
 import { useInfiniteScroll } from '@vueuse/core'
+import { Loader } from 'lucide-vue-next'
 
 const links = ref([])
 const limit = 24
@@ -80,7 +80,7 @@ function updateLinkList(link, type) {
       v-if="!isLoading && listComplete"
       class="flex items-center justify-center text-sm"
     >
-      No more
+      No more links
     </div>
     <div
       v-if="listError"

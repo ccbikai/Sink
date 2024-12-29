@@ -3,6 +3,12 @@ import { LinkSchema } from '@/schemas/link'
 export default eventHandler(async (event) => {
   const link = await readValidatedBody(event, LinkSchema.parse)
 
+  const { caseSensitive } = useRuntimeConfig(event)
+
+  if (!caseSensitive) {
+    link.slug = link.slug.toLowerCase()
+  }
+
   const { cloudflare } = event.context
   const { KV } = cloudflare.env
   const existingLink = await KV.get(`link:${link.slug}`)
