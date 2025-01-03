@@ -30,7 +30,7 @@ defineProps({
       </div>
     </div>
     <VList
-      v-slot="metric"
+      v-slot="{ item: metric }"
       :data="metrics"
       :style="{ height: '342px' }"
     >

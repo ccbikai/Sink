@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+const listQueryLimit = +useRuntimeConfig().listQueryLimit
+
 export const QuerySchema = z.object({
   id: z.string().optional(),
   startAt: z.coerce.number().int().safe().optional(),
@@ -17,7 +19,7 @@ export const QuerySchema = z.object({
   browserType: z.string().optional(),
   device: z.string().optional(),
   deviceType: z.string().optional(),
-  limit: z.coerce.number().int().safe().default(500),
+  limit: z.coerce.number().int().safe().default(listQueryLimit),
 })
 
 export const FilterSchema = QuerySchema.omit({ id: true, startAt: true, endAt: true, limit: true }).extend({

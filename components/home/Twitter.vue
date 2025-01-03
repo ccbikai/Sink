@@ -1,6 +1,6 @@
 <script setup>
-import { XIcon } from 'vue3-simple-icons'
 import { ArrowRight } from 'lucide-vue-next'
+import { XIcon } from 'vue3-simple-icons'
 
 const { twitter } = useAppConfig()
 </script>

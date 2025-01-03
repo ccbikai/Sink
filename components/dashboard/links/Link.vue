@@ -1,8 +1,8 @@
 <script setup>
-import { CalendarPlus2, Copy, CopyCheck, Eraser, Hourglass, Link as LinkIcon, QrCode, SquareChevronDown, SquarePen } from 'lucide-vue-next'
 import { useClipboard } from '@vueuse/core'
-import { toast } from 'vue-sonner'
+import { CalendarPlus2, Copy, CopyCheck, Eraser, Hourglass, Link as LinkIcon, QrCode, SquareChevronDown, SquarePen } from 'lucide-vue-next'
 import { parseURL } from 'ufo'
+import { toast } from 'vue-sonner'
 import QRCode from './QRCode.vue'
 
 const props = defineProps({
@@ -23,7 +23,7 @@ function getLinkHost(url) {
 }
 
 const shortLink = computed(() => `${origin}/${props.link.slug}`)
-const linkIcon = computed(() => `https://unavatar.io/${getLinkHost(props.link.url)}?fallback=https://sink.cool/sink.png`)
+const linkIcon = computed(() => `https://unavatar.io/${getLinkHost(props.link.url)}?fallback=https://sink.cool/icon.png`)
 
 const { copy, copied } = useClipboard({ source: shortLink.value, copiedDuring: 400 })
 
@@ -44,11 +44,13 @@ function updateLink(link, type) {
           <AvatarImage
             :src="linkIcon"
             alt="@radix-vue"
+            loading="lazy"
           />
           <AvatarFallback>
             <img
-              src="/sink.png"
+              src="/icon.png"
               alt="Sink"
+              loading="lazy"
             >
           </AvatarFallback>
         </Avatar>
