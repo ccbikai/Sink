@@ -10,53 +10,48 @@ export default eventHandler(async (event) => {
     })
   }
 
-  const link = await readValidatedBody(event, LinkSchema.parse)
+  // Read raw body first to get oldSlug
+  const body = await readBody(event)
+  const oldSlug = body.oldSlug
+
+  // Validate the link data
+  const link = await LinkSchema.parse(body)
   const { cloudflare } = event.context
   const { KV } = cloudflare.env
 
-  const existingLink: z.infer<typeof LinkSchema> | null = await KV.get(`link:${link.slug}`, { type: 'json' })
-
-  // If updating to a new slug
-  if (existingLink === null) {
-    // Try to find the link by the old slug from the request body
-    const oldSlug = event.context.body.oldSlug
-    if (!oldSlug) {
-      throw createError({
-        status: 404,
-        statusText: 'Link not found',
-      })
-    }
-
+  // If we're updating the slug
+  if (oldSlug && oldSlug !== link.slug) {
+    // Get the old link
     const oldLink: z.infer<typeof LinkSchema> | null = await KV.get(`link:${oldSlug}`, { type: 'json' })
     if (!oldLink) {
       throw createError({
         status: 404,
-        statusText: 'Link not found',
+        statusText: 'Original link not found',
       })
     }
 
     // Check if new slug already exists
-    const newSlugExists = await KV.get(`link:${link.slug}`, { type: 'json' })
-    if (newSlugExists) {
+    const slugExists = await KV.get(`link:${link.slug}`, { type: 'json' })
+    if (slugExists) {
       throw createError({
         status: 409,
-        statusText: 'Slug already exists',
+        statusText: 'New slug already exists',
       })
     }
 
-    // Create new link entry with updated slug
+    // Create updated link
     const newLink = {
       ...oldLink,
       ...link,
-      id: oldLink.id, // preserve original id
-      createdAt: oldLink.createdAt, // preserve original creation time
+      id: oldLink.id,
+      createdAt: oldLink.createdAt,
       updatedAt: Math.floor(Date.now() / 1000),
     }
 
     const expiration = getExpiration(event, newLink.expiration)
 
     // Write new entry first
-    await KV.put(`link:${newLink.slug}`, JSON.stringify(newLink), {
+    await KV.put(`link:${link.slug}`, JSON.stringify(newLink), {
       expiration,
       metadata: {
         expiration,
@@ -73,8 +68,16 @@ export default eventHandler(async (event) => {
     return { link: newLink, shortLink }
   }
 
-  // Regular update without slug change
-  const newLink = {
+  // Regular update (no slug change)
+  const existingLink: z.infer<typeof LinkSchema> | null = await KV.get(`link:${link.slug}`, { type: 'json' })
+  if (!existingLink) {
+    throw createError({
+      status: 404,
+      statusText: 'Link not found',
+    })
+  }
+
+  const updatedLink = {
     ...existingLink,
     ...link,
     id: existingLink.id,
@@ -82,17 +85,17 @@ export default eventHandler(async (event) => {
     updatedAt: Math.floor(Date.now() / 1000),
   }
 
-  const expiration = getExpiration(event, newLink.expiration)
-  await KV.put(`link:${newLink.slug}`, JSON.stringify(newLink), {
+  const expiration = getExpiration(event, updatedLink.expiration)
+  await KV.put(`link:${link.slug}`, JSON.stringify(updatedLink), {
     expiration,
     metadata: {
       expiration,
-      url: newLink.url,
-      comment: newLink.comment,
+      url: updatedLink.url,
+      comment: updatedLink.comment,
     },
   })
 
   setResponseStatus(event, 201)
-  const shortLink = `${getRequestProtocol(event)}://${getRequestHost(event)}/${newLink.slug}`
-  return { link: newLink, shortLink }
+  const shortLink = `${getRequestProtocol(event)}://${getRequestHost(event)}/${updatedLink.slug}`
+  return { link: updatedLink, shortLink }
 })
