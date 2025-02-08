@@ -114,7 +114,7 @@ async function onSubmit(formData) {
     body: link,
   })
   dialogOpen.value = false
-  emit('update:link', newLink)
+  emit('update:link', newLink, isEdit ? 'edit' : 'create')
   if (isEdit) {
     toast('Link updated successfully')
   }
