@@ -3,10 +3,10 @@ import { LinkSchema, nanoid } from '@/schemas/link'
 export default eventHandler(async (event) => {
   const body = await readBody(event)
 
-  // If no slug provided, generate one with default length from env
+  // If no slug provided, generate one with default length from env or fall back to default
   if (!body.slug) {
     const { slugDefaultLength } = useRuntimeConfig().public
-    body.slug = nanoid(+slugDefaultLength)()
+    body.slug = slugDefaultLength ? nanoid(+slugDefaultLength)() : nanoid()()
   }
 
   const link = await LinkSchema.parse(body)
