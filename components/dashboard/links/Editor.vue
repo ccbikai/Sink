@@ -1,6 +1,6 @@
 <script setup>
 import { DependencyType } from '@/components/ui/auto-form/interface'
-import { LinkSchema, nanoid } from '@/schemas/link'
+import { LinkSchema, nanoid } from '@@/schemas/link'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Shuffle, Sparkles } from 'lucide-vue-next'
 import { useForm } from 'vee-validate'
@@ -16,6 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:link'])
 
+const { t } = useI18n()
 const link = ref(props.link)
 const dialogOpen = ref(false)
 
@@ -116,10 +117,10 @@ async function onSubmit(formData) {
   dialogOpen.value = false
   emit('update:link', newLink, isEdit ? 'edit' : 'create')
   if (isEdit) {
-    toast('Link updated successfully')
+    toast(t('links.update_success'))
   }
   else {
-    toast('Link created successfully')
+    toast(t('links.create_success'))
   }
 }
 
@@ -135,19 +136,19 @@ const { previewMode } = useRuntimeConfig().public
           variant="outline"
           @click="randomSlug"
         >
-          Create Link
+          {{ $t('links.create') }}
         </Button>
       </slot>
     </DialogTrigger>
     <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <DialogHeader>
-        <DialogTitle>{{ link.id ? 'Edit Link' : 'Create Link' }}</DialogTitle>
+        <DialogTitle>{{ link.id ? $t('links.edit') : $t('links.create') }}</DialogTitle>
       </DialogHeader>
       <p
         v-if="previewMode"
         class="text-sm text-muted-foreground"
       >
-        The preview mode link is valid for up to 24 hours.
+        {{ $t('links.preview_mode_tip') }}
       </p>
       <AutoForm
         class="px-2 space-y-2 overflow-y-auto"
@@ -185,11 +186,11 @@ const { previewMode } = useRuntimeConfig().public
               variant="secondary"
               class="mt-2 sm:mt-0"
             >
-              Close
+              {{ $t('common.close') }}
             </Button>
           </DialogClose>
           <Button type="submit">
-            Save
+            {{ $t('common.save') }}
           </Button>
         </DialogFooter>
       </AutoForm>
