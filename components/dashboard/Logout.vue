@@ -16,15 +16,15 @@ function logOut() {
     </AlertDialogTrigger>
     <AlertDialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <AlertDialogHeader>
-        <AlertDialogTitle>LogOut ?</AlertDialogTitle>
+        <AlertDialogTitle>{{ $t('logout.title') }}</AlertDialogTitle>
         <AlertDialogDescription>
-          Are you sure you want to log out ?
+          {{ $t('logout.confirm') }}
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogCancel>{{ $t('common.cancel') }}</AlertDialogCancel>
         <AlertDialogAction @click="logOut">
-          LogOut
+          {{ $t('logout.action') }}
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>

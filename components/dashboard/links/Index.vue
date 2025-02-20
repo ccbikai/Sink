@@ -80,7 +80,7 @@ function updateLinkList(link, type) {
       v-if="!isLoading && listComplete"
       class="flex items-center justify-center text-sm"
     >
-      No more links
+      {{ $t('links.no_more') }}
     </div>
     <div
       v-if="listError"
@@ -88,7 +88,7 @@ function updateLinkList(link, type) {
     >
       Loading links failed,
       <Button variant="link" @click="getLinks">
-        Try again
+        {{ $t('common.try_again') }}
       </Button>
     </div>
   </main>

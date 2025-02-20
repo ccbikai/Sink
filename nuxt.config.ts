@@ -1,3 +1,5 @@
+import { currentLocales } from './i18n/i18n'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -7,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
+    '@nuxtjs/i18n',
   ],
   devtools: { enabled: true },
 
@@ -68,5 +71,22 @@ export default defineNuxtConfig({
       stylistic: true,
       standalone: false,
     },
+  },
+
+  i18n: {
+    locales: currentLocales,
+    compilation: {
+      strictMessage: false,
+      escapeHtml: true,
+    },
+    lazy: true,
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'sink_i18n_redirected',
+      redirectOn: 'root',
+    },
+    baseUrl: '/',
+    defaultLocale: 'en-US',
   },
 })
