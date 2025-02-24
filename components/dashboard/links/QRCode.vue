@@ -1,4 +1,6 @@
 <script setup>
+import { Button } from '#components'
+import { Download } from 'lucide-vue-next'
 import QRCodeStyling from 'qr-code-styling'
 
 const props = defineProps({
@@ -68,14 +70,28 @@ const options = {
 const qrCode = new QRCodeStyling(options)
 const qrCodeEl = ref(null)
 
+function downloadQRCode() {
+  const slug = props.data.split('/').pop()
+  qrCode.download({
+    extension: 'png',
+    name: `qr_${slug}`,
+  })
+}
+
 onMounted(() => {
   qrCode.append(qrCodeEl.value)
 })
 </script>
 
 <template>
-  <div
-    ref="qrCodeEl"
-    :data-text="data"
-  />
+  <div class="flex flex-col items-center gap-4">
+    <div
+      ref="qrCodeEl"
+      :data-text="data"
+    />
+    <Button variant="outline" @click="downloadQRCode">
+      <Download class="w-4 h-4 mr-2" />
+      Download QR Code
+    </Button>
+  </div>
 </template>
