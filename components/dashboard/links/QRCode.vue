@@ -71,9 +71,10 @@ const qrCode = new QRCodeStyling(options)
 const qrCodeEl = ref(null)
 
 function downloadQRCode() {
+  const slug = props.data.split('/').pop()
   qrCode.download({
     extension: 'png',
-    name: `qr-${props.data}`,
+    name: `qr_${slug}`,
   })
 }
 
