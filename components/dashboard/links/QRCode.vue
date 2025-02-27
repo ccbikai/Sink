@@ -1,6 +1,6 @@
 <script setup>
-import { Button, Switch } from '#components'
-import { Download, Palette } from 'lucide-vue-next'
+import { Button } from '#components'
+import { Download } from 'lucide-vue-next'
 import QRCodeStyling from 'qr-code-styling'
 import { ref, watch } from 'vue'
 
@@ -14,8 +14,6 @@ const props = defineProps({
     default: '',
   },
 })
-
-const showIcon = ref(true)
 const color = ref('#000000')
 const options = {
   width: 256,
@@ -23,12 +21,7 @@ const options = {
   data: props.data,
   margin: 10,
   qrOptions: { typeNumber: '0', mode: 'Byte', errorCorrectionLevel: 'Q' },
-  imageOptions: {
-    hideBackgroundDots: true,
-    imageSize: 0.3,
-    margin: 0,
-    crossOrigin: 'anonymous',
-  },
+  imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 2 },
   dotsOptions: { type: 'dots', color: '#000000', gradient: null },
   backgroundOptions: { color: '#ffffff', gradient: null },
   image: props.image,
@@ -79,16 +72,6 @@ const options = {
 const qrCode = new QRCodeStyling(options)
 const qrCodeEl = ref(null)
 
-function updateIcon(show) {
-  qrCode.update({
-    image: show ? props.image : '',
-  })
-}
-
-watch(showIcon, (show) => {
-  updateIcon(show)
-})
-
 function updateColor(newColor) {
   qrCode.update({
     dotsOptions: { type: 'dots', color: newColor, gradient: null },
@@ -111,7 +94,6 @@ function downloadQRCode() {
 
 onMounted(() => {
   qrCode.append(qrCodeEl.value)
-  updateIcon(showIcon.value)
 })
 </script>
 
@@ -121,26 +103,24 @@ onMounted(() => {
       ref="qrCodeEl"
       :data-text="data"
     />
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-2">
-        <div class="flex items-center gap-2 px-3 py-2 border rounded-md">
-          <Palette class="w-4 h-4" />
+    <div class="flex items-center gap-2">
+      <div class="relative flex items-center">
+        <div
+          class="w-8 h-8 rounded-full border cursor-pointer overflow-hidden"
+          :style="{ backgroundColor: color }"
+        >
           <input
             v-model="color"
             type="color"
-            class="w-20 h-8 rounded cursor-pointer"
+            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             title="Change QR code color"
           >
         </div>
-        <Button variant="outline" @click="downloadQRCode">
-          <Download class="w-4 h-4 mr-2" />
-          Download QR Code
-        </Button>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="text-sm text-gray-500">Icon</span>
-        <Switch v-model="showIcon" />
-      </div>
+      <Button variant="outline" @click="downloadQRCode">
+        <Download class="w-4 h-4 mr-2" />
+        Download QR Code
+      </Button>
     </div>
   </div>
 </template>
