@@ -23,9 +23,9 @@ const displayedLinks = computed(() => {
     case 'oldest':
       return sorted.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
     case 'az':
-      return sorted.sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+      return sorted.sort((a, b) => a.slug.localeCompare(b.slug))
     case 'za':
-      return sorted.sort((a, b) => (b.title || '').localeCompare(a.title || ''))
+      return sorted.sort((a, b) => b.slug.localeCompare(a.slug))
     default:
       return sorted
   }
@@ -81,38 +81,38 @@ function updateLinkList(link, type) {
   <main class="space-y-6">
     <div class="flex flex-col gap-6 sm:gap-2 sm:flex-row sm:justify-between">
       <DashboardNav class="flex-1">
-        <DashboardLinksEditor @update:link="updateLinkList" />
+        <div class="flex items-center gap-2">
+          <DashboardLinksEditor @update:link="updateLinkList" />
+          <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+              <Button variant="outline" size="sm">
+                <ArrowUpDown class="mr-2 h-4 w-4" />
+                Sort by: {{
+                  sortBy === 'newest' ? 'Newest First'
+                  : sortBy === 'oldest' ? 'Oldest First'
+                    : sortBy === 'az' ? 'Slug A-Z'
+                      : 'Slug Z-A'
+                }}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem @click="sortBy = 'newest'">
+                Newest First
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="sortBy = 'oldest'">
+                Oldest First
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="sortBy = 'az'">
+                A to Z
+              </DropdownMenuItem>
+              <DropdownMenuItem @click="sortBy = 'za'">
+                Z to A
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </DashboardNav>
       <LazyDashboardLinksSearch />
-    </div>
-    <div class="flex items-center gap-2">
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline" size="sm">
-            <ArrowUpDown class="mr-2 h-4 w-4" />
-            Sort by: {{
-              sortBy === 'newest' ? 'Newest First'
-              : sortBy === 'oldest' ? 'Oldest First'
-                : sortBy === 'az' ? 'A to Z'
-                  : 'Z to A'
-            }}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem @click="sortBy = 'newest'">
-            Newest First
-          </DropdownMenuItem>
-          <DropdownMenuItem @click="sortBy = 'oldest'">
-            Oldest First
-          </DropdownMenuItem>
-          <DropdownMenuItem @click="sortBy = 'az'">
-            A to Z
-          </DropdownMenuItem>
-          <DropdownMenuItem @click="sortBy = 'za'">
-            Z to A
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
     <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <DashboardLinksLink
