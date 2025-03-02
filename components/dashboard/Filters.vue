@@ -1,7 +1,8 @@
 <script setup>
-import { useUrlSearchParams } from '@vueuse/core'
+import { useUrlSearchParams, watchDebounced } from '@vueuse/core'
 import { safeDestr } from 'destr'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
+import { VList } from 'virtua/vue'
 
 const emit = defineEmits(['change'])
 
@@ -17,9 +18,9 @@ onMounted(() => {
   getLinks()
 })
 
-watch(selectedLinks, (value) => {
+watchDebounced(selectedLinks, (value) => {
   emit('change', 'slug', value.join(','))
-})
+}, { debounce: 500, maxWait: 1000 })
 
 function restoreFilters() {
   const searchParams = useUrlSearchParams('history')
@@ -57,20 +58,23 @@ onBeforeMount(() => {
         <CommandEmpty>No link found.</CommandEmpty>
         <CommandList>
           <CommandGroup>
-            <CommandItem
-              v-for="link in links"
-              :key="link.slug"
-              :value="link.slug"
-              @select="isOpen = false"
+            <VList
+              v-slot="{ item: link }"
+              :data="links"
+              :style="{ height: '292px' }"
             >
-              <Check
-                :class="cn(
-                  'mr-2 h-4 w-4',
-                  selectedLinks.includes(link.slug) ? 'opacity-100' : 'opacity-0',
-                )"
-              />
-              {{ link.slug }}
-            </CommandItem>
+              <CommandItem
+                :value="link.slug"
+              >
+                <Check
+                  :class="cn(
+                    'mr-2 h-4 w-4',
+                    selectedLinks.includes(link.slug) ? 'opacity-100' : 'opacity-0',
+                  )"
+                />
+                {{ link.slug }}
+              </CommandItem>
+            </VList>
           </CommandGroup>
         </CommandList>
       </Command>
