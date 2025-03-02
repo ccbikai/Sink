@@ -19,9 +19,9 @@ const displayedLinks = computed(() => {
   const sorted = [...links.value]
   switch (sortBy.value) {
     case 'newest':
-      return sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      return sorted.sort((a, b) => b.createdAt - a.createdAt)
     case 'oldest':
-      return sorted.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+      return sorted.sort((a, b) => a.createdAt - b.createdAt)
     case 'az':
       return sorted.sort((a, b) => a.slug.localeCompare(b.slug))
     case 'za':
