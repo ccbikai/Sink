@@ -22,6 +22,6 @@ export const QuerySchema = z.object({
   limit: z.coerce.number().int().safe().default(listQueryLimit),
 })
 
-export const FilterSchema = QuerySchema.omit({ id: true, startAt: true, endAt: true, limit: true }).extend({
-  index1: z.string().optional(),
-})
+// export const FilterSchema = QuerySchema.omit({ id: true, startAt: true, endAt: true, limit: true }).extend({
+//   index1: z.string().optional(),
+// })

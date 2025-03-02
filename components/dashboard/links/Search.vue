@@ -1,6 +1,11 @@
 <script setup>
-import { useMagicKeys } from '@vueuse/core'
+import { createReusableTemplate, useMagicKeys, useMediaQuery } from '@vueuse/core'
 import { useFuse } from '@vueuse/integrations/useFuse'
+
+const [TriggerTemplate, TriggerComponent] = createReusableTemplate()
+const [SearchTemplate, SearchComponent] = createReusableTemplate()
+
+const isDesktop = useMediaQuery('(min-width: 640px)')
 
 const router = useRouter()
 
@@ -48,12 +53,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <TriggerTemplate>
     <Button
       variant="outline"
       size="sm"
-      class="relative h-10 w-full justify-start bg-background text-muted-foreground sm:w-32 md:w-48"
-      @click="isOpen = true"
+      class="relative justify-start w-full h-10 bg-background text-muted-foreground sm:w-32 md:w-48"
     >
       <span class="hidden md:inline-flex">Search Links...</span>
       <span class="inline-flex md:hidden">Search</span>
@@ -61,36 +65,50 @@ onMounted(() => {
         <span class="text-xs">⌘</span>K
       </kbd>
     </Button>
-    <Dialog :open="isOpen" @update:open="isOpen = !isOpen">
-      <DialogContent class="overflow-hidden p-0 shadow-lg">
-        <Command v-model:search-term="searchTerm" v-model="selectedLink" class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
-          <CommandInput placeholder="Type to search..." />
-          <CommandList>
-            <CommandEmpty v-if="searchTerm">
-              No links found.
-            </CommandEmpty>
-            <CommandGroup heading="Links">
-              <CommandItem v-for="link in filteredLinks" :key="link.item?.id" class="cursor-pointer" :value="link.item" @select="selectLink(link.item)">
-                <div class="flex gap-1 w-full">
-                  <div class="flex-1 overflow-hidden inline-flex gap-1 items-center">
-                    <div class="text-sm font-medium">
-                      {{ link.item?.slug }}
-                    </div>
-                    <div class="text-xs text-muted-foreground flex-1 truncate">
-                      ({{ link.item?.url }})
-                    </div>
-                  </div>
-                  <Badge v-if="link.item?.comment" variant="secondary">
-                    <div class="max-w-24 truncate">
-                      {{ link.item?.comment }}
-                    </div>
-                  </Badge>
+  </TriggerTemplate>
+  <SearchTemplate>
+    <Command v-model:search-term="searchTerm" v-model="selectedLink" class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+      <CommandInput placeholder="Type to search..." />
+      <CommandList :class="{ 'max-h-none': !isDesktop }">
+        <CommandEmpty v-if="searchTerm">
+          No links found.
+        </CommandEmpty>
+        <CommandGroup heading="Links">
+          <CommandItem v-for="link in filteredLinks" :key="link.item?.id" class="cursor-pointer" :value="link.item" @select="selectLink(link.item)">
+            <div class="flex gap-1 w-full">
+              <div class="inline-flex overflow-hidden flex-1 gap-1 items-center">
+                <div class="text-sm font-medium">
+                  {{ link.item?.slug }}
                 </div>
-              </CommandItem>
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </DialogContent>
-    </Dialog>
-  </div>
+                <div class="flex-1 text-xs truncate text-muted-foreground">
+                  ({{ link.item?.url }})
+                </div>
+              </div>
+              <Badge v-if="link.item?.comment" variant="secondary">
+                <div class="truncate max-w-24">
+                  {{ link.item?.comment }}
+                </div>
+              </Badge>
+            </div>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  </SearchTemplate>
+  <Dialog v-if="isDesktop" v-model:open="isOpen">
+    <DialogTrigger as-child>
+      <TriggerComponent />
+    </DialogTrigger>
+    <DialogContent class="overflow-hidden p-0 shadow-lg">
+      <SearchComponent />
+    </DialogContent>
+  </Dialog>
+  <Drawer v-else v-model:open="isOpen">
+    <DrawerTrigger as-child>
+      <TriggerComponent />
+    </DrawerTrigger>
+    <DrawerContent class="h-[500px]">
+      <SearchComponent />
+    </DrawerContent>
+  </Drawer>
 </template>
