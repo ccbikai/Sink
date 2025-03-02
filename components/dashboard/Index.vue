@@ -8,32 +8,46 @@ defineProps({
   },
 })
 
-const startAt = ref(date2unix(now().subtract({ days: 7 })))
-const endAt = ref(date2unix(now()))
+const time = ref({
+  startAt: date2unix(now().subtract({ days: 7 })),
+  endAt: date2unix(now()),
+})
 
-provide('startAt', startAt)
-provide('endAt', endAt)
+provide('time', time)
 
-function changeDate(time) {
+function changeDate(dateRange) {
+  console.log('changeDate', dateRange)
   // console.log('dashboard date', new Date(time[0] * 1000), new Date(time[1] * 1000))
-  startAt.value = time[0]
-  endAt.value = time[1]
+  time.value.startAt = dateRange[0]
+  time.value.endAt = dateRange[1]
+}
+
+const filters = ref({})
+
+provide('filters', filters)
+
+function changeFilter(type, value) {
+  console.log('changeFilter', type, value)
+  filters.value[type] = value
 }
 </script>
 
 <template>
   <main class="space-y-6">
-    <DashboardNav>
-      <template
-        v-if="link"
-        #left
-      >
-        <h3 class="text-xl font-bold leading-10">
-          {{ link.slug }}'s Stats
-        </h3>
-      </template>
-      <DashboardDatePicker @update:date-range="changeDate" />
-    </DashboardNav>
+    <div class="flex flex-col gap-6 sm:gap-2 sm:flex-row sm:justify-between">
+      <DashboardNav class="flex-1">
+        <template
+          v-if="link"
+          #left
+        >
+          <h3 class="text-xl font-bold leading-10">
+            {{ link.slug }}'s Stats
+          </h3>
+        </template>
+        <DashboardDatePicker @update:date-range="changeDate" />
+      </DashboardNav>
+      <DashboardFilter v-if="!link" @change="changeFilter" />
+    </div>
     <DashboardCounters />
     <DashboardViews />
     <DashboardMetrics />

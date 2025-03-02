@@ -3,8 +3,7 @@ import { now, startOfMonth, startOfWeek } from '@internationalized/date'
 
 const emit = defineEmits(['update:dateRange'])
 
-const startAt = inject('startAt')
-const endAt = inject('endAt')
+const time = inject('time')
 
 const dateRange = ref('last-7d')
 const openCustomDateRange = ref(false)
@@ -69,7 +68,7 @@ watch(dateRange, (newValue) => {
     <SelectTrigger>
       <SelectValue v-if="dateRange" />
       <div v-else>
-        {{ shortDate(startAt) }} - {{ shortDate(endAt) }}
+        {{ shortDate(time.startAt) }} - {{ shortDate(time.endAt) }}
       </div>
     </SelectTrigger>
     <SelectContent>
