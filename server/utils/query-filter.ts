@@ -15,10 +15,9 @@ export function query2filter(query: Query) {
     // @ts-expect-error todo
     if (query[key]) {
       // @ts-expect-error todo
-      filter.push($in(logsMap[key], query[key]))
+      filter.push($in(logsMap[key], query[key].split(',')))
     }
   })
-  console.log('query2filter', query, filter)
   return filter.length ? and(...filter) : []
 }
 
