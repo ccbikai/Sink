@@ -6,8 +6,8 @@ const views = ref([])
 const chart = computed(() => views.value.length > 1 ? AreaChart : BarChart)
 
 const id = inject('id')
-const startAt = inject('startAt')
-const endAt = inject('endAt')
+const time = inject('time')
+const filters = inject('filters')
 
 const OneDay = 24 * 60 * 60 // 1 day in seconds
 function getUnit(startAt, endAt) {
@@ -22,10 +22,11 @@ async function getLinkViews() {
   const { data } = await useAPI('/api/stats/views', {
     query: {
       id: id.value,
-      unit: getUnit(startAt.value, endAt.value),
+      unit: getUnit(time.value.startAt, time.value.endAt),
       clientTimezone: getTimeZone(),
-      startAt: startAt.value,
-      endAt: endAt.value,
+      startAt: time.value.startAt,
+      endAt: time.value.endAt,
+      ...filters.value,
     },
   })
   views.value = (data || []).map((item) => {
@@ -35,19 +36,21 @@ async function getLinkViews() {
   })
 }
 
-const stopWatchTime = watch([startAt, endAt], getLinkViews)
+const stopWatchQueryChange = watch([time, filters], getLinkViews, {
+  deep: true,
+})
 
 onMounted(async () => {
   getLinkViews()
 })
 
 onBeforeUnmount(() => {
-  stopWatchTime()
+  stopWatchQueryChange()
 })
 
 function formatTime(tick) {
   if (Number.isInteger(tick) && views.value[tick]) {
-    if (getUnit(startAt.value, endAt.value) === 'hour')
+    if (getUnit(time.value.startAt, time.value.endAt) === 'hour')
       return views.value[tick].time.split(' ')[1] || ''
 
     return views.value[tick].time
