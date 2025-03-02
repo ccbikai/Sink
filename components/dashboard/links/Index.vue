@@ -1,13 +1,35 @@
 <script setup>
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '#components'
 import { useInfiniteScroll } from '@vueuse/core'
-import { Loader } from 'lucide-vue-next'
+import { ArrowUpDown, Loader } from 'lucide-vue-next'
 
 const links = ref([])
 const limit = 24
 let cursor = ''
 let listComplete = false
 let listError = false
-const sortBy = ref('created_desc') // created_desc, created_asc, alpha_asc, alpha_desc
+const sortBy = ref('newest')
+
+const displayedLinks = computed(() => {
+  const sorted = [...links.value]
+  switch (sortBy.value) {
+    case 'newest':
+      return sorted.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    case 'oldest':
+      return sorted.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+    case 'az':
+      return sorted.sort((a, b) => (a.title || '').localeCompare(b.title || ''))
+    case 'za':
+      return sorted.sort((a, b) => (b.title || '').localeCompare(a.title || ''))
+    default:
+      return sorted
+  }
+})
 
 async function getLinks() {
   try {
@@ -15,7 +37,6 @@ async function getLinks() {
       query: {
         limit,
         cursor,
-        sort: sortBy.value,
       },
     })
     links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
@@ -64,43 +85,38 @@ function updateLinkList(link, type) {
       </DashboardNav>
       <LazyDashboardLinksSearch />
     </div>
-    <div class="flex gap-2 items-center">
-      <Button
-        variant="outline"
-        size="sm"
-        :class="{ 'bg-primary text-primary-foreground': sortBy === 'created_desc' }"
-        @click="sortBy = 'created_desc'; links = []; cursor = ''; getLinks()"
-      >
-        Newest First
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        :class="{ 'bg-primary text-primary-foreground': sortBy === 'created_asc' }"
-        @click="sortBy = 'created_asc'; links = []; cursor = ''; getLinks()"
-      >
-        Oldest First
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        :class="{ 'bg-primary text-primary-foreground': sortBy === 'alpha_asc' }"
-        @click="sortBy = 'alpha_asc'; links = []; cursor = ''; getLinks()"
-      >
-        A to Z
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        :class="{ 'bg-primary text-primary-foreground': sortBy === 'alpha_desc' }"
-        @click="sortBy = 'alpha_desc'; links = []; cursor = ''; getLinks()"
-      >
-        Z to A
-      </Button>
+    <div class="flex items-center gap-2">
+      <DropdownMenu>
+        <DropdownMenuTrigger as-child>
+          <Button variant="outline" size="sm">
+            <ArrowUpDown class="mr-2 h-4 w-4" />
+            Sort by: {{
+              sortBy === 'newest' ? 'Newest First'
+              : sortBy === 'oldest' ? 'Oldest First'
+                : sortBy === 'az' ? 'A to Z'
+                  : 'Z to A'
+            }}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem @click="sortBy = 'newest'">
+            Newest First
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="sortBy = 'oldest'">
+            Oldest First
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="sortBy = 'az'">
+            A to Z
+          </DropdownMenuItem>
+          <DropdownMenuItem @click="sortBy = 'za'">
+            Z to A
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
     <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <DashboardLinksLink
-        v-for="link in links"
+        v-for="link in displayedLinks"
         :key="link.id"
         :link="link"
         @update:link="updateLinkList"
