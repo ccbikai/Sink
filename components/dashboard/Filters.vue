@@ -1,4 +1,6 @@
 <script setup>
+import { useUrlSearchParams } from '@vueuse/core'
+import { safeDestr } from 'destr'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
 
 const emit = defineEmits(['change'])
@@ -17,6 +19,20 @@ onMounted(() => {
 
 watch(selectedLinks, (value) => {
   emit('change', 'slug', value.join(','))
+})
+
+function restoreFilters() {
+  const searchParams = useUrlSearchParams('history')
+  if (searchParams.filters) {
+    const filters = safeDestr(searchParams.filters)
+    if (filters.slug) {
+      selectedLinks.value = filters.slug.split(',')
+    }
+  }
+}
+
+onBeforeMount(() => {
+  restoreFilters()
 })
 </script>
 

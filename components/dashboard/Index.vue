@@ -1,5 +1,7 @@
 <script setup>
 import { now } from '@internationalized/date'
+import { useUrlSearchParams } from '@vueuse/core'
+import { safeDestr } from 'destr'
 
 defineProps({
   link: {
@@ -7,6 +9,8 @@ defineProps({
     default: () => null,
   },
 })
+
+const searchParams = useUrlSearchParams('history')
 
 const time = ref({
   startAt: date2unix(now().subtract({ days: 7 })),
@@ -20,6 +24,8 @@ function changeDate(dateRange) {
   // console.log('dashboard date', new Date(time[0] * 1000), new Date(time[1] * 1000))
   time.value.startAt = dateRange[0]
   time.value.endAt = dateRange[1]
+
+  searchParams.time = JSON.stringify(time.value)
 }
 
 const filters = ref({})
@@ -29,7 +35,27 @@ provide('filters', filters)
 function changeFilter(type, value) {
   console.log('changeFilter', type, value)
   filters.value[type] = value
+
+  searchParams.filters = JSON.stringify(filters.value)
 }
+
+function restoreSearchParams() {
+  try {
+    if (searchParams.time) {
+      time.value = safeDestr(searchParams.time)
+    }
+    if (searchParams.filters) {
+      filters.value = safeDestr(searchParams.filters)
+    }
+  }
+  catch (error) {
+    console.error('restore searchParams error', error)
+  }
+}
+
+onBeforeMount(() => {
+  restoreSearchParams()
+})
 </script>
 
 <template>
@@ -46,7 +72,7 @@ function changeFilter(type, value) {
         </template>
         <DashboardDatePicker @update:date-range="changeDate" />
       </DashboardNav>
-      <DashboardFilter v-if="!link" @change="changeFilter" />
+      <DashboardFilters v-if="!link" @change="changeFilter" />
     </div>
     <DashboardCounters />
     <DashboardViews />

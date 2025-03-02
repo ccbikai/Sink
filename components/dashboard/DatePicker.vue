@@ -1,5 +1,7 @@
 <script setup>
 import { now, startOfMonth, startOfWeek } from '@internationalized/date'
+import { useUrlSearchParams } from '@vueuse/core'
+import { safeDestr } from 'destr'
 
 const emit = defineEmits(['update:dateRange'])
 
@@ -60,6 +62,28 @@ watch(dateRange, (newValue) => {
     default:
       break
   }
+})
+
+function restoreDateRange() {
+  try {
+    const searchParams = useUrlSearchParams('history')
+    if (searchParams.time) {
+      const time = safeDestr(searchParams.time)
+      emit('update:dateRange', [time.startAt, time.endAt])
+      dateRange.value = 'custom'
+      nextTick(() => {
+        openCustomDateRange.value = false
+        customDateRange.value = undefined
+      })
+    }
+  }
+  catch (error) {
+    console.error('restore searchParams error', error)
+  }
+}
+
+onBeforeMount(() => {
+  restoreDateRange()
 })
 </script>
 
