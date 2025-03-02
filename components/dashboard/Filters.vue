@@ -48,9 +48,9 @@ onBeforeMount(() => {
       variant="outline"
       role="combobox"
       :aria-expanded="isOpen"
-      class="flex justify-between w-full sm:w-48"
+      class="flex justify-between px-3 w-full sm:w-48"
     >
-      <div class="flex-1 font-normal text-left truncate" :class="selectedLinks.length ? 'text-foreground' : 'text-muted-foreground'">
+      <div class="flex-1 text-left truncate" :class="selectedLinks.length ? 'text-foreground' : 'text-muted-foreground'">
         {{ selectedLinks.length ? selectedLinks.join(', ') : 'Filter Links...' }}
       </div>
       <ChevronsUpDown class="ml-2 w-4 h-4 opacity-50 shrink-0" />
