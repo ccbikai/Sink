@@ -1,10 +1,11 @@
 <script setup>
 import { now, startOfMonth, startOfWeek } from '@internationalized/date'
+import { useUrlSearchParams } from '@vueuse/core'
+import { safeDestr } from 'destr'
 
 const emit = defineEmits(['update:dateRange'])
 
-const startAt = inject('startAt')
-const endAt = inject('endAt')
+const time = inject('time')
 
 const dateRange = ref('last-7d')
 const openCustomDateRange = ref(false)
@@ -62,6 +63,28 @@ watch(dateRange, (newValue) => {
       break
   }
 })
+
+function restoreDateRange() {
+  try {
+    const searchParams = useUrlSearchParams('history')
+    if (searchParams.time) {
+      const time = safeDestr(searchParams.time)
+      emit('update:dateRange', [time.startAt, time.endAt])
+      dateRange.value = 'custom'
+      nextTick(() => {
+        openCustomDateRange.value = false
+        customDateRange.value = undefined
+      })
+    }
+  }
+  catch (error) {
+    console.error('restore searchParams error', error)
+  }
+}
+
+onBeforeMount(() => {
+  restoreDateRange()
+})
 </script>
 
 <template>
@@ -69,7 +92,7 @@ watch(dateRange, (newValue) => {
     <SelectTrigger>
       <SelectValue v-if="dateRange" />
       <div v-else>
-        {{ shortDate(startAt) }} - {{ shortDate(endAt) }}
+        {{ shortDate(time.startAt) }} - {{ shortDate(time.endAt) }}
       </div>
     </SelectTrigger>
     <SelectContent>

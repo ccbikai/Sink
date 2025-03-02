@@ -3,8 +3,8 @@ import { ChartTooltip } from '@/components/ui/chart'
 import { VisSingleContainer, VisTopoJSONMap, VisTopoJSONMapSelectors } from '@unovis/vue'
 
 const id = inject('id')
-const startAt = inject('startAt')
-const endAt = inject('endAt')
+const time = inject('time')
+const filters = inject('filters')
 
 const worldMapTopoJSON = ref({})
 const areaData = ref([])
@@ -20,8 +20,9 @@ async function getMapData() {
     query: {
       type: 'country',
       id: id.value,
-      startAt: startAt.value,
-      endAt: endAt.value,
+      startAt: time.value.startAt,
+      endAt: time.value.endAt,
+      ...filters.value,
     },
   })
   if (Array.isArray(data)) {
@@ -32,7 +33,9 @@ async function getMapData() {
   }
 }
 
-const stopWatchTime = watch([startAt, endAt], getMapData)
+const stopWatchQueryChange = watch([time, filters], getMapData, {
+  deep: true,
+})
 
 onMounted(() => {
   getWorldMapJSON()
@@ -40,7 +43,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  stopWatchTime()
+  stopWatchQueryChange()
 })
 
 const valueFormatter = v => v
