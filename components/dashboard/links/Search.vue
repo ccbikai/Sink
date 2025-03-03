@@ -59,8 +59,8 @@ onMounted(() => {
       size="sm"
       class="relative justify-start w-full h-10 bg-background text-muted-foreground sm:w-32 md:w-48"
     >
-      <span class="hidden md:inline-flex">Search Links...</span>
-      <span class="inline-flex md:hidden">Search</span>
+      <span class="hidden md:inline-flex">{{ $t('links.search_placeholder') }}</span>
+      <span class="inline-flex md:hidden">{{ $t('common.search') }}</span>
       <kbd class="pointer-events-none absolute right-[0.3rem] top-[0.6rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
         <span class="text-xs">⌘</span>K
       </kbd>
@@ -68,12 +68,12 @@ onMounted(() => {
   </TriggerTemplate>
   <SearchTemplate>
     <Command v-model:search-term="searchTerm" v-model="selectedLink" class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
-      <CommandInput placeholder="Type to search..." />
-      <CommandList :class="{ 'max-h-none': !isDesktop }">
+      <CommandInput :placeholder="$t('links.search_placeholder')" />
+      <CommandList>
         <CommandEmpty v-if="searchTerm">
-          No links found.
+          {{ $t('links.no_results') }}
         </CommandEmpty>
-        <CommandGroup heading="Links">
+        <CommandGroup :heading="$t('links.group_title')">
           <CommandItem v-for="link in filteredLinks" :key="link.item?.id" class="cursor-pointer" :value="link.item" @select="selectLink(link.item)">
             <div class="flex gap-1 w-full">
               <div class="inline-flex overflow-hidden flex-1 gap-1 items-center">
