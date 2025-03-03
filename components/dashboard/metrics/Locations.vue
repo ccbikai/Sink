@@ -64,7 +64,7 @@ const Tooltip = {
 <template>
   <Card class="flex flex-col md:h-[500px]">
     <CardHeader>
-      <CardTitle>Locations</CardTitle>
+      <CardTitle>{{ $t('dashboard.locations') }}</CardTitle>
     </CardHeader>
     <CardContent class="flex-1 flex [&_[data-radix-aspect-ratio-wrapper]]:flex-1">
       <AspectRatio :ratio="65 / 30">

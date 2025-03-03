@@ -53,7 +53,7 @@ function formatName(name, type) {
           v-else
           class="w-full truncate"
         >
-          {{ formatName(name, type) || '(None)' }}
+          {{ formatName(name, type) || $t('dashboard.none') }}
         </div>
       </TooltipTrigger>
       <TooltipContent v-if="name">

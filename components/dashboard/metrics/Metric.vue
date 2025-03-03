@@ -75,9 +75,8 @@ onBeforeUnmount(() => {
             <Button
               variant="link"
             >
-              <Maximize
-                class="mr-2 w-4 h-4"
-              /> DETAILS
+              <Maximize class="w-4 h-4 mr-2" />
+              {{ $t('dashboard.details') }}
             </Button>
           </DialogTrigger>
           <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-screen-md grid-rows-[auto_minmax(0,1fr)_auto]">
