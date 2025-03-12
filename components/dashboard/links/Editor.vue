@@ -147,7 +147,7 @@ const { previewMode } = useRuntimeConfig().public
         v-if="previewMode"
         class="text-sm text-muted-foreground"
       >
-        The preview mode link is valid for up to 24 hours.
+        The preview mode link is valid for up to 5 minutes.
       </p>
       <AutoForm
         class="px-2 space-y-2 overflow-y-auto"
