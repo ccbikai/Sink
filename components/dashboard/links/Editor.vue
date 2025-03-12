@@ -1,11 +1,10 @@
 <script setup>
-import { DependencyType } from '@/components/ui/auto-form/interface'
-import { LinkSchema, nanoid } from '@/schemas/link'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Shuffle, Sparkles } from 'lucide-vue-next'
 import { useForm } from 'vee-validate'
 import { toast } from 'vue-sonner'
 import { z } from 'zod'
+import { LinkSchema, nanoid } from '@/schemas/link'
 
 const props = defineProps({
   link: {
@@ -41,7 +40,7 @@ const EditLinkSchema = LinkSchema.pick({
 
 const fieldConfig = {
   slug: {
-    disabled: isEdit,
+    // Removed disabled condition to allow editing
   },
   optional: {
     comment: {
@@ -51,12 +50,7 @@ const fieldConfig = {
 }
 
 const dependencies = [
-  {
-    sourceField: 'slug',
-    type: DependencyType.DISABLES,
-    targetField: 'slug',
-    when: () => isEdit,
-  },
+  // Removed the dependency that disables slug editing
 ]
 
 const form = useForm({
@@ -109,6 +103,12 @@ async function onSubmit(formData) {
     ...(formData.optional || []),
     expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
   }
+
+  // Add oldSlug if slug has changed
+  if (isEdit && props.link.slug !== formData.slug) {
+    link.oldSlug = props.link.slug
+  }
+
   const { link: newLink } = await useAPI(isEdit ? '/api/link/edit' : '/api/link/create', {
     method: isEdit ? 'PUT' : 'POST',
     body: link,
