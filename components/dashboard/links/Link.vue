@@ -108,7 +108,6 @@ function updateLink(link, type) {
           <PopoverContent>
             <QRCode
               :data="shortLink"
-              :image="linkIcon"
             />
           </PopoverContent>
         </Popover>
