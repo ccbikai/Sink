@@ -1,0 +1,20 @@
+on:
+  schedule:
+    - cron: '0 0 * * *' # Every day at midnight (UTC)
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: repo-sync
+        uses: repo-sync/github-sync@v2
+        with:
+          source_repo: 'ccbikai/Sink'
+          source_branch: 'master'
+          destination_branch: 'master'
+          sync_tags: 'true'
+          github_token: ${{ secrets.PAT }}
