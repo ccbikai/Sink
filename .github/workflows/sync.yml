@@ -1,20 +1,18 @@
+name: Sync Upstream
 on:
-  schedule:
-    - cron: '0 0 * * *' # Every day at midnight (UTC)
-  workflow_dispatch: # Manual trigger
+  push:
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
-  repo-sync:
+  sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Sync
+        uses: BetaHuhn/repo-file-sync-action@v1
         with:
-          persist-credentials: false
-      - name: repo-sync
-        uses: repo-sync/github-sync@v2
-        with:
-          source_repo: 'ccbikai/Sink'
-          source_branch: 'master'
-          destination_branch: 'master'
-          sync_tags: 'true'
-          github_token: ${{ secrets.PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }} # repo 권한이 있는 PAT 필수
+          PR_LABELS: 'sync'

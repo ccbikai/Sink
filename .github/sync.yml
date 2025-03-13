@@ -1,0 +1,5 @@
+ccbikai/Sink@master: # 업스트림 저장소
+  - source: / # 전체 디렉토리 동기화
+    dest: /
+    exclude: | # 제외할 파일 목록
+      .github/workflows/sync.yml
