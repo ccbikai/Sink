@@ -34,7 +34,7 @@
     "pluralize": "^8.0.0",
     "qr-code-styling": "1.6.0-rc.1",
     "radix-vue": "^1.9.11",
-    "ua-parser-js": "next",
+    "ua-parser-js": "^2.0.3",
     "vaul-vue": "^0.3.0",
     "vee-validate": "^4.15.0",
     "virtua": "^0.39.2",

@@ -46,3 +46,7 @@ Newly generated links will be case-sensitive, treating `MyLink` and `mylink` as 
 ## 7. Why does the Metric list only show the top 500 data entries?
 
 To improve query performance, we have limited the amount of data. If you need to query more data, you can adjust it through `NUXT_LIST_QUERY_LIMIT`.
+
+## 8. I don't want to count bot or crawler traffic
+
+Set `NUXT_DISABLE_BOT_ACCESS_LOG` to `true`.
