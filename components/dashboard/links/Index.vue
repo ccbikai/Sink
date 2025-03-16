@@ -1,27 +1,22 @@
 <script setup>
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '#components'
 import { useInfiniteScroll } from '@vueuse/core'
-import { ArrowUpDown, Loader } from 'lucide-vue-next'
+import { Loader } from 'lucide-vue-next'
 
 const links = ref([])
 const limit = 24
 let cursor = ''
 let listComplete = false
 let listError = false
-const sortBy = ref('newest')
+
+const sortBy = ref('az')
 
 const displayedLinks = computed(() => {
   const sorted = [...links.value]
   switch (sortBy.value) {
     case 'newest':
-      return sorted.sort((a, b) => b.createdAt - a.createdAt)
-    case 'oldest':
       return sorted.sort((a, b) => a.createdAt - b.createdAt)
+    case 'oldest':
+      return sorted.sort((a, b) => b.createdAt - a.createdAt)
     case 'az':
       return sorted.sort((a, b) => a.slug.localeCompare(b.slug))
     case 'za':
@@ -83,33 +78,7 @@ function updateLinkList(link, type) {
       <DashboardNav class="flex-1">
         <div class="flex items-center gap-2">
           <DashboardLinksEditor @update:link="updateLinkList" />
-          <DropdownMenu>
-            <DropdownMenuTrigger as-child>
-              <Button variant="outline" size="sm">
-                <ArrowUpDown class="mr-2 h-4 w-4" />
-                Sort by: {{
-                  sortBy === 'newest' ? 'Newest First'
-                  : sortBy === 'oldest' ? 'Oldest First'
-                    : sortBy === 'az' ? 'Slug A-Z'
-                      : 'Slug Z-A'
-                }}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem @click="sortBy = 'newest'">
-                Newest First
-              </DropdownMenuItem>
-              <DropdownMenuItem @click="sortBy = 'oldest'">
-                Oldest First
-              </DropdownMenuItem>
-              <DropdownMenuItem @click="sortBy = 'az'">
-                A to Z
-              </DropdownMenuItem>
-              <DropdownMenuItem @click="sortBy = 'za'">
-                Z to A
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <DashboardLinksSort v-model:sort-by="sortBy" />
         </div>
       </DashboardNav>
       <LazyDashboardLinksSearch />

@@ -118,7 +118,11 @@ onMounted(() => {
           >
         </div>
       </div>
-      <Button variant="outline" @click="downloadQRCode">
+      <Button
+        variant="outline"
+        size="sm"
+        @click="downloadQRCode"
+      >
         <Download class="w-4 h-4 mr-2" />
         {{ $t('links.download_qr_code') }}
       </Button>
