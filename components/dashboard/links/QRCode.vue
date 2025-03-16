@@ -2,7 +2,6 @@
 import { Button } from '#components'
 import { Download } from 'lucide-vue-next'
 import QRCodeStyling from 'qr-code-styling'
-import { onMounted, ref, watch } from 'vue'
 
 const props = defineProps({
   data: {
