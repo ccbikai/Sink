@@ -16,6 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:link'])
 
+const { t } = useI18n()
 const link = ref(props.link)
 const dialogOpen = ref(false)
 

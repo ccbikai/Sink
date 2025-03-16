@@ -34,7 +34,7 @@ function updateLink(link, type) {
 }
 
 function copyLink() {
-  copy(shortLink)
+  copy(shortLink.value)
   toast(t('links.copy_success'))
 }
 </script>
