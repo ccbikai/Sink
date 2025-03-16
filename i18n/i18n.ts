@@ -5,13 +5,13 @@ const locales: LocaleObject[] = [
     code: 'zh-CN',
     file: 'zh-CN.json',
     name: '简体中文',
-    language: '简',
+    emoji: '🇨🇳',
   },
   {
     code: 'en-US',
     file: 'en-US.json',
     name: 'English',
-    language: 'En',
+    emoji: '🇺🇸',
   },
 ]
 
