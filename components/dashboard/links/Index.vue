@@ -14,9 +14,9 @@ const displayedLinks = computed(() => {
   const sorted = [...links.value]
   switch (sortBy.value) {
     case 'newest':
-      return sorted.sort((a, b) => a.createdAt - b.createdAt)
-    case 'oldest':
       return sorted.sort((a, b) => b.createdAt - a.createdAt)
+    case 'oldest':
+      return sorted.sort((a, b) => a.createdAt - b.createdAt)
     case 'az':
       return sorted.sort((a, b) => a.slug.localeCompare(b.slug))
     case 'za':
@@ -68,6 +68,7 @@ function updateLinkList(link, type) {
   }
   else {
     links.value.unshift(link)
+    sortBy.value = 'newest'
   }
 }
 </script>

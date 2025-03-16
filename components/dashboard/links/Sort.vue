@@ -16,11 +16,11 @@ const emit = defineEmits(['update:sortBy'])
     <DropdownMenuTrigger as-child>
       <Button variant="outline">
         <TooltipProvider>
-          <Tooltip>
+          <Tooltip :delay-duration="100">
             <TooltipTrigger class="flex items-center">
               <ArrowUpDown class="h-4 w-4 sm:mr-2" />
               <span class="hidden sm:inline">
-                {{ $t('links.sort.newest') }}
+                {{ $t(`links.sort.${sortBy}`) }}
               </span>
             </TooltipTrigger>
             <TooltipContent>

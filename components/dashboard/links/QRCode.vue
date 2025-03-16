@@ -1,5 +1,4 @@
 <script setup>
-import { Button } from '#components'
 import { Download } from 'lucide-vue-next'
 import QRCodeStyling from 'qr-code-styling'
 
