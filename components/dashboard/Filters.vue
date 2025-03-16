@@ -51,14 +51,14 @@ onBeforeMount(() => {
       class="flex justify-between px-3 w-full sm:w-48"
     >
       <div class="flex-1 text-left truncate" :class="selectedLinks.length ? 'text-foreground' : 'text-muted-foreground'">
-        {{ selectedLinks.length ? selectedLinks.join(', ') : 'Filter Links...' }}
+        {{ selectedLinks.length ? selectedLinks.join(', ') : $t('dashboard.filter_placeholder') }}
       </div>
       <ChevronsUpDown class="ml-2 w-4 h-4 opacity-50 shrink-0" />
     </Button>
   </TriggerTemplate>
   <FilterTemplate>
     <Command v-model="selectedLinks" multiple>
-      <CommandInput :placeholder="selectedLinks.length ? selectedLinks.join(', ') : 'Filter Links...'" />
+      <CommandInput :placeholder="selectedLinks.length ? selectedLinks.join(', ') : $t('dashboard.filter_placeholder')" />
       <CommandEmpty>No link found.</CommandEmpty>
       <CommandList :class="{ 'max-h-none': !isDesktop }">
         <CommandGroup>

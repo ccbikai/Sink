@@ -110,6 +110,7 @@
     "loading": "加载中",
     "no_data": "暂无数据",
     "none": "（无）",
+    "filter_placeholder": "过滤链接...",
     "date_picker": {
       "today": "今天",
       "last_24h": "最近24小时",
@@ -146,7 +147,7 @@
     "delete_success": "删除成功！",
     "update_success": "链接更新成功",
     "create_success": "链接创建成功",
-    "preview_mode_tip": "预览模式下的链接最多有效24小时。",
+    "preview_mode_tip": "预览模式下的链接最多有效5分钟。",
     "search_placeholder": "搜索链接...",
     "no_results": "未找到链接。",
     "group_title": "链接列表",

@@ -110,6 +110,7 @@
     "loading": "Loading",
     "no_data": "No Data",
     "none": "(None)",
+    "filter_placeholder": "Filter links...",
     "date_picker": {
       "today": "Today",
       "last_24h": "Last 24 hours",
@@ -146,7 +147,7 @@
     "delete_success": "Delete successful!",
     "update_success": "Link updated successfully",
     "create_success": "Link created successfully",
-    "preview_mode_tip": "The preview mode link is valid for up to 24 hours.",
+    "preview_mode_tip": "The preview mode link is valid for up to 5 minutes.",
     "search_placeholder": "Search links...",
     "no_results": "No links found.",
     "group_title": "Links",

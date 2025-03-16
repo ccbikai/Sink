@@ -150,7 +150,7 @@ const { previewMode } = useRuntimeConfig().public
         {{ $t('links.preview_mode_tip') }}
       </p>
       <AutoForm
-        class="px-2 space-y-2 overflow-y-auto"
+        class="overflow-y-auto px-2 space-y-2"
         :schema="EditLinkSchema"
         :form="form"
         :field-config="fieldConfig"
@@ -162,7 +162,7 @@ const { previewMode } = useRuntimeConfig().public
             v-if="!isEdit"
             class="relative"
           >
-            <div class="absolute right-0 flex space-x-3 top-1">
+            <div class="flex absolute right-0 top-1 space-x-3">
               <Shuffle
                 class="w-4 h-4 cursor-pointer"
                 @click="randomSlug"
