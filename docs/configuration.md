@@ -51,3 +51,7 @@ Set URL case sensitivity.
 ## `NUXT_LIST_QUERY_LIMIT`
 
 Set the maximum query data volume for the Metric list.
+
+## `NUXT_DISABLE_BOT_ACCESS_LOG`
+
+Access statistics do not count bot traffic.
