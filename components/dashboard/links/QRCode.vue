@@ -1,8 +1,6 @@
 <script setup>
-import { Button } from '#components'
 import { Download } from 'lucide-vue-next'
 import QRCodeStyling from 'qr-code-styling'
-import { ref, watch } from 'vue'
 
 const props = defineProps({
   data: {
@@ -102,12 +100,14 @@ onMounted(() => {
     <div
       ref="qrCodeEl"
       :data-text="data"
+      class="bg-white p-1 rounded-lg"
     />
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-4">
       <div class="relative flex items-center">
         <div
-          class="w-8 h-8 rounded-full border cursor-pointer overflow-hidden"
+          class="w-8 h-8 rounded-full border border-gray-300 dark:border-gray-600 cursor-pointer overflow-hidden"
           :style="{ backgroundColor: color }"
+          title="Change QR code color"
         >
           <input
             v-model="color"
@@ -117,9 +117,13 @@ onMounted(() => {
           >
         </div>
       </div>
-      <Button variant="outline" @click="downloadQRCode">
+      <Button
+        variant="outline"
+        size="sm"
+        @click="downloadQRCode"
+      >
         <Download class="w-4 h-4 mr-2" />
-        Download QR Code
+        {{ $t('links.download_qr_code') }}
       </Button>
     </div>
   </div>

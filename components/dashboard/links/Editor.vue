@@ -16,6 +16,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:link'])
 
+const { t } = useI18n()
 const link = ref(props.link)
 const dialogOpen = ref(false)
 
@@ -116,10 +117,10 @@ async function onSubmit(formData) {
   dialogOpen.value = false
   emit('update:link', newLink, isEdit ? 'edit' : 'create')
   if (isEdit) {
-    toast('Link updated successfully')
+    toast(t('links.update_success'))
   }
   else {
-    toast('Link created successfully')
+    toast(t('links.create_success'))
   }
 }
 
@@ -135,22 +136,22 @@ const { previewMode } = useRuntimeConfig().public
           variant="outline"
           @click="randomSlug"
         >
-          Create Link
+          {{ $t('links.create') }}
         </Button>
       </slot>
     </DialogTrigger>
     <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
       <DialogHeader>
-        <DialogTitle>{{ link.id ? 'Edit Link' : 'Create Link' }}</DialogTitle>
+        <DialogTitle>{{ link.id ? $t('links.edit') : $t('links.create') }}</DialogTitle>
       </DialogHeader>
       <p
         v-if="previewMode"
         class="text-sm text-muted-foreground"
       >
-        The preview mode link is valid for up to 5 minutes.
+        {{ $t('links.preview_mode_tip') }}
       </p>
       <AutoForm
-        class="px-2 space-y-2 overflow-y-auto"
+        class="overflow-y-auto px-2 space-y-2"
         :schema="EditLinkSchema"
         :form="form"
         :field-config="fieldConfig"
@@ -162,7 +163,7 @@ const { previewMode } = useRuntimeConfig().public
             v-if="!isEdit"
             class="relative"
           >
-            <div class="absolute right-0 flex space-x-3 top-1">
+            <div class="flex absolute right-0 top-1 space-x-3">
               <Shuffle
                 class="w-4 h-4 cursor-pointer"
                 @click="randomSlug"
@@ -185,11 +186,11 @@ const { previewMode } = useRuntimeConfig().public
               variant="secondary"
               class="mt-2 sm:mt-0"
             >
-              Close
+              {{ $t('common.close') }}
             </Button>
           </DialogClose>
           <Button type="submit">
-            Save
+            {{ $t('common.save') }}
           </Button>
         </DialogFooter>
       </AutoForm>

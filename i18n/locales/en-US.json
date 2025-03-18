@@ -1,0 +1,169 @@
+{
+  "common": {
+    "i18n": "Multi Language",
+    "abbreviations": "En",
+    "current_language": "English",
+    "try_again": "Try again",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "close": "Close",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "delete_success": "Delete successful!",
+    "search": "Search"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Enter your site token to login",
+    "tips": "Tips",
+    "preview_token": "The site token for preview mode is",
+    "submit": "Login",
+    "failed": "Login failed, please try again"
+  },
+  "logout": {
+    "title": "LogOut?",
+    "confirm": "Are you sure you want to log out?",
+    "action": "LogOut"
+  },
+  "layouts": {
+    "footer": {
+      "copyright": "Products of HTML.ZONE",
+      "social": {
+        "email": "Email",
+        "telegram": "Telegram",
+        "blog": "Blog",
+        "twitter": "Twitter",
+        "mastodon": "Mastodon",
+        "github": "GitHub"
+      }
+    },
+    "header": {
+      "select_language": "Select Language"
+    }
+  },
+  "nav": {
+    "links": "Links",
+    "analysis": "Analysis"
+  },
+  "home": {
+    "features": {
+      "title": "Features",
+      "subtitle": "Simple and sufficient functionality",
+      "url_shortening": {
+        "title": "URL Shortening",
+        "description": "Compress your URLs to their minimal length"
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Monitor link analytics and gather insightful statistics"
+      },
+      "serverless": {
+        "title": "Serverless",
+        "description": "Deploy without the need for traditional servers"
+      },
+      "customizable_slug": {
+        "title": "Customizable Slug",
+        "description": "Support for personalized slugs and case sensitivity"
+      },
+      "ai_slug": {
+        "title": "AI Slug",
+        "description": "Leverage AI to generate slugs"
+      },
+      "link_expiration": {
+        "title": "Link Expiration",
+        "description": "Set expiration dates for your links"
+      }
+    },
+    "cta": {
+      "title": "Deployment immediately",
+      "description": "With just a few simple clicks, you can start deploying without any expenses",
+      "button": "Start Deploy"
+    },
+    "logos": {
+      "title": "Built with awesome technologies"
+    },
+    "twitter": {
+      "follow": "Follow me on X(Twitter)"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "visits": "Visits",
+    "views": "Views",
+    "visitors": "Visitors",
+    "referers": "Referers",
+    "stats": "'s Stats",
+    "custom_date": "Custom Date",
+    "date": "Date",
+    "date_range": "Date Range",
+    "locations": "Locations",
+    "details": "Details",
+    "name": "Name",
+    "count": "Count",
+    "loading": "Loading",
+    "no_data": "No Data",
+    "none": "(None)",
+    "filter_placeholder": "Filter links...",
+    "date_picker": {
+      "today": "Today",
+      "last_24h": "Last 24 hours",
+      "this_week": "This week",
+      "last_7d": "Last 7 days",
+      "this_month": "This month",
+      "last_30d": "Last 30 days",
+      "last_90d": "Last 90 days",
+      "custom": "Custom",
+      "custom_title": "Custom Date",
+      "single_date": "Date",
+      "date_range": "Date Range"
+    },
+    "metrics": {
+      "country": "Country",
+      "region": "Region",
+      "city": "City",
+      "referer": "Referer",
+      "slug": "Slug",
+      "language": "Language",
+      "timezone": "Timezone",
+      "device": "Device",
+      "deviceType": "Device Type",
+      "os": "OS",
+      "browser": "Browser",
+      "browserType": "Browser Type"
+    }
+  },
+  "links": {
+    "create": "Create Link",
+    "edit": "Edit Link",
+    "delete_confirm_title": "Are you absolutely sure?",
+    "delete_confirm_desc": "This action cannot be undone. This will really delete your link from servers.",
+    "delete_success": "Delete successful!",
+    "update_success": "Link updated successfully",
+    "create_success": "Link created successfully",
+    "preview_mode_tip": "The preview mode link is valid for up to 5 minutes.",
+    "search_placeholder": "Search links...",
+    "no_results": "No links found.",
+    "group_title": "Links",
+    "copy_success": "Copy successful!",
+    "created_at": "Created At",
+    "updated_at": "Updated At",
+    "expires_at": "Expires At",
+    "no_more": "No more links",
+    "load_failed": "Loading links failed,",
+    "download_qr_code": "Download QR Code",
+    "sort": {
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "az": "Slug A-Z",
+      "za": "Slug Z-A",
+      "tip": "Experience: Only for loaded links"
+    }
+  }
+}

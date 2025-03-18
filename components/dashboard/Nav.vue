@@ -13,10 +13,10 @@ const route = useRoute()
         <TabsTrigger
           value="/dashboard/links"
         >
-          Links
+          {{ $t('nav.links') }}
         </TabsTrigger>
         <TabsTrigger value="/dashboard/analysis">
-          Analysis
+          {{ $t('nav.analysis') }}
         </TabsTrigger>
       </TabsList>
     </Tabs>

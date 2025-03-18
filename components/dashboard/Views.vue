@@ -62,7 +62,7 @@ function formatTime(tick) {
 <template>
   <Card class="px-0 py-6 md:px-6">
     <CardTitle class="px-6 md:px-0">
-      Views
+      {{ $t('dashboard.views') }}
     </CardTitle>
     <component
       :is="chart"
