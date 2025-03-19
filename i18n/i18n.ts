@@ -8,6 +8,13 @@ const locales: LocaleObject[] = [
     emoji: '🇨🇳',
   },
   {
+    code: 'zh-TW',
+    file: 'zh-TW.json',
+    name: '繁體中文',
+    emoji: '🇹🇼', 
+  },
+  
+  {
     code: 'en-US',
     file: 'en-US.json',
     name: 'English',
