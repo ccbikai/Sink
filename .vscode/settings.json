@@ -46,5 +46,22 @@
     "scss",
     "pcss",
     "postcss"
-  ]
+  ],
+  "i18n-ally.dirStructure": "auto",
+  "i18n-ally.localesPaths": [
+    "i18n/locales"
+  ],
+  "i18n-ally.extract.keygenStyle": "camelCase",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.enabledParsers": [
+    "json"
+  ],
+  "i18n-ally.namespace": true,
+  "i18n-ally.sortKeys": true,
+  "i18n-ally.sourceLanguage": "en-US",
+  "i18n-ally.displayLanguage": "en-US",
+  "i18n-ally.parsers.typescript.compilerOptions": {
+    "moduleResolution": "node"
+  },
+  "i18n-ally.enabledFrameworks": ["vue"]
 }

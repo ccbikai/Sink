@@ -13,8 +13,8 @@ const props = defineProps({
 })
 
 const id = inject('id')
-const startAt = inject('startAt')
-const endAt = inject('endAt')
+const time = inject('time')
+const filters = inject('filters')
 
 const total = ref(0)
 const metrics = ref([])
@@ -28,8 +28,9 @@ async function getLinkMetrics() {
     query: {
       type: props.type,
       id: id.value,
-      startAt: startAt.value,
-      endAt: endAt.value,
+      startAt: time.value.startAt,
+      endAt: time.value.endAt,
+      ...filters.value,
     },
   })
   if (Array.isArray(data)) {
@@ -44,14 +45,16 @@ async function getLinkMetrics() {
   }
 }
 
-const stopWatchTime = watch([startAt, endAt], getLinkMetrics)
+const stopWatchQueryChange = watch([time, filters], getLinkMetrics, {
+  deep: true,
+})
 
 onMounted(() => {
   getLinkMetrics()
 })
 
 onBeforeUnmount(() => {
-  stopWatchTime()
+  stopWatchQueryChange()
 })
 </script>
 
@@ -72,9 +75,8 @@ onBeforeUnmount(() => {
             <Button
               variant="link"
             >
-              <Maximize
-                class="w-4 h-4 mr-2"
-              /> DETAILS
+              <Maximize class="w-4 h-4 mr-2" />
+              {{ $t('dashboard.details') }}
             </Button>
           </DialogTrigger>
           <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-screen-md grid-rows-[auto_minmax(0,1fr)_auto]">
@@ -91,7 +93,7 @@ onBeforeUnmount(() => {
       </CardFooter>
     </template>
     <template v-else>
-      <div class="flex items-center justify-between h-12 px-4">
+      <div class="flex justify-between items-center px-4 h-12">
         <Skeleton
           class="w-32 h-4 rounded-full"
         />

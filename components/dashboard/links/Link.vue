@@ -13,6 +13,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:link'])
 
+const { t } = useI18n()
 const editPopoverOpen = ref(false)
 
 const { host, origin } = location
@@ -30,6 +31,11 @@ const { copy, copied } = useClipboard({ source: shortLink.value, copiedDuring: 4
 function updateLink(link, type) {
   emit('update:link', link, type)
   editPopoverOpen.value = false
+}
+
+function copyLink() {
+  copy(shortLink.value)
+  toast(t('links.copy_success'))
 }
 </script>
 
@@ -69,7 +75,7 @@ function updateLink(link, type) {
             <Copy
               v-else
               class="w-4 h-4 ml-1 shrink-0"
-              @click.prevent="copy(shortLink);toast('Copy successful!')"
+              @click.prevent="copyLink"
             />
           </div>
 
@@ -134,7 +140,7 @@ function updateLink(link, type) {
                 <SquarePen
                   class="w-5 h-5 mr-2"
                 />
-                Edit
+                {{ $t('common.edit') }}
               </div>
             </DashboardLinksEditor>
 
@@ -149,7 +155,7 @@ function updateLink(link, type) {
               >
                 <Eraser
                   class="w-5 h-5 mr-2"
-                /> Delete
+                /> {{ $t('common.delete') }}
               </div>
             </DashboardLinksDelete>
           </PopoverContent>

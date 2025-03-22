@@ -1,0 +1,169 @@
+{
+  "common": {
+    "i18n": "多语言",
+    "abbreviations": "简",
+    "current_language": "简体中文",
+    "try_again": "重试",
+    "cancel": "取消",
+    "continue": "继续",
+    "close": "关闭",
+    "save": "保存",
+    "edit": "编辑",
+    "delete": "删除",
+    "delete_success": "删除成功！",
+    "search": "搜索"
+  },
+  "theme": {
+    "toggle": "切换主题",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统"
+  },
+  "login": {
+    "title": "登录",
+    "description": "请输入站点令牌以登录",
+    "tips": "提示",
+    "preview_token": "预览模式的站点令牌是",
+    "submit": "登录",
+    "failed": "登录失败，请重试"
+  },
+  "logout": {
+    "title": "退出登录？",
+    "confirm": "确定要退出登录吗？",
+    "action": "退出登录"
+  },
+  "layouts": {
+    "footer": {
+      "copyright": "产品来自 HTML.ZONE",
+      "social": {
+        "email": "邮箱",
+        "telegram": "Telegram",
+        "blog": "博客",
+        "twitter": "Twitter",
+        "mastodon": "Mastodon",
+        "github": "GitHub"
+      }
+    },
+    "header": {
+      "select_language": "选择语言"
+    }
+  },
+  "nav": {
+    "links": "链接",
+    "analysis": "分析"
+  },
+  "home": {
+    "features": {
+      "title": "功能特点",
+      "subtitle": "简单而实用的功能",
+      "url_shortening": {
+        "title": "URL 缩短",
+        "description": "将您的 URL 压缩到最小长度"
+      },
+      "analytics": {
+        "title": "数据分析",
+        "description": "监控链接分析并收集有价值的统计数据"
+      },
+      "serverless": {
+        "title": "无服务器",
+        "description": "无需传统服务器即可部署"
+      },
+      "customizable_slug": {
+        "title": "自定义短链",
+        "description": "支持个性化短链和大小写敏感"
+      },
+      "ai_slug": {
+        "title": "AI 短链",
+        "description": "利用 AI 生成短链"
+      },
+      "link_expiration": {
+        "title": "链接过期",
+        "description": "为您的链接设置过期日期"
+      }
+    },
+    "cta": {
+      "title": "立即部署",
+      "description": "只需几个简单的点击，您就可以免费开始部署",
+      "button": "开始部署"
+    },
+    "logos": {
+      "title": "使用优秀的技术构建"
+    },
+    "twitter": {
+      "follow": "在 X(Twitter) 上关注我"
+    }
+  },
+  "dashboard": {
+    "title": "仪表盘",
+    "visits": "访问量",
+    "views": "浏览量",
+    "visitors": "访客数",
+    "referers": "引荐来源",
+    "stats": "的统计",
+    "custom_date": "自定义日期",
+    "date": "日期",
+    "date_range": "日期范围",
+    "locations": "地理位置",
+    "details": "详情",
+    "name": "名称",
+    "count": "数量",
+    "loading": "加载中",
+    "no_data": "暂无数据",
+    "none": "（无）",
+    "filter_placeholder": "过滤链接...",
+    "date_picker": {
+      "today": "今天",
+      "last_24h": "最近24小时",
+      "this_week": "本周",
+      "last_7d": "最近7天",
+      "this_month": "本月",
+      "last_30d": "最近30天",
+      "last_90d": "最近90天",
+      "custom": "自定义",
+      "custom_title": "自定义日期",
+      "single_date": "单个日期",
+      "date_range": "日期范围"
+    },
+    "metrics": {
+      "country": "国家",
+      "region": "地区",
+      "city": "城市",
+      "referer": "来源",
+      "slug": "短链",
+      "language": "语言",
+      "timezone": "时区",
+      "device": "设备",
+      "deviceType": "设备类型",
+      "os": "操作系统",
+      "browser": "浏览器",
+      "browserType": "浏览器类型"
+    }
+  },
+  "links": {
+    "create": "创建链接",
+    "edit": "编辑链接",
+    "delete_confirm_title": "确定要删除吗？",
+    "delete_confirm_desc": "此操作无法撤销。这将从服务器中永久删除您的链接。",
+    "delete_success": "删除成功！",
+    "update_success": "链接更新成功",
+    "create_success": "链接创建成功",
+    "preview_mode_tip": "预览模式下的链接最多有效5分钟。",
+    "search_placeholder": "搜索链接...",
+    "no_results": "未找到链接。",
+    "group_title": "链接列表",
+    "copy_success": "复制成功！",
+    "created_at": "创建时间",
+    "updated_at": "更新时间",
+    "expires_at": "过期时间",
+    "no_more": "没有更多链接",
+    "load_failed": "加载链接失败,",
+    "download_qr_code": "下载二维码",
+    "sort": {
+      "newest": "最新",
+      "oldest": "最旧",
+      "az": "短链(A-Z)",
+      "za": "短链(Z-A)",
+      "tip": "体验功能: 仅对已经加载的链接有效"
+    }
+  }
+}

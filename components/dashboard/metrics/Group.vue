@@ -1,44 +1,39 @@
 <script setup>
-import pluralize from 'pluralize'
-
 defineProps({
   tabs: {
     type: Array,
     required: true,
   },
+  rawTabs: {
+    type: Array,
+    required: true,
+  },
 })
-
-function type2name(type) {
-  if (['os'].includes(type))
-    return type.toUpperCase()
-
-  return pluralize(type.replace(type[0], type[0].toUpperCase()))
-}
 </script>
 
 <template>
   <Tabs
-    :default-value="tabs[0]"
+    :default-value="rawTabs[0]"
     class="flex flex-col"
   >
     <TabsList class="w-fit">
       <TabsTrigger
-        v-for="tab in tabs"
+        v-for="(tab, index) in tabs"
         :key="tab"
-        :value="tab"
+        :value="rawTabs[index]"
       >
-        {{ type2name(tab) }}
+        {{ tab }}
       </TabsTrigger>
     </TabsList>
     <TabsContent
-      v-for="tab in tabs"
+      v-for="(tab, index) in tabs"
       :key="tab"
-      :value="tab"
+      :value="rawTabs[index]"
       class="flex-1"
     >
       <DashboardMetricsMetric
-        :type="tab"
-        :name="type2name(tab)"
+        :type="rawTabs[index]"
+        :name="tab"
         class="h-full"
       />
     </TabsContent>
