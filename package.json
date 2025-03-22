@@ -1,7 +1,7 @@
 {
   "name": "sink",
   "type": "module",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "private": true,
   "packageManager": "pnpm@9.15.1",
   "engines": {
@@ -34,7 +34,7 @@
     "pluralize": "^8.0.0",
     "qr-code-styling": "1.6.0-rc.1",
     "radix-vue": "^1.9.11",
-    "ua-parser-js": "next",
+    "ua-parser-js": "^2.0.3",
     "vaul-vue": "^0.3.0",
     "vee-validate": "^4.15.0",
     "virtua": "^0.39.2",
@@ -48,6 +48,7 @@
     "@nuxt/eslint-config": "^0.7.4",
     "@nuxthub/core": "0.7.11",
     "@nuxtjs/color-mode": "^3.5.2",
+    "@nuxtjs/i18n": "^9.0.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@vueuse/integrations": "^12.2.0",
     "class-variance-authority": "^0.7.1",
