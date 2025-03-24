@@ -1,4 +1,4 @@
-import type { LinkSchema } from '@/schemas/link'
+import type { LinkSchema } from '@@/schemas/link'
 import type { z } from 'zod'
 import { parsePath, withQuery } from 'ufo'
 
