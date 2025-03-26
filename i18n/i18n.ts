@@ -13,6 +13,12 @@ const locales: LocaleObject[] = [
     name: 'English',
     emoji: '🇺🇸',
   },
+  {
+    code: 'fr-FR',
+    file: 'fr-FR.json',
+    name: 'Français',
+    emoji: '🇫🇷',
+  },
 ]
 
 function buildLocales() {
