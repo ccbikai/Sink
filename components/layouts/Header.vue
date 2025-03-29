@@ -75,9 +75,7 @@ const { title, github } = useAppConfig()
                 />
                 GitHub</a>
 
-              <SwitchLanguage />
-
-              <SwitchTheme />
+              <DashboardSettings />
             </div>
           </div>
         </div>
