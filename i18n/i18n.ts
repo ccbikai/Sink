@@ -13,6 +13,12 @@ const locales: LocaleObject[] = [
     name: 'English',
     emoji: '🇺🇸',
   },
+  {
+    code: 'vi-VN',
+    file: 'vi-VN.json',
+    name: 'Tiếng Việt',
+    emoji: '🇻🇳',
+  }
 ]
 
 function buildLocales() {
