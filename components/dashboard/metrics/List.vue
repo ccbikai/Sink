@@ -21,16 +21,16 @@ defineProps({
       <div
         class="h-12 px-4 font-medium text-left align-middle text-muted-foreground "
       >
-        Name
+        {{ $t('dashboard.name') }}
       </div>
       <div
         class="h-12 px-4 font-medium text-right align-middle text-muted-foreground"
       >
-        Count
+        {{ $t('dashboard.count') }}
       </div>
     </div>
     <VList
-      v-slot="metric"
+      v-slot="{ item: metric }"
       :data="metrics"
       :style="{ height: '342px' }"
     >

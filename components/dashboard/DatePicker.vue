@@ -1,10 +1,11 @@
 <script setup>
 import { now, startOfMonth, startOfWeek } from '@internationalized/date'
+import { useUrlSearchParams } from '@vueuse/core'
+import { safeDestr } from 'destr'
 
 const emit = defineEmits(['update:dateRange'])
 
-const startAt = inject('startAt')
-const endAt = inject('endAt')
+const time = inject('time')
 
 const dateRange = ref('last-7d')
 const openCustomDateRange = ref(false)
@@ -62,6 +63,28 @@ watch(dateRange, (newValue) => {
       break
   }
 })
+
+function restoreDateRange() {
+  try {
+    const searchParams = useUrlSearchParams('history')
+    if (searchParams.time) {
+      const time = safeDestr(searchParams.time)
+      emit('update:dateRange', [time.startAt, time.endAt])
+      dateRange.value = 'custom'
+      nextTick(() => {
+        openCustomDateRange.value = false
+        customDateRange.value = undefined
+      })
+    }
+  }
+  catch (error) {
+    console.error('restore searchParams error', error)
+  }
+}
+
+onBeforeMount(() => {
+  restoreDateRange()
+})
 </script>
 
 <template>
@@ -69,37 +92,37 @@ watch(dateRange, (newValue) => {
     <SelectTrigger>
       <SelectValue v-if="dateRange" />
       <div v-else>
-        {{ shortDate(startAt) }} - {{ shortDate(endAt) }}
+        {{ shortDate(time.startAt) }} - {{ shortDate(time.endAt) }}
       </div>
     </SelectTrigger>
     <SelectContent>
       <SelectItem value="today">
-        Today
+        {{ $t('dashboard.date_picker.today') }}
       </SelectItem>
       <SelectItem value="last-24h">
-        Last 24 hours
+        {{ $t('dashboard.date_picker.last_24h') }}
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="this-week">
-        This week
+        {{ $t('dashboard.date_picker.this_week') }}
       </SelectItem>
       <SelectItem value="last-7d">
-        Last 7 days
+        {{ $t('dashboard.date_picker.last_7d') }}
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="this-month">
-        This month
+        {{ $t('dashboard.date_picker.this_month') }}
       </SelectItem>
       <SelectItem value="last-30d">
-        Last 30 days
+        {{ $t('dashboard.date_picker.last_30d') }}
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="last-90d">
-        Last 90 days
+        {{ $t('dashboard.date_picker.last_90d') }}
       </SelectItem>
       <SelectSeparator />
       <SelectItem value="custom">
-        Custom
+        {{ $t('dashboard.date_picker.custom') }}
       </SelectItem>
     </SelectContent>
   </Select>
@@ -107,7 +130,7 @@ watch(dateRange, (newValue) => {
   <Dialog v-model:open="openCustomDateRange">
     <DialogContent class="w-auto max-w-[95svw] max-h-[95svh] md:max-w-screen-md grid-rows-[auto_minmax(0,1fr)_auto]">
       <DialogHeader>
-        <DialogTitle>Custom Date</DialogTitle>
+        <DialogTitle>{{ $t('dashboard.date_picker.custom_title') }}</DialogTitle>
       </DialogHeader>
       <Tabs
         default-value="range"
@@ -115,10 +138,10 @@ watch(dateRange, (newValue) => {
         <div class="flex justify-center">
           <TabsList>
             <TabsTrigger value="date">
-              Date
+              {{ $t('dashboard.date_picker.single_date') }}
             </TabsTrigger>
             <TabsTrigger value="range">
-              Date Range
+              {{ $t('dashboard.date_picker.date_range') }}
             </TabsTrigger>
           </TabsList>
         </div>

@@ -1,28 +1,60 @@
 <script setup>
-import { Loader } from 'lucide-vue-next'
 import { useInfiniteScroll } from '@vueuse/core'
+import { Loader } from 'lucide-vue-next'
 
 const links = ref([])
 const limit = 24
 let cursor = ''
 let listComplete = false
+let listError = false
+
+const sortBy = ref('az')
+
+const displayedLinks = computed(() => {
+  const sorted = [...links.value]
+  switch (sortBy.value) {
+    case 'newest':
+      return sorted.sort((a, b) => b.createdAt - a.createdAt)
+    case 'oldest':
+      return sorted.sort((a, b) => a.createdAt - b.createdAt)
+    case 'az':
+      return sorted.sort((a, b) => a.slug.localeCompare(b.slug))
+    case 'za':
+      return sorted.sort((a, b) => b.slug.localeCompare(a.slug))
+    default:
+      return sorted
+  }
+})
 
 async function getLinks() {
-  const data = await useAPI('/api/link/list', {
-    query: {
-      limit,
-      cursor,
-    },
-  })
-  links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
-  cursor = data.cursor
-  listComplete = data.list_complete
+  try {
+    const data = await useAPI('/api/link/list', {
+      query: {
+        limit,
+        cursor,
+      },
+    })
+    links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
+    cursor = data.cursor
+    listComplete = data.list_complete
+    listError = false
+  }
+  catch (error) {
+    console.error(error)
+    listError = true
+  }
 }
 
 const { isLoading } = useInfiniteScroll(
   document,
   getLinks,
-  { distance: 150, interval: 1000, canLoadMore: () => !listComplete },
+  {
+    distance: 150,
+    interval: 1000,
+    canLoadMore: () => {
+      return !listError && !listComplete
+    },
+  },
 )
 
 function updateLinkList(link, type) {
@@ -36,6 +68,7 @@ function updateLinkList(link, type) {
   }
   else {
     links.value.unshift(link)
+    sortBy.value = 'newest'
   }
 }
 </script>
@@ -44,13 +77,16 @@ function updateLinkList(link, type) {
   <main class="space-y-6">
     <div class="flex flex-col gap-6 sm:gap-2 sm:flex-row sm:justify-between">
       <DashboardNav class="flex-1">
-        <DashboardLinksEditor @update:link="updateLinkList" />
+        <div class="flex items-center gap-2">
+          <DashboardLinksEditor @update:link="updateLinkList" />
+          <DashboardLinksSort v-model:sort-by="sortBy" />
+        </div>
       </DashboardNav>
       <LazyDashboardLinksSearch />
     </div>
     <section class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       <DashboardLinksLink
-        v-for="link in links"
+        v-for="link in displayedLinks"
         :key="link.id"
         :link="link"
         @update:link="updateLinkList"
@@ -66,7 +102,16 @@ function updateLinkList(link, type) {
       v-if="!isLoading && listComplete"
       class="flex items-center justify-center text-sm"
     >
-      No more
+      {{ $t('links.no_more') }}
+    </div>
+    <div
+      v-if="listError"
+      class="flex items-center justify-center text-sm"
+    >
+      {{ $t('links.load_failed') }}
+      <Button variant="link" @click="getLinks">
+        {{ $t('common.try_again') }}
+      </Button>
     </div>
   </main>
 </template>

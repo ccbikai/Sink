@@ -1,7 +1,7 @@
 <script setup>
+import heroImg from '@/assets/images/hero.svg?raw'
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
-import heroImg from '@/assets/images/hero.svg?raw'
 
 const { title, description, github } = useAppConfig()
 </script>
@@ -30,7 +30,7 @@ const { title, description, github } = useAppConfig()
           <AreaChart
             class="w-5 h-5"
           />
-          Dashboard
+          {{ $t('dashboard.title') }}
         </HomeLink>
         <HomeLink
           size="lg"

@@ -1,5 +1,6 @@
 import type { H3Event } from 'h3'
-import { parseURL } from 'ufo'
+import { getFlag } from '@/utils/flag'
+import { parseAcceptLanguage } from 'intl-parse-accept-language'
 import { UAParser } from 'ua-parser-js'
 import {
   CLIs,
@@ -9,10 +10,9 @@ import {
   Fetchers,
   InApps,
   MediaPlayers,
-  Modules,
+  Vehicles,
 } from 'ua-parser-js/extensions'
-import { parseAcceptLanguage } from 'intl-parse-accept-language'
-import { getFlag } from '@/utils/flag'
+import { parseURL } from 'ufo'
 
 function toBlobNumber(blob: string) {
   return +blob.replace(/\D/g, '')
@@ -69,12 +69,22 @@ export function useAccessLog(event: H3Event) {
 
   const userAgent = getHeader(event, 'user-agent') || ''
   const uaInfo = (new UAParser(userAgent, {
-    browser: [Crawlers.browser || [], CLIs.browser || [], Emails.browser || [], Fetchers.browser || [], InApps.browser || [], MediaPlayers.browser || [], Modules.browser || []].flat(),
+    browser: [Crawlers.browser || [], CLIs.browser || [], Emails.browser || [], Fetchers.browser || [], InApps.browser || [], MediaPlayers.browser || [], Vehicles.browser || []].flat(),
     device: [ExtraDevices.device || []].flat(),
   })).getResult()
 
   const { request: { cf } } = event.context.cloudflare
   const link = event.context.link || {}
+
+  const isBot = cf?.botManagement?.verifiedBot
+    || ['crawler', 'fetcher'].includes(uaInfo?.browser?.type || '')
+    || ['spider', 'bot'].includes(uaInfo?.browser?.name?.toLowerCase() || '')
+
+  const { disableBotAccessLog } = useRuntimeConfig(event)
+  if (isBot && disableBotAccessLog) {
+    console.log('bot access log disabled:', userAgent)
+    return Promise.resolve()
+  }
 
   const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
   const countryName = regionNames.of(cf?.country || 'WD') // fallback to "Worldwide"

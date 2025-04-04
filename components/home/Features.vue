@@ -1,41 +1,36 @@
 <script setup>
 import { AreaChart, Hourglass, Link, Paintbrush, ServerOff, Sparkles } from 'lucide-vue-next'
 
-const features = ref([
+const { t } = useI18n()
+const features = computed(() => [
   {
-    title: 'URL Shortening',
-    description:
-          'Compress your URLs to their minimal length.',
+    title: t('home.features.url_shortening.title'),
+    description: t('home.features.url_shortening.description'),
     icon: Link,
   },
   {
-    title: 'Analytics',
-    description:
-          'Monitor link analytics and gather insightful statistics.',
+    title: t('home.features.analytics.title'),
+    description: t('home.features.analytics.description'),
     icon: AreaChart,
   },
   {
-    title: 'Serverless',
-    description:
-          'Deploy without the need for traditional servers.',
+    title: t('home.features.serverless.title'),
+    description: t('home.features.serverless.description'),
     icon: ServerOff,
   },
   {
-    title: 'Customizable Slug',
-    description:
-          'Support for personalized slugs and case sensitivity.',
+    title: t('home.features.customizable_slug.title'),
+    description: t('home.features.customizable_slug.description'),
     icon: Paintbrush,
   },
   {
-    title: 'AI Slug',
-    description:
-          'Leverage AI to generate slugs.',
+    title: t('home.features.ai_slug.title'),
+    description: t('home.features.ai_slug.description'),
     icon: Sparkles,
   },
   {
-    title: 'Link Expiration',
-    description:
-          'Set expiration dates for your links.',
+    title: t('home.features.link_expiration.title'),
+    description: t('home.features.link_expiration.description'),
     icon: Hourglass,
   },
 ])
@@ -45,10 +40,10 @@ const features = ref([
   <main class="pt-16 md:py-12">
     <div class="md:pb-12">
       <h2 class="text-4xl font-bold lg:text-5xl lg:tracking-tight">
-        Features
+        {{ $t('home.features.title') }}
       </h2>
       <p class="my-8 text-lg md:mb-0 text-slate-600">
-        Simple and sufficient functionality
+        {{ $t('home.features.subtitle') }}
       </p>
     </div>
 

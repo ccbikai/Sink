@@ -1,8 +1,8 @@
 <script setup>
-import { CalendarPlus2, Copy, CopyCheck, Eraser, Hourglass, Link as LinkIcon, QrCode, SquareChevronDown, SquarePen } from 'lucide-vue-next'
 import { useClipboard } from '@vueuse/core'
-import { toast } from 'vue-sonner'
+import { CalendarPlus2, Copy, CopyCheck, Eraser, Hourglass, Link as LinkIcon, QrCode, SquareChevronDown, SquarePen } from 'lucide-vue-next'
 import { parseURL } from 'ufo'
+import { toast } from 'vue-sonner'
 import QRCode from './QRCode.vue'
 
 const props = defineProps({
@@ -13,6 +13,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:link'])
 
+const { t } = useI18n()
 const editPopoverOpen = ref(false)
 
 const { host, origin } = location
@@ -23,13 +24,18 @@ function getLinkHost(url) {
 }
 
 const shortLink = computed(() => `${origin}/${props.link.slug}`)
-const linkIcon = computed(() => `https://unavatar.io/${getLinkHost(props.link.url)}?fallback=https://sink.cool/sink.png`)
+const linkIcon = computed(() => `https://unavatar.io/${getLinkHost(props.link.url)}?fallback=https://sink.cool/icon.png`)
 
 const { copy, copied } = useClipboard({ source: shortLink.value, copiedDuring: 400 })
 
 function updateLink(link, type) {
   emit('update:link', link, type)
   editPopoverOpen.value = false
+}
+
+function copyLink() {
+  copy(shortLink.value)
+  toast(t('links.copy_success'))
 }
 </script>
 
@@ -44,11 +50,13 @@ function updateLink(link, type) {
           <AvatarImage
             :src="linkIcon"
             alt="@radix-vue"
+            loading="lazy"
           />
           <AvatarFallback>
             <img
-              src="/sink.png"
+              src="/icon.png"
               alt="Sink"
+              loading="lazy"
             >
           </AvatarFallback>
         </Avatar>
@@ -67,7 +75,7 @@ function updateLink(link, type) {
             <Copy
               v-else
               class="w-4 h-4 ml-1 shrink-0"
-              @click.prevent="copy(shortLink);toast('Copy successful!')"
+              @click.prevent="copyLink"
             />
           </div>
 
@@ -132,7 +140,7 @@ function updateLink(link, type) {
                 <SquarePen
                   class="w-5 h-5 mr-2"
                 />
-                Edit
+                {{ $t('common.edit') }}
               </div>
             </DashboardLinksEditor>
 
@@ -147,7 +155,7 @@ function updateLink(link, type) {
               >
                 <Eraser
                   class="w-5 h-5 mr-2"
-                /> Delete
+                /> {{ $t('common.delete') }}
               </div>
             </DashboardLinksDelete>
           </PopoverContent>

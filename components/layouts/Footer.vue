@@ -29,7 +29,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
           title="Email"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">Email</span>
+          <span class="sr-only">{{ $t('layouts.footer.social.email') }}</span>
           <GmailIcon
             class="w-6 h-6"
           />
@@ -41,7 +41,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
           title="Telegram"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">Telegram</span>
+          <span class="sr-only">{{ $t('layouts.footer.social.telegram') }}</span>
           <TelegramIcon
             class="w-6 h-6"
           />
@@ -53,7 +53,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
           title="Blog"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">Blog</span>
+          <span class="sr-only">{{ $t('layouts.footer.social.blog') }}</span>
           <BloggerIcon
             class="w-6 h-6"
           />
@@ -66,7 +66,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
           title="Twitter"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">Twitter</span>
+          <span class="sr-only">{{ $t('layouts.footer.social.twitter') }}</span>
           <XIcon
             class="w-6 h-6"
           />
@@ -79,7 +79,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
           title="Mastodon"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">Mastodon</span>
+          <span class="sr-only">{{ $t('layouts.footer.social.mastodon') }}</span>
           <MastodonIcon
             class="w-6 h-6"
           />
@@ -92,7 +92,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
           title="GitHub"
           class="text-gray-400 hover:text-gray-500"
         >
-          <span class="sr-only">GitHub</span>
+          <span class="sr-only">{{ $t('layouts.footer.social.github') }}</span>
           <GitHubIcon
             class="w-6 h-6"
           />

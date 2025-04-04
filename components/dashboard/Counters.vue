@@ -1,4 +1,5 @@
 <script setup>
+import NumberFlow from '@number-flow/vue'
 import { Flame, MousePointerClick, Users } from 'lucide-vue-next'
 
 const defaultData = Object.freeze({
@@ -10,89 +11,67 @@ const defaultData = Object.freeze({
 const counters = ref(defaultData)
 
 const id = inject('id')
-const startAt = inject('startAt')
-const endAt = inject('endAt')
-
+const time = inject('time')
+const filters = inject('filters')
 async function getLinkCounters() {
   counters.value = defaultData
   const { data } = await useAPI('/api/stats/counters', {
     query: {
       id: id.value,
-      startAt: startAt.value,
-      endAt: endAt.value,
+      startAt: time.value.startAt,
+      endAt: time.value.endAt,
+      ...filters.value,
     },
   })
   counters.value = data?.[0]
 }
 
-const stopWatchTime = watch([startAt, endAt], getLinkCounters)
+const stopWatchQueryChange = watch([time, filters], getLinkCounters, {
+  deep: true,
+})
 
 onMounted(async () => {
   getLinkCounters()
 })
 
 onBeforeUnmount(() => {
-  stopWatchTime()
+  stopWatchQueryChange()
 })
 </script>
 
 <template>
   <div class="grid gap-4 sm:gap-3 lg:gap-4 sm:grid-cols-3">
     <Card>
-      <CardHeader class="flex flex-row items-center justify-between pb-2 space-y-0">
+      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle class="text-sm font-medium">
-          Visits
+          {{ $t('dashboard.visits') }}
         </CardTitle>
         <MousePointerClick class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div
-          class="text-2xl font-bold"
-          :class="{ 'blur-lg': !counters.visits }"
-        >
-          {{ formatNumber(counters.visits) }}
-        </div>
-        <!-- <p class="text-xs text-muted-foreground">
-          +90
-        </p> -->
+        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visits }" :value="counters.visits" />
       </CardContent>
     </Card>
     <Card>
-      <CardHeader class="flex flex-row items-center justify-between pb-2 space-y-0">
+      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle class="text-sm font-medium">
-          Visitors
+          {{ $t('dashboard.visitors') }}
         </CardTitle>
         <Users class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div
-          class="text-2xl font-bold"
-          :class="{ 'blur-lg': !counters.visitors }"
-        >
-          {{ formatNumber(counters.visitors) }}
-        </div>
-        <!-- <p class="text-xs text-muted-foreground">
-          +90
-        </p> -->
+        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visitors }" :value="counters.visitors" />
       </CardContent>
     </Card>
     <Card>
-      <CardHeader class="flex flex-row items-center justify-between pb-2 space-y-0">
+      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle class="text-sm font-medium">
-          Referers
+          {{ $t('dashboard.referers') }}
         </CardTitle>
         <Flame class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div
-          class="text-2xl font-bold"
-          :class="{ 'blur-lg': !counters.referers }"
-        >
-          {{ formatNumber(counters.referers) }}
-        </div>
-        <!-- <p class="text-xs text-muted-foreground">
-          -20
-        </p> -->
+        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.referers }" :value="counters.referers" />
       </CardContent>
     </Card>
   </div>

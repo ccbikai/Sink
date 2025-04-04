@@ -17,11 +17,13 @@ defineProps({
       <AvatarImage
         :src="`https://unavatar.io/${name}?fallback=false`"
         alt="@radix-vue"
+        loading="lazy"
       />
       <AvatarFallback>
         <img
-          src="/sink.png"
+          src="/icon.png"
           alt="Sink"
+          loading="lazy"
         >
       </AvatarFallback>
     </Avatar>
