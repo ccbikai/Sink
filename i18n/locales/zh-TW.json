@@ -7,23 +7,23 @@
       "cancel": "取消",
       "continue": "繼續",
       "close": "關閉",
-      "save": "保存",
+      "save": "儲存",
       "edit": "編輯",
       "delete": "刪除",
       "delete_success": "刪除成功！",
       "search": "搜尋"
     },
     "theme": {
-      "toggle": "切換主题",
+      "toggle": "切換主題",
       "light": "淺色",
       "dark": "深色",
       "system": "跟隨系統"
     },
     "login": {
       "title": "登入",
-      "description": "請輸入站點密碼以登入",
+      "description": "請輸入密碼以登入",
       "tips": "提示",
-      "preview_token": "預覽模式的站點密碼是",
+      "preview_token": "預覽模式的密碼是",
       "submit": "登入",
       "failed": "登入失敗，請重試"
     },
@@ -36,9 +36,9 @@
       "footer": {
         "copyright": "產品來自 HTML.ZONE",
         "social": {
-          "email": "郵箱",
+          "email": "電子郵件",
           "telegram": "Telegram",
-          "blog": "部落個",
+          "blog": "部落格",
           "twitter": "Twitter",
           "mastodon": "Mastodon",
           "github": "GitHub"
@@ -54,36 +54,36 @@
     },
     "home": {
       "features": {
-        "title": "功能特色",
+        "title": "特色",
         "subtitle": "簡單而實用的功能",
         "url_shortening": {
-          "title": "URL 縮短",
-          "description": "將您的 URL 壓縮到最小長度"
+          "title": "縮短網址",
+          "description": "將您的網址壓縮到最小長度"
         },
         "analytics": {
-          "title": "數據分析",
-          "description": "監控連結分析病收集有價值的統計數據"
+          "title": "資料分析",
+          "description": "監測連結分析，獲取深入的統計資訊。"
         },
         "serverless": {
-          "title": "免伺服器",
+          "title": "無伺服器服務",
           "description": "無需傳統伺服器即可部署"
         },
         "customizable_slug": {
-          "title": "自定義短連結",
+          "title": "自訂短網址",
           "description": "支持自訂連結和大小寫敏感"
         },
         "ai_slug": {
-          "title": "AI 短連結",
-          "description": "利用 AI 生成短連接"
+          "title": "AI 生成",
+          "description": "利用 AI 生成短網址"
         },
         "link_expiration": {
-          "title": "短連結過期",
-          "description": "為您的短連結設置過期日期"
+          "title": "有效期限",
+          "description": "為您的短網址設定過期日期"
         }
       },
       "cta": {
         "title": "立即部署",
-        "description": "只需幾個簡單的點擊，您就可以免費開始部署",
+        "description": "只需幾個簡單的步驟，就可以完成部署",
         "button": "開始部署"
       },
       "logos": {
@@ -94,13 +94,13 @@
       }
     },
     "dashboard": {
-      "title": "儀表板",
-      "visits": "訪問次數",
-      "views": "瀏覽次數",
+      "title": "Dashboard",
+      "visits": "點擊次數",
+      "views": "流量趨勢",
       "visitors": "訪客人數",
       "referers": "引薦來源",
       "stats": "的統計",
-      "custom_date": "自定義日期",
+      "custom_date": "自訂日期",
       "date": "日期",
       "date_range": "日期範圍",
       "locations": "地理位置",
@@ -108,20 +108,20 @@
       "name": "名稱",
       "count": "數量",
       "loading": "載入中",
-      "no_data": "暫無數據",
+      "no_data": "暫無資料",
       "none": "（無）",
       "filter_placeholder": "過濾連結...",
       "date_picker": {
         "today": "今天",
-        "last_24h": "最近24小時",
+        "last_24h": "最近 24 小時",
         "this_week": "本週",
-        "last_7d": "最近7天",
-        "this_month": "本月",
-        "last_30d": "最近30天",
-        "last_90d": "最近90天",
-        "custom": "自定義",
-        "custom_title": "自定義日期",
-        "single_date": "單個日期",
+        "last_7d": "最近 7 天",
+        "this_month": "這個月",
+        "last_30d": "最近 30 天",
+        "last_90d": "最近 90 天",
+        "custom": "自訂",
+        "custom_title": "自訂日期",
+        "single_date": "單一日期",
         "date_range": "日期範圍"
       },
       "metrics": {
@@ -129,21 +129,21 @@
         "region": "地區",
         "city": "城市",
         "referer": "來源",
-        "slug": "短連結",
+        "slug": "連結",
         "language": "語言",
         "timezone": "時區",
-        "device": "設備",
-        "deviceType": "設備類型",
-        "os": "操作系統",
+        "device": "裝置",
+        "deviceType": "裝置類型",
+        "os": "作業系統",
         "browser": "瀏覽器",
         "browserType": "瀏覽器類型"
       }
     },
     "links": {
-      "create": "創建連結",
+      "create": "建立連結",
       "edit": "編輯連結",
       "delete_confirm_title": "確定要刪除嗎？",
-      "delete_confirm_desc": "此操作無法撤銷。这將從伺服器中永久刪除您的連結。",
+      "delete_confirm_desc": "此操作無法復原，這將從伺服器中永久刪除您的連結。",
       "delete_success": "刪除成功！",
       "update_success": "連結更新成功",
       "create_success": "連結創建成功",
@@ -156,15 +156,14 @@
       "updated_at": "更新時間",
       "expires_at": "過期時間",
       "no_more": "沒有更多連結",
-      "load_failed": "加載連接失敗,",
-      "download_qr_code": "下載QR code",
+      "load_failed": "連結載入失敗,",
+      "download_qr_code": "下載 QR code",
       "sort": {
         "newest": "最新",
         "oldest": "最舊",
-        "az": "短連結(A-Z)",
-        "za": "短連結(Z-A)",
-        "tip": "體驗功能: 僅對已經加載的連結有效"
+        "az": "短網址(A-Z)",
+        "za": "短網址(Z-A)",
+        "tip": "實驗性功能: 僅對已經載入的連結有效"
       }
     }
   }
-  
