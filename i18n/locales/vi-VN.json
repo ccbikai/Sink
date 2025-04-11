@@ -1,0 +1,169 @@
+{
+  "common": {
+    "i18n": "Đa ngôn ngữ",
+    "abbreviations": "Vi",
+    "current_language": "Tiếng Việt",
+    "try_again": "Thử lại",
+    "cancel": "Hủy",
+    "continue": "Tiếp tục",
+    "close": "Đóng",
+    "save": "Lưu",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "delete_success": "Xóa thành công!",
+    "search": "Tìm kiếm"
+  },
+  "theme": {
+    "toggle": "Chuyển đổi giao diện",
+    "light": "Sáng",
+    "dark": "Tối",
+    "system": "Hệ thống"
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "description": "Nhập token của trang để đăng nhập",
+    "tips": "Mẹo",
+    "preview_token": "Token của chế độ xem trước là",
+    "submit": "Đăng nhập",
+    "failed": "Đăng nhập thất bại, vui lòng thử lại"
+  },
+  "logout": {
+    "title": "Đăng xuất?",
+    "confirm": "Bạn có chắc chắn muốn đăng xuất không?",
+    "action": "Đăng xuất"
+  },
+  "layouts": {
+    "footer": {
+      "copyright": "Sản phẩm của HTML.ZONE",
+      "social": {
+        "email": "Email",
+        "telegram": "Telegram",
+        "blog": "Blog",
+        "twitter": "Twitter",
+        "mastodon": "Mastodon",
+        "github": "GitHub"
+      }
+    },
+    "header": {
+      "select_language": "Chọn ngôn ngữ"
+    }
+  },
+  "nav": {
+    "links": "Liên kết",
+    "analysis": "Phân tích"
+  },
+  "home": {
+    "features": {
+      "title": "Tính năng",
+      "subtitle": "Đơn giản và đủ dùng",
+      "url_shortening": {
+        "title": "Rút gọn URL",
+        "description": "Rút gọn liên kết đến độ dài tối thiểu"
+      },
+      "analytics": {
+        "title": "Phân tích",
+        "description": "Theo dõi dữ liệu và thu thập thống kê hữu ích"
+      },
+      "serverless": {
+        "title": "Không máy chủ",
+        "description": "Triển khai mà không cần máy chủ truyền thống"
+      },
+      "customizable_slug": {
+        "title": "Slug tùy chỉnh",
+        "description": "Hỗ trợ slug cá nhân hóa và phân biệt chữ hoa/thường"
+      },
+      "ai_slug": {
+        "title": "Slug AI",
+        "description": "Tạo slug bằng trí tuệ nhân tạo"
+      },
+      "link_expiration": {
+        "title": "Hết hạn liên kết",
+        "description": "Đặt ngày hết hạn cho liên kết"
+      }
+    },
+    "cta": {
+      "title": "Triển khai ngay",
+      "description": "Chỉ với vài cú nhấp chuột, bạn có thể triển khai miễn phí",
+      "button": "Bắt đầu triển khai"
+    },
+    "logos": {
+      "title": "Xây dựng bằng những công nghệ tuyệt vời"
+    },
+    "twitter": {
+      "follow": "Theo dõi tôi trên X (Twitter)"
+    }
+  },
+  "dashboard": {
+    "title": "Bảng điều khiển",
+    "visits": "Lượt truy cập",
+    "views": "Lượt xem",
+    "visitors": "Khách truy cập",
+    "referers": "Nguồn giới thiệu",
+    "stats": "Thống kê của",
+    "custom_date": "Ngày tùy chỉnh",
+    "date": "Ngày",
+    "date_range": "Khoảng ngày",
+    "locations": "Vị trí",
+    "details": "Chi tiết",
+    "name": "Tên",
+    "count": "Số lượng",
+    "loading": "Đang tải",
+    "no_data": "Không có dữ liệu",
+    "none": "(Không có)",
+    "filter_placeholder": "Lọc liên kết...",
+    "date_picker": {
+      "today": "Hôm nay",
+      "last_24h": "24 giờ qua",
+      "this_week": "Tuần này",
+      "last_7d": "7 ngày qua",
+      "this_month": "Tháng này",
+      "last_30d": "30 ngày qua",
+      "last_90d": "90 ngày qua",
+      "custom": "Tùy chỉnh",
+      "custom_title": "Chọn ngày",
+      "single_date": "Ngày",
+      "date_range": "Khoảng ngày"
+    },
+    "metrics": {
+      "country": "Quốc gia",
+      "region": "Vùng",
+      "city": "Thành phố",
+      "referer": "Nguồn giới thiệu",
+      "slug": "Slug",
+      "language": "Ngôn ngữ",
+      "timezone": "Múi giờ",
+      "device": "Thiết bị",
+      "deviceType": "Loại thiết bị",
+      "os": "Hệ điều hành",
+      "browser": "Trình duyệt",
+      "browserType": "Loại trình duyệt"
+    }
+  },
+  "links": {
+    "create": "Tạo liên kết",
+    "edit": "Chỉnh sửa liên kết",
+    "delete_confirm_title": "Bạn có chắc chắn không?",
+    "delete_confirm_desc": "Hành động này không thể hoàn tác. Điều này sẽ xóa hoàn toàn liên kết khỏi máy chủ.",
+    "delete_success": "Xóa thành công!",
+    "update_success": "Cập nhật liên kết thành công",
+    "create_success": "Tạo liên kết thành công",
+    "preview_mode_tip": "Liên kết ở chế độ xem trước có hiệu lực trong 5 phút.",
+    "search_placeholder": "Tìm liên kết...",
+    "no_results": "Không tìm thấy liên kết nào.",
+    "group_title": "Liên kết",
+    "copy_success": "Sao chép thành công!",
+    "created_at": "Ngày tạo",
+    "updated_at": "Ngày cập nhật",
+    "expires_at": "Ngày hết hạn",
+    "no_more": "Không còn liên kết nào",
+    "load_failed": "Tải liên kết thất bại,",
+    "download_qr_code": "Tải mã QR",
+    "sort": {
+      "newest": "Mới nhất trước",
+      "oldest": "Cũ nhất trước",
+      "az": "Slug A-Z",
+      "za": "Slug Z-A",
+      "tip": "Trải nghiệm: Chỉ áp dụng với các liên kết đã tải"
+    }
+  }
+}
