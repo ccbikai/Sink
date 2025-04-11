@@ -1,5 +1,5 @@
 import type { H3Event } from 'h3'
-import { QuerySchema } from '@/schemas/query'
+import { QuerySchema } from '@@/schemas/query'
 
 const { select } = SqlBricks
 
