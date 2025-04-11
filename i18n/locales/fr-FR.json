@@ -1,0 +1,169 @@
+{
+  "common": {
+    "i18n": "Multi Langue",
+    "abbreviations": "Fr",
+    "current_language": "Français",
+    "try_again": "Réessayer",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "close": "Fermer",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "delete_success": "Suppression réussie !",
+    "search": "Rechercher"
+  },
+  "theme": {
+    "toggle": "Changer de thème",
+    "light": "Clair",
+    "dark": "Sombre",
+    "system": "Système"
+  },
+  "login": {
+    "title": "Connexion",
+    "description": "Entrez votre jeton pour vous connecter",
+    "tips": "Astuces",
+    "preview_token": "Le jeton du site pour le mode aperçu est",
+    "submit": "Connexion",
+    "failed": "Échec de la connexion, veuillez réessayer"
+  },
+  "logout": {
+    "title": "Déconnexion ?",
+    "confirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "action": "Déconnexion"
+  },
+  "layouts": {
+    "footer": {
+      "copyright": "Produits de HTML.ZONE",
+      "social": {
+        "email": "Email",
+        "telegram": "Telegram",
+        "blog": "Blog",
+        "twitter": "Twitter",
+        "mastodon": "Mastodon",
+        "github": "GitHub"
+      }
+    },
+    "header": {
+      "select_language": "Choisir la langue"
+    }
+  },
+  "nav": {
+    "links": "Liens",
+    "analysis": "Statistique"
+  },
+  "home": {
+    "features": {
+      "title": "Fonctionnalités",
+      "subtitle": "Fonctionnalité simple et adéquate",
+      "url_shortening": {
+        "title": "Raccourcissement d'URL",
+        "description": "Raccourcissez la taille de vos liens"
+      },
+      "analytics": {
+        "title": "Statistique",
+        "description": "Suivre l'analyse des liens et recueillir des statistiques pertinentes"
+      },
+      "serverless": {
+        "title": "Serverless",
+        "description": "Déployez sans avoir besoin de serveurs traditionnels"
+      },
+      "customizable_slug": {
+        "title": "Slug personnalisable",
+        "description": "Prise en charge des slugs personnalisés et de la sensibilité à la casse"
+      },
+      "ai_slug": {
+        "title": "Slug IA",
+        "description": "Utilisez l'IA pour créer des slugs"
+      },
+      "link_expiration": {
+        "title": "Expiration des liens",
+        "description": "Définissez des dates d'expiration pour vos liens"
+      }
+    },
+    "cta": {
+      "title": "Déploiement immédiat",
+      "description": "En quelques clics, vous pouvez commencer à déployer sans aucun frais",
+      "button": "Lancer le déploiement"
+    },
+    "logos": {
+      "title": "Construit avec de superbes technologies"
+    },
+    "twitter": {
+      "follow": "Suivez-moi sur X(Twitter)"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "visits": "Visites",
+    "views": "Vues",
+    "visitors": "Visiteurs",
+    "referers": "Referrers",
+    "stats": "Statistiques",
+    "custom_date": "Date personnalisée",
+    "date": "Date",
+    "date_range": "Intervalle de temps",
+    "locations": "Localisations",
+    "details": "Détails",
+    "name": "Nom",
+    "count": "Nombre",
+    "loading": "Chargement",
+    "no_data": "Aucune donnée",
+    "none": "(Aucun)",
+    "filter_placeholder": "Filtrer les liens...",
+    "date_picker": {
+      "today": "Aujourd'hui",
+      "last_24h": "Dernières 24 heures",
+      "this_week": "Cette semaine",
+      "last_7d": "7 derniers jours",
+      "this_month": "Ce mois-ci",
+      "last_30d": "30 derniers jours",
+      "last_90d": "90 derniers jours",
+      "custom": "Personnalisé",
+      "custom_title": "Date personnalisée",
+      "single_date": "Date",
+      "date_range": "Plage de dates"
+    },
+    "metrics": {
+      "country": "Pays",
+      "region": "Région",
+      "city": "Ville",
+      "referer": "Referrer",
+      "slug": "Slug",
+      "language": "Langue",
+      "timezone": "Fuseau horaire",
+      "device": "Appareil",
+      "deviceType": "Type d'appareil",
+      "os": "OS",
+      "browser": "Navigateur",
+      "browserType": "Type de navigateur"
+    }
+  },
+  "links": {
+    "create": "Créer un lien",
+    "edit": "Modifier le lien",
+    "delete_confirm_title": "Êtes-vous absolument sûr ?",
+    "delete_confirm_desc": "Cette action est irréversible. Cela supprimera votre lien des serveurs.",
+    "delete_success": "Suppression réussie !",
+    "update_success": "Lien mis à jour avec succès",
+    "create_success": "Lien créé avec succès",
+    "preview_mode_tip": "Le lien en mode aperçu est valide jusqu'à 5 minutes.",
+    "search_placeholder": "Rechercher des liens...",
+    "no_results": "Aucun lien trouvé.",
+    "group_title": "Liens",
+    "copy_success": "Copie réussie !",
+    "created_at": "Créé le",
+    "updated_at": "Mis à jour le",
+    "expires_at": "Expire le",
+    "no_more": "Plus de liens",
+    "load_failed": "Échec du chargement des liens,",
+    "download_qr_code": "Télécharger le code QR",
+    "sort": {
+      "newest": "Les plus récents",
+      "oldest": "Les plus anciens",
+      "az": "Slug A-Z",
+      "za": "Slug Z-A",
+      "tip": "Essai : uniquement pour les liens chargés"
+    }
+  }
+}
