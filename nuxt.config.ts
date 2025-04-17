@@ -39,7 +39,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': {
-      redirect: 'https://manekingidol.github.io',
+      prerender: true
     },
     '/dashboard/**': {
       ssr: false,
