@@ -34,6 +34,7 @@ export const blobsMap = {
   blob13: 'browserType',
   blob14: 'device',
   blob15: 'deviceType',
+  blob16: 'utm_source',
 } as const
 
 export type BlobsMap = typeof blobsMap
@@ -76,6 +77,9 @@ export function useAccessLog(event: H3Event) {
   const { request: { cf } } = event.context.cloudflare
   const link = event.context.link || {}
 
+  const fullUrl = new URL(getRequestURL(event))
+  const utmSource = fullUrl.searchParams.get('utm_source') || ''
+
   const isBot = cf?.botManagement?.verifiedBot
     || ['crawler', 'fetcher'].includes(uaInfo?.browser?.type || '')
     || ['spider', 'bot'].includes(uaInfo?.browser?.name?.toLowerCase() || '')
@@ -104,6 +108,7 @@ export function useAccessLog(event: H3Event) {
     browserType: uaInfo?.browser?.type,
     device: uaInfo?.device?.model,
     deviceType: uaInfo?.device?.type,
+    utm_source: utmSource,
   }
 
   if (process.env.NODE_ENV === 'production') {
