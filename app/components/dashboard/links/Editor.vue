@@ -1,6 +1,6 @@
 <script setup>
 import { DependencyType } from '@/components/ui/auto-form/interface'
-import { LinkSchema, nanoid } from '@/schemas/link'
+import { LinkSchema, nanoid } from '@@/schemas/link'
 import { toTypedSchema } from '@vee-validate/zod'
 import { Shuffle, Sparkles } from 'lucide-vue-next'
 import { useForm } from 'vee-validate'
