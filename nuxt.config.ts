@@ -49,6 +49,10 @@ export default defineNuxtConfig({
     },
   },
 
+  future: {
+    compatibilityVersion: 4,
+  },
+
   compatibilityDate: '2024-07-08',
 
   nitro: {
@@ -89,5 +93,17 @@ export default defineNuxtConfig({
     },
     baseUrl: '/',
     defaultLocale: 'en-US',
+  },
+
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './app/components/ui',
   },
 })

@@ -1,4 +1,4 @@
-import type { QuerySchema } from '@/schemas/query'
+import type { QuerySchema } from '@@/schemas/query'
 import type { SelectStatement } from 'sql-bricks'
 import type { z } from 'zod'
 
