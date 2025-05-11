@@ -165,7 +165,7 @@ function copyLink() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger as-child>
-              <span class="inline-flex items-center leading-5"><CalendarPlus2 class="w-4 h-4 mr-1" /> {{ shortDate(link.createdAt) }}</span>
+              <span class="inline-flex items-center leading-5 whitespace-nowrap"><CalendarPlus2 class="w-4 h-4 mr-1" /> {{ shortDate(link.createdAt) }}</span>
             </TooltipTrigger>
             <TooltipContent>
               <p>Created At: {{ longDate(link.createdAt) }}</p>
@@ -178,7 +178,7 @@ function copyLink() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger as-child>
-                <span class="inline-flex items-center leading-5"><Hourglass class="w-4 h-4 mr-1" /> {{ shortDate(link.expiration) }}</span>
+                <span class="inline-flex items-center leading-5 whitespace-nowrap"><Hourglass class="w-4 h-4 mr-1" /> {{ shortDate(link.expiration) }}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Expires At: {{ longDate(link.expiration) }}</p>
