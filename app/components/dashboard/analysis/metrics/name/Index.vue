@@ -10,19 +10,28 @@ defineProps({
   },
 })
 
+const locale = useI18n().locale
+
 function formatName(name, type) {
   if (!name || typeof Intl === 'undefined')
     return name
 
   try {
     if (type === 'country') {
-      const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+      const regionNames = new Intl.DisplayNames([locale.value], { type: 'region' })
       return `${getFlag(name)} ${regionNames.of(name)}`
     }
     if (type === 'language') {
-      const languageNames = new Intl.DisplayNames(['en'], { type: 'language' })
+      const languageNames = new Intl.DisplayNames([locale.value], { type: 'language' })
       return languageNames.of(name)
     }
+
+    // TODO: Add support for timezone
+    // if (type === 'timezone' && typeof Intl.TimeZone === 'function') {
+    //   const tz = new Intl.TimeZone(name)
+    //   return tz.getDisplayName(locale.value, { type: 'long' })
+    // }
+
     return name
   }
   catch (e) {
