@@ -60,7 +60,7 @@ function blobs2logs(blobs: string[]) {
 }
 
 export function useAccessLog(event: H3Event) {
-  const ip = getHeader(event, 'x-real-ip') || getRequestIP(event, { xForwardedFor: true })
+  const ip = getHeader(event, 'cf-connecting-ip') || getHeader(event, 'x-real-ip') || getRequestIP(event, { xForwardedFor: true })
 
   const { host: referer } = parseURL(getHeader(event, 'referer'))
 
