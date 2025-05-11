@@ -26,6 +26,7 @@
   />
 </a>
 
+[<img src="https://devin.ai/assets/deepwiki-badge.png" alt="DeepWiki" height="20"/>](https://deepwiki.com/ccbikai/Sink)
 ![Cloudflare](https://img.shields.io/badge/Cloudflare-F69652?style=flat&logo=cloudflare&logoColor=white)
 ![Nuxt](https://img.shields.io/badge/Nuxt-00DC82?style=flat&logo=nuxtdotjs&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
@@ -78,6 +79,8 @@ We welcome your contributions and PRs.
       - [Raycast-Sink](https://github.com/foru17/raycast-sink)
 - [x] Apple Shortcuts
       - [Sink Shortcuts](https://s.search1api.com/sink001)
+- [x] iOS App
+      - [Sink](https://apps.apple.com/app/id6745417598)
 - [ ] Enhanced Link Management (with Cloudflare D1)
 - [ ] Analytics Enhancements (Support for merging filter conditions)
 - [ ] Dashboard Performance Optimization (Infinite loading)
@@ -98,7 +101,7 @@ We welcome your contributions and PRs.
 
 5. Save and deploy the project.
 6. Cancel the deployment, then navigate to **Settings** -> **Bindings** -> **Add**:
-   - **KV Namespace**: Bind the variable name `KV` to a [KV namespace](https://developers.cloudflare.com/kv/) (create a new one under **Storage & Databases** -> **KV**). 
+   - **KV Namespace**: Bind the variable name `KV` to a [KV namespace](https://developers.cloudflare.com/kv/) (create a new one under **Storage & Databases** -> **KV**).
    - **Workers AI** (_Optional_): Bind the variable name `AI` to the Workers AI Catalog.
    - **Analytics Engine**:
      - In **Workers & Pages**, go to **Account details** on the right side, find `Analytics Engine`, and click `Set up` to enable the free version.
