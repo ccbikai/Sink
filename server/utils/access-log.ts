@@ -43,12 +43,12 @@ export type LogsMap = { [key in LogsKey]: string | undefined }
 
 export const logsMap: LogsMap = Object.entries(blobsMap).reduce((acc, [k, v]) => ({ ...acc, [v]: k }), {}) as LogsMap
 
-function logs2blobs(logs: LogsMap) {
+export function logs2blobs(logs: LogsMap) {
   // @ts-expect-error todo
   return Object.keys(blobsMap).sort((a, b) => toBlobNumber(a) - toBlobNumber(b)).map(key => logs[blobsMap[key]] || '')
 }
 
-function blobs2logs(blobs: string[]) {
+export function blobs2logs(blobs: string[]) {
   const logsList = Object.keys(blobsMap)
 
   // @ts-expect-error todo
@@ -56,7 +56,7 @@ function blobs2logs(blobs: string[]) {
     // @ts-expect-error todo
     logs[blobsMap[logsList[i]]] = blob
     return logs
-  }, {})
+  }, {}) as LogsMap
 }
 
 export function useAccessLog(event: H3Event) {
