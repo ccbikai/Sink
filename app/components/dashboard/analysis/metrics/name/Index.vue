@@ -36,15 +36,15 @@ function formatName(name, type) {
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger class="w-full text-left">
-        <DashboardMetricsNameReferer
+        <DashboardAnalysisMetricsNameReferer
           v-if="name && type === 'referer'"
           :name="name"
         />
-        <DashboardMetricsNameSlug
+        <DashboardAnalysisMetricsNameSlug
           v-else-if="name && type === 'slug'"
           :name="name"
         />
-        <DashboardMetricsNameIcon
+        <DashboardAnalysisMetricsNameIcon
           v-else-if="name && ['os', 'browser', 'browserType', 'device', 'deviceType'].includes(type)"
           :name="name"
           :type="type"

@@ -31,7 +31,7 @@ defineProps({
       :value="rawTabs[index]"
       class="flex-1"
     >
-      <DashboardMetricsMetric
+      <DashboardAnalysisMetricsMetric
         :type="rawTabs[index]"
         :name="tab"
         class="h-full"
