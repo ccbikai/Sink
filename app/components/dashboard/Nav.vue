@@ -18,6 +18,9 @@ const route = useRoute()
         <TabsTrigger value="/dashboard/analysis">
           {{ $t('nav.analysis') }}
         </TabsTrigger>
+        <!-- <TabsTrigger value="/dashboard/realtime">
+          {{ $t('nav.realtime') }}
+        </TabsTrigger> -->
       </TabsList>
     </Tabs>
     <slot name="left" />

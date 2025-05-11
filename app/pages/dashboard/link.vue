@@ -37,7 +37,7 @@ onMounted(() => {
       :link="link"
       @update:link="updateLink"
     />
-    <Dashboard
+    <DashboardAnalysis
       v-if="link.id"
       :link="link"
     />

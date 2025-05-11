@@ -10,19 +10,28 @@ defineProps({
   },
 })
 
+const locale = useI18n().locale
+
 function formatName(name, type) {
   if (!name || typeof Intl === 'undefined')
     return name
 
   try {
     if (type === 'country') {
-      const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
+      const regionNames = new Intl.DisplayNames([locale.value], { type: 'region' })
       return `${getFlag(name)} ${regionNames.of(name)}`
     }
     if (type === 'language') {
-      const languageNames = new Intl.DisplayNames(['en'], { type: 'language' })
+      const languageNames = new Intl.DisplayNames([locale.value], { type: 'language' })
       return languageNames.of(name)
     }
+
+    // TODO: Add support for timezone
+    // if (type === 'timezone' && typeof Intl.TimeZone === 'function') {
+    //   const tz = new Intl.TimeZone(name)
+    //   return tz.getDisplayName(locale.value, { type: 'long' })
+    // }
+
     return name
   }
   catch (e) {
@@ -36,15 +45,15 @@ function formatName(name, type) {
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger class="w-full text-left">
-        <DashboardMetricsNameReferer
+        <DashboardAnalysisMetricsNameReferer
           v-if="name && type === 'referer'"
           :name="name"
         />
-        <DashboardMetricsNameSlug
+        <DashboardAnalysisMetricsNameSlug
           v-else-if="name && type === 'slug'"
           :name="name"
         />
-        <DashboardMetricsNameIcon
+        <DashboardAnalysisMetricsNameIcon
           v-else-if="name && ['os', 'browser', 'browserType', 'device', 'deviceType'].includes(type)"
           :name="name"
           :type="type"
