@@ -1,4 +1,4 @@
-import { LinkSchema } from '@/schemas/link'
+import { LinkSchema } from '@@/schemas/link'
 
 export default eventHandler(async (event) => {
   const link = await readValidatedBody(event, LinkSchema.parse)
