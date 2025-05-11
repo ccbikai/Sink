@@ -7,5 +7,6 @@
       <!-- add filter -->
     </div>
     <DashboardRealtimeGlobe />
+    <!-- <DashboardRealtimeLogs /> -->
   </main>
 </template>

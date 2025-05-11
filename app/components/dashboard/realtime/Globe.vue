@@ -1,49 +1,74 @@
 <script setup>
+import { useElementSize } from '@vueuse/core'
 import { scaleSequentialSqrt } from 'd3-scale'
 import { interpolateYlOrRd } from 'd3-scale-chromatic'
 import Globe from 'globe.gl'
 import { debounce } from 'lodash-es'
+import { MeshPhongMaterial } from 'three'
+
+const props = defineProps({
+  minutes: {
+    type: Number,
+    default: 60,
+  },
+})
 
 const countries = ref({})
+const locations = ref([])
 
-async function getWorldMapJSON() {
+const el = useTemplateRef('globeEl')
+const { width } = useElementSize(el)
+const size = computed(() => ({
+  width: width.value,
+  height: width.value > 768 ? width.value * 0.6 : width.value,
+}))
+
+const globeEl = ref()
+const hexAltitude = ref(0.001)
+const highest = computed(() => {
+  return locations.value.reduce((acc, curr) => Math.max(acc, curr.count), 0) || 1
+})
+
+let globe = null
+
+async function getGlobeJSON() {
   const data = await $fetch('/countries.geojson')
   countries.value = data
 }
 
-const liveSessionLocations = computed(() => {
-  const map = new Map()
-  // data.forEach((item) => {
-  //   if (!item.country)
-  //     return
-  //   if (!map.has(item.country))
-  //     map.set(item.country, { lat: 37.75100, lon: -122.4194, count: 1 })
+async function getLiveLocations() {
+  const { data } = await useAPI('/api/logs/locations', {
+    query: {
+      startAt: Math.floor(Date.now() / 1000) - 60 * props.minutes,
+    },
+  })
+  locations.value = data?.map(e => ({
+    lat: e.latitude,
+    lng: e.longitude,
+    count: Math.max(1, +e.count / highest.value),
+  }))
+}
 
-  //   map.get(item.country).count += 1
-  // })
+function initGlobe() {
+  const normalized = 5 / props.minutes
+  const weightColor = scaleSequentialSqrt(interpolateYlOrRd).domain([0, highest.value * normalized * 15])
 
-  return Array.from(map.values())
-})
-
-const highest = computed(() => {
-  return liveSessionLocations.value.reduce((acc, curr) => Math.max(acc, curr.count), 0) || 1
-})
-
-const normalized = 5 / 5
-const weightColor = scaleSequentialSqrt(interpolateYlOrRd).domain([0, highest.value * normalized * 15])
-
-const globeEl = ref()
-const hexAltitude = ref(0.001)
-
-onMounted(async () => {
-  await getWorldMapJSON()
-  const globe = new Globe(globeEl.value)
+  globe = new Globe(globeEl.value)
+    .width(size.value.width)
+    .height(size.value.height)
+    // .globeOffset([width.value > 768 ? -100 : 0, width.value > 768 ? 0 : 100])
+    .atmosphereColor('rgba(170, 170, 200, 1)')
+    .globeMaterial(new MeshPhongMaterial({
+      color: 'hsl(220.9, 30.3%, 16%)',
+      transparent: false,
+      opacity: 1,
+    }))
     .backgroundColor('rgba(0,0,0,0)')
     .hexPolygonsData(countries.value.features)
     .hexPolygonResolution(3)
     .hexPolygonMargin(0.2)
     .hexBinResolution(3)
-    .hexBinPointsData(liveSessionLocations.value)
+    .hexBinPointsData(locations.value)
     .hexPolygonAltitude(() => hexAltitude.value)
     .hexBinMerge(true)
     .hexBinPointWeight('count')
@@ -51,12 +76,11 @@ onMounted(async () => {
     .hexTopColor(d => weightColor(d.sumWeight))
     .hexSideColor(d => weightColor(d.sumWeight))
     .onGlobeReady(() => {
-      globe.pointOfView({ lat: 20, lng: -36, altitude: 2 })
+      globe.pointOfView({ lat: 20, lng: -36, altitude: width.value > 768 ? 2 : 3 })
       globe.controls().autoRotate = true
       globe.controls().autoRotateSpeed = 0.2
     })
 
-  // 监听缩放，动态调整 hexAltitude
   globe.controls().addEventListener('end', debounce(() => {
     const distance = Math.round(globe.controls().getDistance())
     let nextAlt = 0.005
@@ -67,9 +91,27 @@ onMounted(async () => {
     if (nextAlt !== hexAltitude.value)
       hexAltitude.value = nextAlt
   }, 200))
+}
+
+function stopRotation() {
+  if (globe) {
+    globe.controls().autoRotate = false
+  }
+}
+
+watch(width, () => {
+  if (globe) {
+    globe.width(size.value.width)
+    globe.height(size.value.height)
+  }
+})
+
+onMounted(async () => {
+  await Promise.all([getGlobeJSON(), getLiveLocations()])
+  initGlobe()
 })
 </script>
 
 <template>
-  <div ref="globeEl" style="width: 100%; height: 600px;" />
+  <div ref="globeEl" @mousedown="stopRotation" />
 </template>

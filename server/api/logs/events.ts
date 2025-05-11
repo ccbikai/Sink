@@ -17,7 +17,7 @@ interface WAEEvents {
 
 function events2logs(events: WAEEvents[]) {
   return events.map((event) => {
-    const blobs = Array.from({ length: Object.keys(blobsMap).length }).fill(0).reduce((_, _c, i) => {
+    const blobs = Array.from({ length: Object.keys(blobsMap).length }).fill(0).reduce<string[]>((_, _c, i) => {
       _.push(event[`blob${i + 1}`])
       return _
     }, [])
@@ -25,7 +25,6 @@ function events2logs(events: WAEEvents[]) {
       ...blobs2logs(blobs),
       id: event.index1,
       timestamp: event.timestamp,
-      _sample_interval: event._sample_interval,
     }
   })
 }
