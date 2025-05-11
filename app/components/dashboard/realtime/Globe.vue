@@ -3,7 +3,6 @@ import { scaleSequentialSqrt } from 'd3-scale'
 import { interpolateYlOrRd } from 'd3-scale-chromatic'
 import Globe from 'globe.gl'
 import { debounce } from 'lodash-es'
-import data from './data.json'
 
 const countries = ref({})
 
@@ -14,14 +13,14 @@ async function getWorldMapJSON() {
 
 const liveSessionLocations = computed(() => {
   const map = new Map()
-  data.forEach((item) => {
-    if (!item.country)
-      return
-    if (!map.has(item.country))
-      map.set(item.country, { lat: 37.75100, lon: -122.4194, count: 1 })
+  // data.forEach((item) => {
+  //   if (!item.country)
+  //     return
+  //   if (!map.has(item.country))
+  //     map.set(item.country, { lat: 37.75100, lon: -122.4194, count: 1 })
 
-    map.get(item.country).count += 1
-  })
+  //   map.get(item.country).count += 1
+  // })
 
   return Array.from(map.values())
 })
