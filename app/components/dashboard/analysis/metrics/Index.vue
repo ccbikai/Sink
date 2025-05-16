@@ -20,28 +20,28 @@ const translatedTabs = computed(() => ({
 
 <template>
   <main class="grid gap-8 lg:grid-cols-12">
-    <LazyDashboardMetricsLocations class="col-span-1 lg:col-span-8" />
-    <DashboardMetricsGroup
+    <LazyDashboardAnalysisMetricsLocations class="col-span-1 lg:col-span-8" />
+    <DashboardAnalysisMetricsGroup
       class="lg:col-span-4"
       :tabs="translatedTabs.location"
       :raw-tabs="tabs.location"
     />
-    <DashboardMetricsGroup
+    <DashboardAnalysisMetricsGroup
       class="lg:col-span-6"
       :tabs="translatedTabs.referer"
       :raw-tabs="tabs.referer"
     />
-    <DashboardMetricsGroup
+    <DashboardAnalysisMetricsGroup
       class="lg:col-span-6"
       :tabs="translatedTabs.time"
       :raw-tabs="tabs.time"
     />
-    <DashboardMetricsGroup
+    <DashboardAnalysisMetricsGroup
       class="lg:col-span-6"
       :tabs="translatedTabs.device"
       :raw-tabs="tabs.device"
     />
-    <DashboardMetricsGroup
+    <DashboardAnalysisMetricsGroup
       class="lg:col-span-6"
       :tabs="translatedTabs.browser"
       :raw-tabs="tabs.browser"

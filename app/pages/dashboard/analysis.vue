@@ -5,6 +5,6 @@ provide('id', ref())
 <template>
   <main class="space-y-6">
     <DashboardBreadcrumb title="Analysis" />
-    <Dashboard />
+    <DashboardAnalysis />
   </main>
 </template>

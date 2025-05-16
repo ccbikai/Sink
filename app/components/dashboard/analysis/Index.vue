@@ -74,8 +74,8 @@ onBeforeMount(() => {
       </DashboardNav>
       <DashboardFilters v-if="!link" @change="changeFilter" />
     </div>
-    <DashboardCounters />
-    <DashboardViews />
-    <DashboardMetrics />
+    <DashboardAnalysisCounters />
+    <DashboardAnalysisViews />
+    <DashboardAnalysisMetrics />
   </main>
 </template>

@@ -61,7 +61,7 @@ onBeforeUnmount(() => {
 <template>
   <Card class="flex flex-col">
     <template v-if="metrics.length">
-      <DashboardMetricsList
+      <DashboardAnalysisMetricsList
         class="flex-1"
         :metrics="top6"
         :type="type"
@@ -83,7 +83,7 @@ onBeforeUnmount(() => {
             <DialogHeader>
               <DialogTitle>{{ name }}</DialogTitle>
             </DialogHeader>
-            <DashboardMetricsList
+            <DashboardAnalysisMetricsList
               class="overflow-y-auto"
               :metrics="metrics"
               :type="type"

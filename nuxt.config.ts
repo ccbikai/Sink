@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
   ],
+
   devtools: { enabled: true },
 
   colorMode: {
@@ -47,6 +48,10 @@ export default defineNuxtConfig({
     '/dashboard': {
       redirect: '/dashboard/links',
     },
+  },
+
+  future: {
+    compatibilityVersion: 4,
   },
 
   compatibilityDate: '2024-07-08',
@@ -89,5 +94,17 @@ export default defineNuxtConfig({
     },
     baseUrl: '/',
     defaultLocale: 'en-US',
+  },
+
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: '',
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: './app/components/ui',
   },
 })

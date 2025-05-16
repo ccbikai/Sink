@@ -39,7 +39,7 @@ defineProps({
           <div
             class="flex-1 leading-5 truncate font-mediums"
           >
-            <DashboardMetricsName
+            <DashboardAnalysisMetricsName
               :name="metric.name"
               :type="type"
             />

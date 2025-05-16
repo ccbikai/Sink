@@ -50,7 +50,8 @@
   },
   "nav": {
     "links": "Liên kết",
-    "analysis": "Phân tích"
+    "analysis": "Phân tích",
+    "realtime": "Thời gian thực"
   },
   "home": {
     "features": {
