@@ -34,6 +34,7 @@ export const blobsMap = {
   blob13: 'browserType',
   blob14: 'device',
   blob15: 'deviceType',
+  blob16: 'COLO',
 } as const
 
 export const doublesMap = {
@@ -140,6 +141,7 @@ export function useAccessLog(event: H3Event) {
     browserType: uaInfo?.browser?.type,
     device: uaInfo?.device?.model,
     deviceType: uaInfo?.device?.type,
+    COLO: cf?.colo,
 
     // For RealTime Globe
     latitude: Number(cf?.latitude || getHeader(event, 'cf-iplatitude') || 0),
