@@ -26,3 +26,4 @@ logs
 site
 cache
 public/world.json
+.env
