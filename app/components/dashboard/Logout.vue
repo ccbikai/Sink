@@ -1,8 +1,12 @@
 <script setup>
 import { LogOut } from 'lucide-vue-next'
+import { useAuth } from '@vueuse/firebase'
 
-function logOut() {
-  localStorage.removeItem('SinkSiteToken')
+const { $auth } = useNuxtApp()
+const { signOut } = useAuth($auth)
+
+async function logOut() {
+  await signOut()
   navigateTo('/dashboard/login')
 }
 </script>

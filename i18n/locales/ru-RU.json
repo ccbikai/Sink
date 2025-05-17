@@ -1,0 +1,56 @@
+{
+  "common": {
+    "i18n": "Мультиязычность",
+    "abbreviations": "Ру",
+    "current_language": "Русский",
+    "try_again": "Попробовать снова",
+    "cancel": "Отмена",
+    "continue": "Продолжить",
+    "close": "Закрыть",
+    "save": "Сохранить",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "delete_success": "Удаление успешно!",
+    "search": "Поиск"
+  },
+  "theme": {
+    "toggle": "Переключить тему",
+    "light": "Светлая",
+    "dark": "Темная",
+    "system": "Системная"
+  },
+  "login": {
+    "title": "Вход",
+    "description": "Войдите с помощью Google",
+    "google": "Войти через Google",
+    "loading": "Загрузка...",
+    "failed": "Ошибка входа, попробуйте снова",
+    "error": "Ошибка"
+  },
+  "logout": {
+    "title": "Выйти?",
+    "confirm": "Вы уверены, что хотите выйти?",
+    "action": "Выйти"
+  },
+  "layouts": {
+    "footer": {
+      "copyright": "Продукт HTML.ZONE",
+      "social": {
+        "email": "Email",
+        "telegram": "Telegram",
+        "blog": "Блог",
+        "twitter": "Twitter",
+        "mastodon": "Mastodon",
+        "github": "GitHub"
+      }
+    },
+    "header": {
+      "select_language": "Выбрать язык"
+    }
+  },
+  "nav": {
+    "links": "Ссылки",
+    "analysis": "Аналитика",
+    "realtime": "В реальном времени"
+  }
+} 

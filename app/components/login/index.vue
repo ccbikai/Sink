@@ -1,28 +1,27 @@
 <script setup>
-import { AlertCircle } from 'lucide-vue-next'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { useAuth } from '@vueuse/firebase'
 import { toast } from 'vue-sonner'
-import { z } from 'zod'
 
 const { t } = useI18n()
-
-const LoginSchema = z.object({
-  token: z.string().describe('SiteToken'),
-})
-const loginFieldConfig = {
-  token: {
-    inputProps: {
-      type: 'password',
-      placeholder: '********',
-    },
-  },
-}
+const { $auth } = useNuxtApp()
+const { isAuthenticated, user } = useAuth($auth)
+const isLoading = ref(false)
 
 const { previewMode } = useRuntimeConfig().public
 
-async function onSubmit(form) {
+async function signInWithGoogle() {
+  if (!$auth) {
+    toast.error(t('login.error'), {
+      description: 'Firebase is not initialized',
+    })
+    return
+  }
+
   try {
-    localStorage.setItem('SinkSiteToken', form.token)
-    await useAPI('/api/verify')
+    isLoading.value = true
+    const provider = new GoogleAuthProvider()
+    await signInWithPopup($auth, provider)
     navigateTo('/dashboard')
   }
   catch (e) {
@@ -30,6 +29,9 @@ async function onSubmit(form) {
     toast.error(t('login.failed'), {
       description: e.message,
     })
+  }
+  finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -45,23 +47,18 @@ async function onSubmit(form) {
       </CardDescription>
     </CardHeader>
     <CardContent class="grid gap-4">
-      <AutoForm
-        class="space-y-6"
-        :schema="LoginSchema"
-        :field-config="loginFieldConfig"
-        @submit="onSubmit"
+      <Button
+        class="w-full"
+        :disabled="isLoading"
+        @click="signInWithGoogle"
       >
-        <Alert v-if="previewMode">
-          <AlertCircle class="w-4 h-4" />
-          <AlertTitle>{{ $t('login.tips') }}</AlertTitle>
-          <AlertDescription>
-            {{ $t('login.preview_token') }} <code class="font-mono text-green-500">SinkCool</code> .
-          </AlertDescription>
-        </Alert>
-        <Button class="w-full">
-          {{ $t('login.submit') }}
-        </Button>
-      </AutoForm>
+        <img
+          src="/google.svg"
+          alt="Google"
+          class="w-5 h-5 mr-2"
+        >
+        {{ isLoading ? $t('login.loading') : $t('login.google') }}
+      </Button>
     </CardContent>
   </Card>
 </template>

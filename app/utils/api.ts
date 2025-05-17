@@ -1,14 +1,26 @@
 import { defu } from 'defu'
 import { toast } from 'vue-sonner'
+import { useAuth } from '@vueuse/firebase'
 
-export function useAPI(api: string, options?: object): Promise<unknown> {
+export async function useAPI(api: string, options?: object): Promise<unknown> {
+  const { $auth } = useNuxtApp()
+  if (!$auth) return Promise.reject(new Error('Firebase not initialized'))
+
+  const { user, isAuthenticated } = useAuth($auth)
+  if (!user || !isAuthenticated) return Promise.reject(new Error('Auth state not ready'))
+  if (!isAuthenticated.value || !user.value) {
+    return Promise.reject(new Error('Not authenticated'))
+  }
+
+  // Получаем настоящий ID Token
+  const idToken = await user.value.getIdToken()
+
   return $fetch(api, defu(options || {}, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('SinkSiteToken') || ''}`,
+      Authorization: `Bearer ${idToken}`,
     },
   })).catch((error) => {
     if (error?.status === 401) {
-      localStorage.removeItem('SinkSiteToken')
       navigateTo('/dashboard/login')
     }
     if (error?.data?.statusMessage) {
