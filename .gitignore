@@ -10,7 +10,7 @@ dist
 node_modules
 
 # Logs
-logs
+./logs
 *.log
 
 # Misc

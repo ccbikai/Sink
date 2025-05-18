@@ -33,17 +33,13 @@ async function getMapData() {
   }
 }
 
-const stopWatchQueryChange = watch([time, filters], getMapData, {
+watch([time, filters], getMapData, {
   deep: true,
 })
 
 onMounted(() => {
   getWorldMapJSON()
   getMapData()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 
 const valueFormatter = v => v

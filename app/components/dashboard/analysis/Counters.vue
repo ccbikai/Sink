@@ -26,16 +26,12 @@ async function getLinkCounters() {
   counters.value = data?.[0]
 }
 
-const stopWatchQueryChange = watch([time, filters], getLinkCounters, {
+watch([time, filters], getLinkCounters, {
   deep: true,
 })
 
 onMounted(async () => {
   getLinkCounters()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 </script>
 

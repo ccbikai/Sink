@@ -25,7 +25,7 @@ function template(d: any) {
     const omittedData = Object.entries(omit(d, [props.index])).map(([key, value]) => {
       const legendReference = props.items.find(i => i.name === key)
       return { ...legendReference, value }
-    })
+    }).filter(i => i.name)
     const TooltipComponent = props.customTooltip ?? ChartTooltip
     createApp(TooltipComponent, { title: d[props.index].toString(), data: omittedData }).mount(componentDiv)
     wm.set(d, componentDiv.innerHTML)

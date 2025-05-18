@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
+    '@vueuse/motion/nuxt',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
   ],
@@ -41,8 +42,10 @@ export default defineNuxtConfig({
   routeRules: {
     '/': {
       prerender: true,
+      ssr: false,
     },
     '/dashboard/**': {
+      prerender: true,
       ssr: false,
     },
     '/dashboard': {
