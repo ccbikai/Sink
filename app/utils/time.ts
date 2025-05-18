@@ -25,7 +25,14 @@ export function longDate(unix = 0) {
   return new Date(unix * 1000).toLocaleString()
 }
 
-export function date2unix(dateValue: DateValue | Date, type: string) {
+export function shortTime(unix = 0) {
+  const shortTime = new Intl.DateTimeFormat(undefined, {
+    timeStyle: 'short',
+  })
+  return shortTime.format(unix * 1000)
+}
+
+export function date2unix(dateValue: DateValue | Date, type?: string) {
   const date = dateValue instanceof Date ? dateValue : dateValue.toDate(getTimeZone())
   if (type === 'start')
     return Math.floor(date.setHours(0, 0, 0) / 1000)

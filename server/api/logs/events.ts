@@ -1,12 +1,13 @@
 import type { H3Event } from 'h3'
 import { QuerySchema } from '@@/schemas/query'
+import { date2unix } from '~/utils/time'
 
 const { select } = SqlBricks
 
 function query2sql(query: Query, event: H3Event): string {
   const filter = query2filter(query)
   const { dataset } = useRuntimeConfig(event)
-  const sql = select(`*`).from(dataset).where(filter)
+  const sql = select(`*`).from(dataset).where(filter).orderBy('timestamp DESC')
   appendTimeFilter(sql, query)
   return sql.toString()
 }
@@ -23,8 +24,8 @@ function events2logs(events: WAEEvents[]) {
     }, [])
     return {
       ...blobs2logs(blobs),
-      id: event.index1,
-      timestamp: event.timestamp,
+      id: crypto.randomUUID(),
+      timestamp: date2unix(new Date(`${event.timestamp}Z`)),
     }
   })
 }

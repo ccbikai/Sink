@@ -13,6 +13,9 @@ const props = defineProps({
   },
 })
 
+const time = inject('time')
+const filters = inject('filters')
+
 const countries = ref({})
 const locations = ref([])
 
@@ -39,7 +42,9 @@ async function getGlobeJSON() {
 async function getLiveLocations() {
   const { data } = await useAPI('/api/logs/locations', {
     query: {
-      startAt: Math.floor(Date.now() / 1000) - 60 * props.minutes,
+      startAt: time.value.startAt,
+      endAt: time.value.endAt,
+      ...filters.value,
     },
   })
   locations.value = data?.map(e => ({
@@ -59,7 +64,7 @@ function initGlobe() {
     // .globeOffset([width.value > 768 ? -100 : 0, width.value > 768 ? 0 : 100])
     .atmosphereColor('rgba(170, 170, 200, 1)')
     .globeMaterial(new MeshPhongMaterial({
-      color: 'hsl(220.9, 30.3%, 16%)',
+      color: 'rgb(228, 228, 231)',
       transparent: false,
       opacity: 1,
     }))
@@ -99,6 +104,10 @@ function stopRotation() {
   }
 }
 
+const stopWatchQueryChange = watch([time, filters], getLiveLocations, {
+  deep: true,
+})
+
 watch(width, () => {
   if (globe) {
     globe.width(size.value.width)
@@ -106,9 +115,19 @@ watch(width, () => {
   }
 })
 
+watch(locations, () => {
+  if (globe) {
+    globe.hexBinPointsData(locations.value)
+  }
+})
+
 onMounted(async () => {
   await Promise.all([getGlobeJSON(), getLiveLocations()])
   initGlobe()
+})
+
+onBeforeUnmount(() => {
+  stopWatchQueryChange()
 })
 </script>
 
