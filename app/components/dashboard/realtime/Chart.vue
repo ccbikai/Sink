@@ -20,16 +20,12 @@ async function getRealtimeStats() {
   stats.value = data?.[0] || {}
 }
 
-const stopWatchQueryChange = watch([time, filters], getRealtimeStats, {
+watch([time, filters], getRealtimeStats, {
   deep: true,
 })
 
 onMounted(async () => {
   getRealtimeStats()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 </script>
 

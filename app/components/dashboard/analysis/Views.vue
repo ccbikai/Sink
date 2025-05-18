@@ -51,16 +51,12 @@ async function getLinkViews() {
   })
 }
 
-const stopWatchQueryChange = watch([time, filters], getLinkViews, {
+watch([time, filters], getLinkViews, {
   deep: true,
 })
 
 onMounted(async () => {
   getLinkViews()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 
 function formatTime(tick) {

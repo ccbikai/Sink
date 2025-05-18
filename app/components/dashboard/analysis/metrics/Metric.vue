@@ -45,16 +45,12 @@ async function getLinkMetrics() {
   }
 }
 
-const stopWatchQueryChange = watch([time, filters], getLinkMetrics, {
+watch([time, filters], getLinkMetrics, {
   deep: true,
 })
 
 onMounted(() => {
   getLinkMetrics()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 </script>
 

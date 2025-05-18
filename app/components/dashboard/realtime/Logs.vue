@@ -19,16 +19,12 @@ async function getEvents() {
   logskey.value = Date.now()
 }
 
-const stopWatchQueryChange = watch([time, filters], getEvents, {
+watch([time, filters], getEvents, {
   deep: true,
 })
 
 onMounted(async () => {
   getEvents()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 </script>
 
