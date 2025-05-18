@@ -27,8 +27,8 @@ onMounted(async () => {
   getEvents()
 })
 
-function onUpdateItems(items) {
-  globalTrafficEvent.emit(items)
+function onUpdateItems(...args) {
+  globalTrafficEvent.emit(...args)
 }
 </script>
 

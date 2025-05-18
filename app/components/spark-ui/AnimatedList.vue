@@ -22,7 +22,7 @@ const itemsToShow = computed(() => {
 })
 
 watch([itemsToShow], () => {
-  emit('update:items', itemsToShow.value.at(-1))
+  emit('update:items', itemsToShow.value.at(-1), props)
 })
 
 async function loadComponents() {

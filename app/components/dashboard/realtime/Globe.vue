@@ -66,7 +66,9 @@ async function getLiveLocations() {
   }))
 }
 
-function trafficEvent({ props }) {
+let cleanArcsDataTimer = null
+
+function trafficEvent({ props }, { delay = 0 }) {
   const arc = {
     startLat: props.item.latitude,
     startLng: props.item.longitude,
@@ -82,6 +84,11 @@ function trafficEvent({ props }) {
     .arcDashLength(() => random + 0.2)
     .arcDashGap(() => random - 0.2)
     .arcDashAnimateTime(2000)
+
+  clearTimeout(cleanArcsDataTimer)
+  cleanArcsDataTimer = setTimeout(() => {
+    globe.arcsData([])
+  }, delay + 100)
 }
 
 const normalized = 5 / props.minutes

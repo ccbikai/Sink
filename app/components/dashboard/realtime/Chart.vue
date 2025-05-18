@@ -32,7 +32,7 @@ onMounted(async () => {
 <template>
   <Card class="md:w-80 h-72 flex flex-col p-4 md:m-2">
     <div class="h-24">
-      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0 px-0 pt-2">
+      <CardHeader v-if="stats.visits" class="flex flex-row justify-between items-center pb-2 space-y-0 px-0 pt-2">
         <CardTitle class="text-sm font-medium flex items-center gap-2">
           <span class="size-1.5 inline-flex animate-ping rounded-full bg-green-400 opacity-75" />
           {{ $t('dashboard.visits') }}
