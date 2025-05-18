@@ -22,8 +22,13 @@ function events2logs(events: WAEEvents[]) {
       _.push(event[`blob${i + 1}`])
       return _
     }, [])
+    const doubles = Array.from({ length: Object.keys(doublesMap).length }).fill(0).reduce<number[]>((_, _c, i) => {
+      _.push(+event[`double${i + 1}`])
+      return _
+    }, [])
     return {
       ...blobs2logs(blobs),
+      ...doubles2logs(doubles),
       id: crypto.randomUUID(),
       timestamp: date2unix(new Date(`${event.timestamp}Z`)),
     }

@@ -26,10 +26,14 @@ watch([time, filters], getEvents, {
 onMounted(async () => {
   getEvents()
 })
+
+function onUpdateItems(items) {
+  globalTrafficEvent.emit(items)
+}
 </script>
 
 <template>
-  <AnimatedList v-if="logs.length" :key="logskey" class="md:w-72">
+  <AnimatedList v-if="logs.length" :key="logskey" class="md:w-72" @update:items="onUpdateItems">
     <template #default>
       <Notification
         v-for="item in logs"
@@ -38,6 +42,7 @@ onMounted(async () => {
         :description="[item.os, item.browser].filter(Boolean).join(' ')"
         :icon="getFlag(item.country)"
         :time="item.timestamp"
+        :item="item"
         class="w-full"
       />
     </template>

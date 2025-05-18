@@ -65,9 +65,6 @@ onBeforeMount(() => {
       <SelectValue />
     </SelectTrigger>
     <SelectContent>
-      <SelectItem value="today">
-        {{ $t('dashboard.time_picker.today') }}
-      </SelectItem>
       <SelectItem value="last-5m">
         {{ $t('dashboard.time_picker.last_5m') }}
       </SelectItem>
@@ -88,6 +85,10 @@ onBeforeMount(() => {
       </SelectItem>
       <SelectItem value="last-24h">
         {{ $t('dashboard.time_picker.last_24h') }}
+      </SelectItem>
+      <SelectSeparator />
+      <SelectItem value="today">
+        {{ $t('dashboard.time_picker.today') }}
       </SelectItem>
     </SelectContent>
   </Select>

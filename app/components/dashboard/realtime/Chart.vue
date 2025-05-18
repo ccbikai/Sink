@@ -30,7 +30,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Card class="md:w-80 h-72 flex flex-col p-4 m-2">
+  <Card class="md:w-80 h-72 flex flex-col p-4 md:m-2">
     <div class="h-24">
       <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0 px-0 pt-2">
         <CardTitle class="text-sm font-medium flex items-center gap-2">

@@ -9,6 +9,8 @@ const props = withDefaults(defineProps<{
   delay: 1000,
 })
 
+const emit = defineEmits(['update:items'])
+
 const slots = useSlots()
 const index = ref(0)
 const slotsArray = ref<any>([])
@@ -17,6 +19,10 @@ const maxShowItems = 100
 const itemsToShow = computed(() => {
   const start = index.value - maxShowItems < 0 ? 0 : index.value - maxShowItems
   return slotsArray.value.slice(start, index.value)
+})
+
+watch([itemsToShow], () => {
+  emit('update:items', itemsToShow.value.at(-1))
 })
 
 async function loadComponents() {

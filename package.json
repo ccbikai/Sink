@@ -11,6 +11,7 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "build:map": "node scripts/build-map.js",
+    "build:colo": "node scripts/build-colo.js",
     "preview": "wrangler pages dev dist",
     "deploy": "wrangler pages deploy dist",
     "postinstall": "npm run build:map && nuxt prepare",
