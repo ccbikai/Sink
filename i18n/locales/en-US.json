@@ -138,6 +138,16 @@
       "os": "OS",
       "browser": "Browser",
       "browserType": "Browser Type"
+    },
+    "time_picker": {
+      "today": "Today",
+      "last_5m": "Last 5 minutes",
+      "last_10m": "Last 10 minutes",
+      "last_30m": "Last 30 minutes",
+      "last_1h": "Last 1 hour",
+      "last_6h": "Last 6 hours",
+      "last_12h": "Last 12 hours",
+      "last_24h": "Last 24 hours"
     }
   },
   "links": {

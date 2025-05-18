@@ -60,13 +60,13 @@ export const logsMap = {
   ...Object.entries(doublesMap).reduce((acc, [k, v]) => ({ ...acc, [v]: k }), {}),
 } as LogsMap
 
-function logs2blobs(logs: LogsMap) {
+export function logs2blobs(logs: LogsMap) {
   return (Object.keys(blobsMap) as BlobsKey[])
     .sort((a, b) => toBlobNumber(a) - toBlobNumber(b))
     .map(key => String(logs[blobsMap[key] as LogsKey] || ''))
 }
 
-function blobs2logs(blobs: string[]) {
+export function blobs2logs(blobs: string[]) {
   const logsList = Object.keys(blobsMap)
 
   return blobs.reduce((logs, blob, i) => {
@@ -76,13 +76,13 @@ function blobs2logs(blobs: string[]) {
   }, {} as Partial<LogsMap>)
 }
 
-function logs2doubles(logs: LogsMap) {
+export function logs2doubles(logs: LogsMap) {
   return (Object.keys(doublesMap) as DoublesKey[])
     .sort((a, b) => toBlobNumber(a) - toBlobNumber(b))
     .map(key => Number(logs[doublesMap[key] as LogsKey] || 0))
 }
 
-function doubles2logs(doubles: number[]) {
+export function doubles2logs(doubles: number[]) {
   const logsList = Object.keys(doublesMap)
 
   return doubles.reduce((logs, double, i) => {

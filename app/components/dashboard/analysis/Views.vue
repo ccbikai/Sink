@@ -2,15 +2,30 @@
 import { AreaChart } from '@/components/ui/chart-area'
 import { BarChart } from '@/components/ui/chart-bar'
 
+const props = defineProps({
+  mode: {
+    type: String,
+    default: 'full',
+  },
+  chartType: {
+    type: String,
+    default: 'area',
+  },
+})
+
 const views = ref([])
-const chart = computed(() => views.value.length > 1 ? AreaChart : BarChart)
+const chart = computed(() => (props.chartType === 'area' && views.value.length > 1) ? AreaChart : BarChart)
 
 const id = inject('id')
 const time = inject('time')
 const filters = inject('filters')
 
+const OneHour = 60 * 60 // 1 hour in seconds
 const OneDay = 24 * 60 * 60 // 1 day in seconds
 function getUnit(startAt, endAt) {
+  if (startAt && endAt && endAt - startAt <= OneHour)
+    return 'minute'
+
   if (startAt && endAt && endAt - startAt <= OneDay)
     return 'hour'
 
@@ -36,16 +51,12 @@ async function getLinkViews() {
   })
 }
 
-const stopWatchQueryChange = watch([time, filters], getLinkViews, {
+watch([time, filters], getLinkViews, {
   deep: true,
 })
 
 onMounted(async () => {
   getLinkViews()
-})
-
-onBeforeUnmount(() => {
-  stopWatchQueryChange()
 })
 
 function formatTime(tick) {
@@ -61,16 +72,20 @@ function formatTime(tick) {
 
 <template>
   <Card class="px-0 py-6 md:px-6">
-    <CardTitle class="px-6 md:px-0">
+    <CardTitle v-if="mode === 'full'" class="px-6 md:px-0">
       {{ $t('dashboard.views') }}
     </CardTitle>
     <component
       :is="chart"
-      :data="views"
+      v-if="views.length"
+      class="w-full h-full"
       index="time"
-      :categories="['visitors', 'visits']"
+      :data="views"
+      :categories="mode === 'full' ? ['visits', 'visitors'] : ['visits']"
       :x-formatter="formatTime"
       :y-formatter="formatNumber"
+      :show-grid-line="mode === 'full'"
+      :show-legend="mode === 'full'"
     />
   </Card>
 </template>

@@ -138,6 +138,16 @@
       "os": "Hệ điều hành",
       "browser": "Trình duyệt",
       "browserType": "Loại trình duyệt"
+    },
+    "time_picker": {
+      "today": "Hôm nay",
+      "last_5m": "5 phút qua",
+      "last_10m": "10 phút qua",
+      "last_30m": "30 phút qua",
+      "last_1h": "1 giờ qua",
+      "last_6h": "6 giờ qua",
+      "last_12h": "12 giờ qua",
+      "last_24h": "24 giờ qua"
     }
   },
   "links": {
