@@ -48,6 +48,13 @@ const fieldConfig = {
     comment: {
       component: 'textarea',
     },
+    max_views: {
+      label: 'Max Views',
+      attrs: {
+        type: 'number',
+        min: '1',
+      },
+    },
   },
 }
 
