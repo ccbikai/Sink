@@ -41,7 +41,6 @@ export default eventHandler(async (event) => {
     }
 
     if (link) {
-      // Max views logic
       if (link.max_views && link.max_views > 0) {
         const userAgent = getHeader(event, 'user-agent') || ''
         const uaInfo = (new UAParser(userAgent, {
@@ -55,7 +54,7 @@ export default eventHandler(async (event) => {
                       ['spider', 'bot'].includes(uaInfo?.browser?.name?.toLowerCase() || '')
 
         if (!isBot) {
-          const viewsKey = `views:${link.slug}` // link.slug is the canonical key
+          const viewsKey = `views:${link.slug}`
           const currentViewsStr = await KV.get(viewsKey)
           const currentViews = currentViewsStr ? parseInt(currentViewsStr, 10) : 0
 
@@ -68,7 +67,7 @@ export default eventHandler(async (event) => {
         }
       }
 
-      // Original logic: only proceeds if not blocked by max_views error
+      // Only proceeds if not blocked by max_views error
       event.context.link = link
       try {
         await useAccessLog(event)

@@ -11,6 +11,6 @@ export default eventHandler(async (event) => {
     const { cloudflare } = event.context
     const { KV } = cloudflare.env
     await KV.delete(`link:${slug}`)
-    await KV.delete(`views:${slug}`) // This is the new line
+    await KV.delete(`views:${slug}`)
   }
 })
