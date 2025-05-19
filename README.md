@@ -18,10 +18,19 @@
     height="55"
   />
 </a>
+<a href="https://hellogithub.com/repository/57771fd91d1542c7a470959b677a9944" target="_blank">
+  <img
+    src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=57771fd91d1542c7a470959b677a9944&claim_uid=qi74Zp23wYKeAVB&theme=neutral"
+    alt="Featured｜HelloGitHub"
+    width="250"
+    height="55"
+  />
+</a>
 <a href="https://www.uneed.best/tool/sink" target="_blank">
   <img
     src="https://www.uneed.best/POTW1.png"
     alt="Uneed Badge"
+    width="250"
     height="55"
   />
 </a>
