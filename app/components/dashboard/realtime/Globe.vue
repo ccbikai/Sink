@@ -74,21 +74,37 @@ function trafficEvent({ props }, { delay = 0 }) {
     startLng: props.item.longitude,
     endLat: colos.value[props.item.COLO]?.lat,
     endLng: colos.value[props.item.COLO]?.lon,
-    color: 'red',
-    arcAltitude: 0.5,
+    color: 'darkOrange',
+    arcAltitude: 0.2,
   }
-  console.info(`from ${props.item.city}(${props.item.latitude}, ${props.item.longitude}) to ${props.item.COLO}(${colos.value[props.item.COLO]?.lat}, ${colos.value[props.item.COLO]?.lon})`)
+  console.info(`from ${props.item.city}(${arc.startLat}, ${arc.startLng}) to ${props.item.COLO}(${arc.endLat}, ${arc.endLng})`)
+  const isNear = Math.abs(arc.endLat - arc.startLat) < 5 && Math.abs(arc.endLng - arc.startLng) < 5
+  if (isNear) {
+    console.info(`from ${props.item.city} to ${props.item.COLO} is near, skip`)
+    return
+  }
   const random = Math.random()
   globe.arcsData([arc])
     .arcColor('color')
-    .arcDashLength(() => random + 0.2)
-    .arcDashGap(() => random - 0.2)
-    .arcDashAnimateTime(2000)
+    .arcDashLength(() => random)
+    .arcDashGap(() => 1 - random)
+    .arcDashAnimateTime(delay * 2)
+    .ringRepeatPeriod(delay * 2)
+
+  const srcRing = { lat: arc.startLat, lng: arc.startLng }
+  globe.ringsData([...globe.ringsData(), srcRing])
+  setTimeout(() => globe.ringsData(globe.ringsData().filter(r => r !== srcRing)), delay * 2)
+
+  setTimeout(() => {
+    const targetRing = { lat: arc.endLat, lng: arc.endLng }
+    globe.ringsData([...globe.ringsData(), targetRing])
+    setTimeout(() => globe.ringsData(globe.ringsData().filter(r => r !== targetRing)), delay * 2)
+  }, delay * 2)
 
   clearTimeout(cleanArcsDataTimer)
   cleanArcsDataTimer = setTimeout(() => {
     globe.arcsData([])
-  }, delay + 100)
+  }, delay * 2)
 }
 
 const normalized = 5 / props.minutes
@@ -114,6 +130,9 @@ function initGlobe() {
     .hexBinMerge(true)
     .hexBinPointWeight('count')
     .hexPolygonColor(() => `rgba(54, 211, 153, ${Math.random() / 1.5 + 0.5})`)
+    .ringColor(() => t => `rgba(255,100,50,${1 - t})`)
+    .ringMaxRadius(3)
+    .ringPropagationSpeed(3)
     .onGlobeReady(() => {
       globe.pointOfView({ lat: currentLocation.value.latitude, lng: currentLocation.value.longitude, altitude: width.value > 768 ? 2 : 3 })
       globe.controls().autoRotate = true
