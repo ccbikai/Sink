@@ -74,6 +74,7 @@ const form = useForm({
     url: link.value.url,
     optional: {
       comment: link.value.comment,
+      max_views: link.value.max_views,
     },
   },
   validateOnMount: isEdit,
@@ -111,15 +112,16 @@ onMounted(() => {
 })
 
 async function onSubmit(formData) {
-  const link = {
+  const linkPayload = {
     url: formData.url,
     slug: formData.slug,
-    ...(formData.optional || []),
+    comment: formData.optional?.comment,
+    max_views: formData.optional?.max_views ? Number(formData.optional.max_views) : undefined,
     expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
   }
   const { link: newLink } = await useAPI(isEdit ? '/api/link/edit' : '/api/link/create', {
     method: isEdit ? 'PUT' : 'POST',
-    body: link,
+    body: linkPayload,
   })
   dialogOpen.value = false
   emit('update:link', newLink, isEdit ? 'edit' : 'create')
