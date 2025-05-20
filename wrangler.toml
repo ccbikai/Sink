@@ -1,7 +1,7 @@
 name = "sink"
 main = "dist/server/index.mjs"
 compatibility_date = "2025-05-08"
-upload_source_maps = true
+compatibility_flags = [ "nodejs_compat" ]
 
 [assets]
 directory = "dist/public"
