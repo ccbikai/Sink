@@ -77,7 +77,6 @@ function formatTime(tick) {
     </CardTitle>
     <component
       :is="chart"
-      v-if="views.length"
       class="w-full h-full"
       index="time"
       :data="views"
