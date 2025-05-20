@@ -1,4 +1,11 @@
+name = "sink"
+main = "dist/server/index.mjs"
+compatibility_date = "2025-05-08"
 upload_source_maps = true
+
+[assets]
+directory = "dist/public"
+binding = "ASSETS"
 
 [dev]
 port = 3000

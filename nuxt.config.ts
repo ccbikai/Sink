@@ -1,3 +1,4 @@
+import { provider, runtime } from 'std-env'
 import { currentLocales } from './i18n/i18n'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -57,7 +58,13 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  compatibilityDate: '2024-07-08',
+  experimental: {
+    enforceModuleCompatibility: true,
+  },
+
+  compatibilityDate: {
+    cloudflare: '2025-05-08',
+  },
 
   nitro: {
     experimental: {
@@ -89,6 +96,7 @@ export default defineNuxtConfig({
     cache: false,
     database: false,
     kv: true,
+    workers: (provider === 'cloudflare_workers' || runtime === 'node') && provider !== 'cloudflare_pages',
   },
 
   eslint: {
