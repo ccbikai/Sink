@@ -63,7 +63,7 @@ onBeforeMount(() => {
     </div>
     <div class="relative space-y-4">
       <DashboardRealtimeChart class="md:absolute top-0 left-0 z-10" />
-      <DashboardRealtimeGlobe />
+      <LazyDashboardRealtimeGlobe />
       <DashboardRealtimeLogs class="md:absolute top-0 right-0 h-full z-10" />
     </div>
   </main>
