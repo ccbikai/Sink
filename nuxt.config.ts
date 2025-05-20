@@ -6,9 +6,9 @@ export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
     'shadcn-nuxt',
+    '@vueuse/motion/nuxt',
     '@nuxt/eslint',
     '@nuxtjs/tailwindcss',
-    '@vueuse/motion/nuxt',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
   ],
