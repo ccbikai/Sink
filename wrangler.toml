@@ -2,13 +2,22 @@ name = "sink"
 main = "dist/server/index.mjs"
 compatibility_date = "2025-05-08"
 compatibility_flags = [ "nodejs_compat" ]
+keep_vars = true
+
+[dev]
+port = 3000
 
 [assets]
 directory = "dist/public"
 binding = "ASSETS"
 
-[dev]
-port = 3000
-
 [ai]
 binding = "AI"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "ef93d42dc4b34969bab404d2e80f8dd3"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "sink"
