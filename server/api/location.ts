@@ -1,7 +1,7 @@
 defineRouteMeta({
   openAPI: {
     description: 'Get the location of the user',
-    security: openAPISecurity,
+    security: securitySchemes,
   },
 })
 
