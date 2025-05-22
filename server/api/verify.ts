@@ -1,7 +1,6 @@
 defineRouteMeta({
   openAPI: {
     description: 'Verify the site token',
-    security: securitySchemes,
     responses: {
       200: {
         description: 'The site token is valid',

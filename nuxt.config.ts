@@ -53,8 +53,6 @@ export default defineNuxtConfig({
     },
   },
 
-  sourcemap: false,
-
   future: {
     compatibilityVersion: 4,
   },
