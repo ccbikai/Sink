@@ -3,4 +3,5 @@ onlyBuiltDependencies:
   - sharp
   - simple-git-hooks
   - unrs-resolver
+  - vue-demi
   - workerd
