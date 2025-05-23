@@ -1,4 +1,5 @@
-import { type DateValue, fromAbsolute, toCalendarDate } from '@internationalized/date'
+import type { DateValue } from '@internationalized/date'
+import { fromAbsolute, toCalendarDate } from '@internationalized/date'
 
 export function getTimeZone() {
   if (typeof Intl === 'undefined')

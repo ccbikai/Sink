@@ -1,6 +1,6 @@
 <script setup>
-import { ChartTooltip } from '@/components/ui/chart'
 import { VisSingleContainer, VisTopoJSONMap, VisTopoJSONMapSelectors } from '@unovis/vue'
+import { ChartTooltip } from '@/components/ui/chart'
 
 const id = inject('id')
 const time = inject('time')

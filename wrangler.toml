@@ -1,7 +1,0 @@
-upload_source_maps = true
-
-[dev]
-port = 3000
-
-[ai]
-binding = "AI"

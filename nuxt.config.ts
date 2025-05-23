@@ -1,8 +1,8 @@
+import { provider } from 'std-env'
 import { currentLocales } from './i18n/i18n'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
   modules: [
     '@nuxthub/core',
     'shadcn-nuxt',
@@ -56,12 +56,34 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  compatibilityDate: '2024-07-08',
+  experimental: {
+    enforceModuleCompatibility: true,
+  },
+
+  compatibilityDate: {
+    cloudflare: '2025-05-08',
+  },
 
   nitro: {
     experimental: {
-      // Enable Server API documentation within NuxtHub
       openAPI: true,
+    },
+    timing: true,
+    openAPI: {
+      production: 'runtime',
+      meta: {
+        title: 'Sink API',
+        description: 'A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.',
+      },
+      route: '/_docs/openapi.json',
+      ui: {
+        scalar: {
+          route: '/_docs/scalar',
+        },
+        swagger: {
+          route: '/_docs/swagger',
+        },
+      },
     },
   },
 
@@ -72,6 +94,7 @@ export default defineNuxtConfig({
     cache: false,
     database: false,
     kv: true,
+    workers: provider !== 'cloudflare_pages',
   },
 
   eslint: {
