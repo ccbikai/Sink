@@ -1,10 +1,12 @@
 <script setup>
 const { title, description, image } = useAppConfig()
+
 useSeoMeta({
   title: `${title} - ${description}`,
   description,
   ogType: 'website',
   ogTitle: title,
+  ogSiteName: title,
   ogDescription: description,
   ogImage: image,
   twitterTitle: title,
@@ -29,6 +31,10 @@ useHead({
       rel: 'icon',
       type: 'image/png',
       href: '/icon-192.png',
+    },
+    {
+      rel: 'apple-touch-icon',
+      href: '/apple-touch-icon.png',
     },
   ],
 })
