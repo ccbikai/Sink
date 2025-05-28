@@ -1,0 +1,322 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Unit Testing Guidelines
+
+## Overview
+
+Unit testing is implemented exclusively for the `server/api` directory, focusing on API endpoint functionality, data validation, and business logic. We use Vitest as our testing framework with Nuxt Test Utils for API testing.
+
+## Testing Scope
+
+### What to Test
+- **API Endpoints**: All routes in [server/api/](mdc:server/api/)
+  - Link management APIs in [server/api/link/](mdc:server/api/link/)
+  - Statistics APIs in [server/api/stats/](mdc:server/api/stats/)
+  - Authentication endpoints like [verify.ts](mdc:server/api/verify.ts)
+  - Location services like [location.ts](mdc:server/api/location.ts)
+- **Input Validation**: Zod schema validation
+- **Error Handling**: Error responses and status codes
+- **Business Logic**: Core functionality and edge cases
+- **Authentication**: Token validation and authorization
+
+### What NOT to Test
+- Frontend components (Vue components, pages, layouts)
+- Third-party library internals
+- Cloudflare Workers runtime specifics
+- Database connection details
+
+## Test Structure
+
+### File Organization
+```
+tests/
+├── api/
+│   ├── link/
+│   │   ├── create.test.ts
+│   │   ├── edit.test.ts
+│   │   ├── delete.test.ts
+│   │   ├── list.test.ts
+│   │   ├── query.test.ts
+│   │   ├── search.test.ts
+│   │   ├── upsert.test.ts
+│   │   └── ai.test.ts
+│   ├── stats/
+│   │   ├── views.test.ts
+│   │   ├── counters.test.ts
+│   │   └── metrics.test.ts
+│   ├── location.test.ts
+│   ├── verify.test.ts
+│   └── helpers/
+│       ├── fixtures.ts
+│       ├── mocks.ts
+│       └── test-utils.ts
+└── sink.spec.ts (existing e2e test)
+```
+
+### Naming Conventions
+- Test files: `*.test.ts` for unit tests
+- Spec files: `*.spec.ts` for integration/e2e tests
+- Test descriptions: Use descriptive, behavior-focused names
+
+## Testing Patterns
+
+### API Endpoint Testing Template
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { $fetch, setup } from '@nuxt/test-utils/e2e'
+
+describe('/api/link/create', () => {
+  beforeEach(async () => {
+    await setup({
+      // Test configuration
+    })
+  })
+
+  describe('POST requests', () => {
+    it('should create a new link with valid data', async () => {
+      const payload = {
+        url: 'https://example.com',
+        slug: 'test-slug'
+      }
+
+      const response = await $fetch('/api/link/create', {
+        method: 'POST',
+        body: payload
+      })
+
+      expect(response.success).toBe(true)
+      expect(response.data).toHaveProperty('slug', 'test-slug')
+      expect(response.data).toHaveProperty('url', 'https://example.com')
+    })
+
+    it('should return validation error for invalid URL', async () => {
+      const payload = {
+        url: 'invalid-url',
+        slug: 'test-slug'
+      }
+
+      await expect($fetch('/api/link/create', {
+        method: 'POST',
+        body: payload
+      })).rejects.toThrow()
+    })
+
+    it('should handle missing required fields', async () => {
+      const payload = {
+        slug: 'test-slug'
+        // Missing URL
+      }
+
+      await expect($fetch('/api/link/create', {
+        method: 'POST',
+        body: payload
+      })).rejects.toThrow()
+    })
+  })
+
+  describe('Authentication', () => {
+    it('should require valid authentication token', async () => {
+      const payload = {
+        url: 'https://example.com',
+        slug: 'test-slug'
+      }
+
+      await expect($fetch('/api/link/create', {
+        method: 'POST',
+        body: payload,
+        headers: {
+          Authorization: 'Bearer invalid-token'
+        }
+      })).rejects.toThrow()
+    })
+  })
+})
+```
+
+### Validation Testing
+```typescript
+import { z } from 'zod'
+import { describe, it, expect } from 'vitest'
+
+describe('Link creation validation', () => {
+  const createLinkSchema = z.object({
+    url: z.string().url(),
+    slug: z.string().min(1).max(50).optional(),
+    expiresAt: z.string().datetime().optional()
+  })
+
+  it('should validate correct link data', () => {
+    const validData = {
+      url: 'https://example.com',
+      slug: 'test-slug'
+    }
+
+    expect(() => createLinkSchema.parse(validData)).not.toThrow()
+  })
+
+  it('should reject invalid URL format', () => {
+    const invalidData = {
+      url: 'not-a-url',
+      slug: 'test-slug'
+    }
+
+    expect(() => createLinkSchema.parse(invalidData)).toThrow()
+  })
+
+  it('should reject slug that is too long', () => {
+    const invalidData = {
+      url: 'https://example.com',
+      slug: 'a'.repeat(51) // Exceeds 50 character limit
+    }
+
+    expect(() => createLinkSchema.parse(invalidData)).toThrow()
+  })
+})
+```
+
+### Mock Data and Fixtures
+```typescript
+// tests/api/helpers/fixtures.ts
+export const mockLinkData = {
+  valid: {
+    url: 'https://example.com',
+    slug: 'test-slug',
+    createdAt: new Date('2024-01-01T00:00:00Z'),
+    isActive: true
+  },
+  withExpiry: {
+    url: 'https://example.com',
+    slug: 'expiring-link',
+    expiresAt: new Date('2024-12-31T23:59:59Z')
+  }
+}
+
+export const mockStatsData = {
+  views: {
+    total: 100,
+    unique: 85,
+    timeframe: '7d'
+  },
+  countries: [
+    { code: 'US', count: 45 },
+    { code: 'UK', count: 20 }
+  ]
+}
+```
+
+### Error Handling Tests
+```typescript
+describe('Error handling', () => {
+  it('should return 400 for malformed request body', async () => {
+    await expect($fetch('/api/link/create', {
+      method: 'POST',
+      body: 'invalid-json'
+    })).rejects.toMatchObject({
+      statusCode: 400
+    })
+  })
+
+  it('should return 401 for missing authentication', async () => {
+    await expect($fetch('/api/link/delete', {
+      method: 'POST',
+      body: { slug: 'test-slug' }
+    })).rejects.toMatchObject({
+      statusCode: 401
+    })
+  })
+
+  it('should return 404 for non-existent resources', async () => {
+    await expect($fetch('/api/link/query', {
+      query: { slug: 'non-existent-slug' }
+    })).rejects.toMatchObject({
+      statusCode: 404
+    })
+  })
+})
+```
+
+## Test Configuration
+
+### Vitest Setup
+Ensure your `vitest.config.ts` includes:
+```typescript
+import { defineVitestConfig } from '@nuxt/test-utils/config'
+
+export default defineVitestConfig({
+  test: {
+    environment: 'nuxt',
+    include: ['tests/**/*.{test,spec}.ts'],
+    coverage: {
+      provider: 'v8',
+      include: ['server/api/**/*.ts'],
+      exclude: ['**/*.d.ts', '**/*.config.*']
+    }
+  }
+})
+```
+
+### Environment Variables
+Set up test-specific environment variables:
+```typescript
+// tests/setup.ts
+import { vi } from 'vitest'
+
+// Mock environment variables for testing
+vi.stubEnv('SITE_TOKEN', 'test-token')
+vi.stubEnv('KV_NAMESPACE', 'test-kv')
+```
+
+## Best Practices
+
+### Test Independence
+- Each test should be independent and not rely on other tests
+- Use `beforeEach` to set up clean state
+- Clean up after tests when necessary
+
+### Test Data
+- Use meaningful test data that reflects real-world scenarios
+- Create reusable fixtures for common test data
+- Avoid hardcoded values; use constants
+
+### Assertions
+- Test both positive and negative cases
+- Verify response structure and data types
+- Check error messages and status codes
+
+### Performance
+- Keep tests fast and focused
+- Use mocking to avoid external dependencies
+- Group related tests using `describe` blocks
+
+### Coverage Goals
+- Aim for high coverage of critical API endpoints
+- Focus on business logic and error scenarios
+- Don't chase 100% coverage at the expense of test quality
+
+## Running Tests
+
+### Commands
+```bash
+# Run all tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run specific test file
+npm run test tests/api/link/create.test.ts
+
+# Run tests matching pattern
+npm run test -- --grep "authentication"
+```
+
+### CI/CD Integration
+- Tests should run on every pull request
+- Enforce minimum coverage thresholds
+- Block merges if tests fail
