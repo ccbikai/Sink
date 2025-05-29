@@ -1,11 +1,8 @@
-import { fetch, setup } from '@nuxt/test-utils/e2e'
 import { describe, expect, it } from 'vitest'
-import { config } from './config'
+import { fetch } from './utils'
 
-describe('sink test', async () => {
-  await setup(config)
-
-  it('home page should return 200', async () => {
+describe('/', () => {
+  it('returns 200 for homepage request', async () => {
     const response = await fetch('/')
     expect(response.status).toBe(200)
   })

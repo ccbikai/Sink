@@ -3,320 +3,563 @@ description:
 globs:
 alwaysApply: false
 ---
-# Unit Testing Guidelines
+# Testing Guidelines for Sink
 
 ## Overview
 
-Unit testing is implemented exclusively for the `server/api` directory, focusing on API endpoint functionality, data validation, and business logic. We use Vitest as our testing framework with Nuxt Test Utils for API testing.
+This project implements comprehensive testing for the backend API layer using Vitest with Cloudflare Workers Pool. Testing focuses exclusively on API endpoint functionality, data validation, authentication, and business logic for the URL shortening service.
+
+## Testing Stack
+
+- **Test Framework**: [Vitest](https://vitest.dev/) with [`@cloudflare/vitest-pool-workers`](https://github.com/cloudflare/workers-sdk/tree/main/packages/vitest-pool-workers)
+- **Mock Generation**: [`@anatine/zod-mock`](https://github.com/anatine/zod-plugins/tree/main/packages/zod-mock) for generating realistic test data
+- **Fake Data**: [`@faker-js/faker`](https://fakerjs.dev/) for additional test data generation
+- **Environment**: Cloudflare Workers runtime with isolated storage
 
 ## Testing Scope
 
-### What to Test
+### What We Test
 - **API Endpoints**: All routes in [server/api/](mdc:server/api/)
-  - Link management APIs in [server/api/link/](mdc:server/api/link/)
-  - Statistics APIs in [server/api/stats/](mdc:server/api/stats/)
-  - Authentication endpoints like [verify.ts](mdc:server/api/verify.ts)
-  - Location services like [location.ts](mdc:server/api/location.ts)
-- **Input Validation**: Zod schema validation
-- **Error Handling**: Error responses and status codes
-- **Business Logic**: Core functionality and edge cases
-- **Authentication**: Token validation and authorization
+  - Link management APIs: [create.post.ts](mdc:server/api/link/create.post.ts), [edit.put.ts](mdc:server/api/link/edit.put.ts), [delete.post.ts](mdc:server/api/link/delete.post.ts)
+  - Link retrieval APIs: [list.get.ts](mdc:server/api/link/list.get.ts), [query.get.ts](mdc:server/api/link/query.get.ts), [search.get.ts](mdc:server/api/link/search.get.ts)
+  - Advanced features: [upsert.post.ts](mdc:server/api/link/upsert.post.ts), [ai.get.ts](mdc:server/api/link/ai.get.ts)
+  - Statistics endpoints: [views.get.ts](mdc:server/api/stats/views.get.ts), [counters.get.ts](mdc:server/api/stats/counters.get.ts), [metrics.get.ts](mdc:server/api/stats/metrics.get.ts)
+  - Utility endpoints: [location.ts](mdc:server/api/location.ts), [verify.ts](mdc:server/api/verify.ts)
+- **Authentication**: Bearer token validation and authorization flows
+- **Input Validation**: Zod schema validation for all API inputs
+- **Error Handling**: HTTP status codes and error response structures
+- **Business Logic**: URL shortening, analytics, and link management features
 
-### What NOT to Test
-- Frontend components (Vue components, pages, layouts)
-- Third-party library internals
-- Cloudflare Workers runtime specifics
-- Database connection details
+### What We Don't Test
+- Frontend components, pages, or layouts (Vue.js application layer)
+- Third-party service integrations (external API dependencies)
+- Cloudflare Workers runtime internals
+- Database connection layer specifics
+- Build and deployment processes
 
-## Test Structure
+## Project Structure
 
-### File Organization
+### Current Test Organization
+```
+tests/
+├── api/
+│   ├── link.spec.ts          # All link-related endpoint tests
+│   ├── location.spec.ts      # Location API tests
+│   └── verify.spec.ts        # Authentication verification tests
+├── setup.ts                  # Global test setup and configuration
+├── utils.ts                  # Test utility functions and helpers
+└── sink.spec.ts             # End-to-end integration tests
+```
+
+### Recommended Test Structure (for expansion)
 ```
 tests/
 ├── api/
 │   ├── link/
-│   │   ├── create.test.ts
-│   │   ├── edit.test.ts
-│   │   ├── delete.test.ts
-│   │   ├── list.test.ts
-│   │   ├── query.test.ts
-│   │   ├── search.test.ts
-│   │   ├── upsert.test.ts
-│   │   └── ai.test.ts
+│   │   ├── create.test.ts    # POST /api/link/create
+│   │   ├── edit.test.ts      # PUT /api/link/edit
+│   │   ├── delete.test.ts    # POST /api/link/delete
+│   │   ├── list.test.ts      # GET /api/link/list
+│   │   ├── query.test.ts     # GET /api/link/query
+│   │   ├── search.test.ts    # GET /api/link/search
+│   │   ├── upsert.test.ts    # POST /api/link/upsert
+│   │   └── ai.test.ts        # GET /api/link/ai
 │   ├── stats/
-│   │   ├── views.test.ts
-│   │   ├── counters.test.ts
-│   │   └── metrics.test.ts
-│   ├── location.test.ts
-│   ├── verify.test.ts
+│   │   ├── views.test.ts     # GET /api/stats/views
+│   │   ├── counters.test.ts  # GET /api/stats/counters
+│   │   └── metrics.test.ts   # GET /api/stats/metrics
+│   ├── location.test.ts      # GET /api/location
+│   ├── verify.test.ts        # GET /api/verify
 │   └── helpers/
-│       ├── fixtures.ts
-│       ├── mocks.ts
-│       └── test-utils.ts
-└── sink.spec.ts (existing e2e test)
+│       ├── fixtures.ts       # Test data fixtures
+│       ├── mocks.ts          # Mock implementations
+│       └── assertions.ts     # Custom assertion helpers
+├── setup.ts
+├── utils.ts
+└── integration/
+    └── sink.spec.ts          # End-to-end workflow tests
 ```
-
-### Naming Conventions
-- Test files: `*.test.ts` for unit tests
-- Spec files: `*.spec.ts` for integration/e2e tests
-- Test descriptions: Use descriptive, behavior-focused names
 
 ## Testing Patterns
 
-### API Endpoint Testing Template
+### Standard API Test Template
 ```typescript
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { $fetch, setup } from '@nuxt/test-utils/e2e'
+import { describe, it, expect } from 'vitest'
+import { generateMock } from '@anatine/zod-mock'
+import { z } from 'zod'
+import { fetch, fetchWithAuth } from '../utils'
+
+// Define schema for test data generation
+const linkSchema = z.object({
+  url: z.string().url(),
+  slug: z.string().min(1).max(50),
+})
 
 describe('/api/link/create', () => {
-  beforeEach(async () => {
-    await setup({
-      // Test configuration
+  it('creates a new link with valid data', async () => {
+    const payload = generateMock(linkSchema)
+
+    const response = await fetchWithAuth('/api/link/create', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
     })
+
+    expect(response.status).toBe(201)
+
+    const data = await response.json()
+    expect(data.link).toBeDefined()
+    expect(data.link.url).toBe(payload.url)
+    expect(data.link.slug).toBe(payload.slug)
+    expect(data.shortLink).toContain(payload.slug)
   })
 
-  describe('POST requests', () => {
-    it('should create a new link with valid data', async () => {
-      const payload = {
-        url: 'https://example.com',
-        slug: 'test-slug'
-      }
+  it('returns 409 when slug already exists', async () => {
+    const payload = generateMock(linkSchema)
 
-      const response = await $fetch('/api/link/create', {
-        method: 'POST',
-        body: payload
-      })
-
-      expect(response.success).toBe(true)
-      expect(response.data).toHaveProperty('slug', 'test-slug')
-      expect(response.data).toHaveProperty('url', 'https://example.com')
+    // Create the link first
+    await fetchWithAuth('/api/link/create', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
     })
 
-    it('should return validation error for invalid URL', async () => {
-      const payload = {
-        url: 'invalid-url',
-        slug: 'test-slug'
-      }
-
-      await expect($fetch('/api/link/create', {
-        method: 'POST',
-        body: payload
-      })).rejects.toThrow()
+    // Attempt to create duplicate
+    const duplicateResponse = await fetchWithAuth('/api/link/create', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
     })
 
-    it('should handle missing required fields', async () => {
-      const payload = {
-        slug: 'test-slug'
-        // Missing URL
-      }
-
-      await expect($fetch('/api/link/create', {
-        method: 'POST',
-        body: payload
-      })).rejects.toThrow()
-    })
+    expect(duplicateResponse.status).toBe(409)
   })
 
-  describe('Authentication', () => {
-    it('should require valid authentication token', async () => {
-      const payload = {
-        url: 'https://example.com',
-        slug: 'test-slug'
-      }
+  it('returns 401 without authentication', async () => {
+    const payload = generateMock(linkSchema)
 
-      await expect($fetch('/api/link/create', {
-        method: 'POST',
-        body: payload,
-        headers: {
-          Authorization: 'Bearer invalid-token'
-        }
-      })).rejects.toThrow()
+    const response = await fetch('/api/link/create', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
     })
+
+    expect(response.status).toBe(401)
+  })
+
+  it('validates required fields', async () => {
+    const invalidPayload = { slug: 'test' } // Missing URL
+
+    const response = await fetchWithAuth('/api/link/create', {
+      method: 'POST',
+      body: JSON.stringify(invalidPayload),
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    expect(response.status).toBe(400)
   })
 })
 ```
 
-### Validation Testing
+### Authentication Testing Pattern
+```typescript
+describe('Authentication', () => {
+  it('accepts valid bearer token', async () => {
+    const response = await fetchWithAuth('/api/link/list')
+    expect(response.status).toBe(200)
+  })
+
+  it('rejects missing authorization header', async () => {
+    const response = await fetch('/api/link/list')
+    expect(response.status).toBe(401)
+  })
+
+  it('rejects invalid bearer token', async () => {
+    const response = await fetch('/api/link/list', {
+      headers: { Authorization: 'Bearer invalid-token' }
+    })
+    expect(response.status).toBe(401)
+  })
+
+  it('rejects malformed authorization header', async () => {
+    const response = await fetch('/api/link/list', {
+      headers: { Authorization: 'InvalidFormat' }
+    })
+    expect(response.status).toBe(401)
+  })
+})
+```
+
+### Input Validation Testing
 ```typescript
 import { z } from 'zod'
-import { describe, it, expect } from 'vitest'
 
-describe('Link creation validation', () => {
+describe('Link validation', () => {
   const createLinkSchema = z.object({
     url: z.string().url(),
     slug: z.string().min(1).max(50).optional(),
-    expiresAt: z.string().datetime().optional()
+    expiresAt: z.string().datetime().optional(),
   })
 
-  it('should validate correct link data', () => {
-    const validData = {
+  it('accepts valid URL formats', () => {
+    const testCases = [
+      'https://example.com',
+      'http://sub.domain.com/path',
+      'https://site.com/path?query=value#anchor'
+    ]
+
+    testCases.forEach(url => {
+      expect(() => createLinkSchema.parse({ url })).not.toThrow()
+    })
+  })
+
+  it('rejects invalid URL formats', () => {
+    const testCases = [
+      'not-a-url',
+      'ftp://invalid-protocol.com',
+      'javascript:alert("xss")',
+      ''
+    ]
+
+    testCases.forEach(url => {
+      expect(() => createLinkSchema.parse({ url })).toThrow()
+    })
+  })
+
+  it('validates slug constraints', () => {
+    // Valid slugs
+    expect(() => createLinkSchema.parse({
       url: 'https://example.com',
-      slug: 'test-slug'
-    }
+      slug: 'valid-slug'
+    })).not.toThrow()
 
-    expect(() => createLinkSchema.parse(validData)).not.toThrow()
-  })
-
-  it('should reject invalid URL format', () => {
-    const invalidData = {
-      url: 'not-a-url',
-      slug: 'test-slug'
-    }
-
-    expect(() => createLinkSchema.parse(invalidData)).toThrow()
-  })
-
-  it('should reject slug that is too long', () => {
-    const invalidData = {
+    // Invalid slugs
+    expect(() => createLinkSchema.parse({
       url: 'https://example.com',
-      slug: 'a'.repeat(51) // Exceeds 50 character limit
-    }
+      slug: ''
+    })).toThrow()
 
-    expect(() => createLinkSchema.parse(invalidData)).toThrow()
+    expect(() => createLinkSchema.parse({
+      url: 'https://example.com',
+      slug: 'a'.repeat(51)
+    })).toThrow()
   })
 })
 ```
 
-### Mock Data and Fixtures
+### Statistics and Analytics Testing
 ```typescript
-// tests/api/helpers/fixtures.ts
-export const mockLinkData = {
-  valid: {
-    url: 'https://example.com',
-    slug: 'test-slug',
-    createdAt: new Date('2024-01-01T00:00:00Z'),
-    isActive: true
-  },
-  withExpiry: {
-    url: 'https://example.com',
-    slug: 'expiring-link',
-    expiresAt: new Date('2024-12-31T23:59:59Z')
-  }
-}
-
-export const mockStatsData = {
-  views: {
-    total: 100,
-    unique: 85,
-    timeframe: '7d'
-  },
-  countries: [
-    { code: 'US', count: 45 },
-    { code: 'UK', count: 20 }
-  ]
-}
-```
-
-### Error Handling Tests
-```typescript
-describe('Error handling', () => {
-  it('should return 400 for malformed request body', async () => {
-    await expect($fetch('/api/link/create', {
+describe('/api/stats/views', () => {
+  it('returns view statistics for valid slug', async () => {
+    // First create a link to get stats for
+    const linkPayload = generateMock(linkSchema)
+    await fetchWithAuth('/api/link/create', {
       method: 'POST',
-      body: 'invalid-json'
-    })).rejects.toMatchObject({
-      statusCode: 400
+      body: JSON.stringify(linkPayload),
+      headers: { 'Content-Type': 'application/json' },
     })
+
+    const response = await fetchWithAuth(
+      `/api/stats/views?slug=${linkPayload.slug}&timeframe=7d`
+    )
+
+    expect(response.status).toBe(200)
+
+    const data = await response.json()
+    expect(data).toHaveProperty('total')
+    expect(data).toHaveProperty('unique')
+    expect(data).toHaveProperty('timeframe')
+    expect(typeof data.total).toBe('number')
+    expect(typeof data.unique).toBe('number')
   })
 
-  it('should return 401 for missing authentication', async () => {
-    await expect($fetch('/api/link/delete', {
-      method: 'POST',
-      body: { slug: 'test-slug' }
-    })).rejects.toMatchObject({
-      statusCode: 401
-    })
-  })
+  it('handles non-existent slug gracefully', async () => {
+    const response = await fetchWithAuth('/api/stats/views?slug=non-existent')
 
-  it('should return 404 for non-existent resources', async () => {
-    await expect($fetch('/api/link/query', {
-      query: { slug: 'non-existent-slug' }
-    })).rejects.toMatchObject({
-      statusCode: 404
-    })
+    // Should either return 404 or empty stats
+    expect([200, 404]).toContain(response.status)
+
+    if (response.status === 200) {
+      const data = await response.json()
+      expect(data.total).toBe(0)
+      expect(data.unique).toBe(0)
+    }
   })
 })
 ```
 
 ## Test Configuration
 
-### Vitest Setup
-Ensure your `vitest.config.ts` includes:
-```typescript
-import { defineVitestConfig } from '@nuxt/test-utils/config'
+### Vitest Configuration
+The [vitest.config.ts](mdc:vitest.config.ts) uses Cloudflare Workers pool:
 
-export default defineVitestConfig({
+```typescript
+import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config'
+import { loadEnv } from 'vite'
+
+export default defineWorkersConfig(({ mode }) => ({
   test: {
-    environment: 'nuxt',
-    include: ['tests/**/*.{test,spec}.ts'],
-    coverage: {
-      provider: 'v8',
-      include: ['server/api/**/*.ts'],
-      exclude: ['**/*.d.ts', '**/*.config.*']
-    }
+    env: loadEnv(mode, process.cwd(), ''),
+    globalSetup: './tests/setup.ts',
+    poolOptions: {
+      workers: {
+        singleWorker: true,
+        isolatedStorage: false,
+        wrangler: {
+          configPath: './wrangler.jsonc',
+        },
+        miniflare: {
+          cf: true,
+        },
+      },
+    },
+  },
+}))
+```
+
+### Test Utilities
+The [tests/utils.ts](mdc:tests/utils.ts) provides essential helpers:
+
+```typescript
+import { SELF } from 'cloudflare:test'
+
+export async function fetchWithAuth(path: string, options?: RequestInit) {
+  return SELF.fetch(`http://localhost${path}`, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      Authorization: `Bearer ${import.meta.env.NUXT_SITE_TOKEN}`,
+    },
+  })
+}
+
+export async function fetch(path: string, options?: RequestInit) {
+  return SELF.fetch(`http://localhost${path}`, options)
+}
+```
+
+### Environment Setup
+Configure test environment variables in [tests/setup.ts](mdc:tests/setup.ts):
+
+```typescript
+// Global test setup for environment variables and shared state
+export default function setup() {
+  // Set up test-specific environment variables
+  process.env.NUXT_SITE_TOKEN = 'test-token-value'
+  // Additional setup as needed
+}
+```
+
+## Test Data Management
+
+### Using Zod Mock for Realistic Data
+```typescript
+import { generateMock } from '@anatine/zod-mock'
+import { z } from 'zod'
+
+// Schema-based mock generation
+const linkSchema = z.object({
+  url: z.string().url(),
+  slug: z.string().min(1).max(50),
+  description: z.string().optional(),
+})
+
+const testLink = generateMock(linkSchema)
+// Generates: { url: "https://example.com", slug: "abc123", description: "..." }
+```
+
+### Creating Test Fixtures
+```typescript
+// tests/api/helpers/fixtures.ts
+import { faker } from '@faker-js/faker'
+
+export const linkFixtures = {
+  valid: {
+    url: 'https://example.com',
+    slug: 'test-link',
+    description: 'A test link for unit testing'
+  },
+
+  withExpiry: {
+    url: 'https://temporary.com',
+    slug: 'temp-link',
+    expiresAt: new Date(Date.now() + 86400000).toISOString() // 24 hours
+  },
+
+  longUrl: {
+    url: 'https://very-long-domain-name.example.com/very/long/path/with/many/segments',
+    slug: 'long-url'
   }
+}
+
+export const statsFixtures = {
+  basicStats: {
+    total: 150,
+    unique: 123,
+    timeframe: '7d'
+  },
+
+  geoStats: [
+    { country: 'US', count: 45 },
+    { country: 'UK', count: 30 },
+    { country: 'DE', count: 25 }
+  ]
+}
+
+// Dynamic fixture generation
+export function createRandomLink() {
+  return {
+    url: faker.internet.url(),
+    slug: faker.internet.domainWord(),
+    description: faker.lorem.sentence()
+  }
+}
+```
+
+## Error Testing Patterns
+
+### HTTP Status Code Testing
+```typescript
+describe('Error handling', () => {
+  it('returns 400 for malformed JSON', async () => {
+    const response = await fetchWithAuth('/api/link/create', {
+      method: 'POST',
+      body: 'invalid-json{',
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    expect(response.status).toBe(400)
+  })
+
+  it('returns 422 for validation errors', async () => {
+    const response = await fetchWithAuth('/api/link/create', {
+      method: 'POST',
+      body: JSON.stringify({ url: 'not-a-url' }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    expect(response.status).toBe(422)
+  })
+
+  it('returns 404 for non-existent resources', async () => {
+    const response = await fetchWithAuth('/api/link/query?slug=non-existent')
+    expect(response.status).toBe(404)
+  })
+
+  it('returns 405 for unsupported methods', async () => {
+    const response = await fetchWithAuth('/api/link/create', {
+      method: 'GET', // Should be POST
+    })
+
+    expect(response.status).toBe(405)
+  })
 })
 ```
 
-### Environment Variables
-Set up test-specific environment variables:
+### Rate Limiting and Performance
 ```typescript
-// tests/setup.ts
-import { vi } from 'vitest'
+describe('Performance and limits', () => {
+  it('handles multiple concurrent requests', async () => {
+    const requests = Array.from({ length: 10 }, (_, i) =>
+      fetchWithAuth('/api/link/create', {
+        method: 'POST',
+        body: JSON.stringify({
+          url: `https://example-${i}.com`,
+          slug: `test-${i}`
+        }),
+        headers: { 'Content-Type': 'application/json' },
+      })
+    )
 
-// Mock environment variables for testing
-vi.stubEnv('SITE_TOKEN', 'test-token')
-vi.stubEnv('KV_NAMESPACE', 'test-kv')
+    const responses = await Promise.all(requests)
+
+    // All requests should succeed
+    responses.forEach(response => {
+      expect(response.status).toBe(201)
+    })
+  })
+})
 ```
 
 ## Best Practices
 
-### Test Independence
-- Each test should be independent and not rely on other tests
-- Use `beforeEach` to set up clean state
-- Clean up after tests when necessary
+### Test Organization
+- **Sequential Testing**: Use `describe.sequential()` for tests that modify shared state
+- **Isolation**: Each test should be independent and not rely on others
+- **Cleanup**: Clean up created resources when necessary
+- **Descriptive Names**: Use clear, behavior-focused test descriptions
 
-### Test Data
-- Use meaningful test data that reflects real-world scenarios
-- Create reusable fixtures for common test data
-- Avoid hardcoded values; use constants
+### Data Management
+- **Mock Generation**: Use `@anatine/zod-mock` for schema-consistent test data
+- **Realistic Data**: Generate realistic URLs, slugs, and user inputs
+- **Edge Cases**: Test boundary conditions, empty values, and extreme inputs
+- **State Management**: Be mindful of shared KV storage in sequential tests
 
-### Assertions
-- Test both positive and negative cases
-- Verify response structure and data types
-- Check error messages and status codes
+### Performance Considerations
+- **Focused Tests**: Keep tests fast and focused on specific functionality
+- **Parallel Execution**: Use parallel execution where state doesn't conflict
+- **Resource Usage**: Monitor test execution time and resource consumption
+- **Mock External Services**: Avoid real external API calls in tests
 
-### Performance
-- Keep tests fast and focused
-- Use mocking to avoid external dependencies
-- Group related tests using `describe` blocks
-
-### Coverage Goals
-- Aim for high coverage of critical API endpoints
-- Focus on business logic and error scenarios
-- Don't chase 100% coverage at the expense of test quality
+### Assertion Strategies
+- **Comprehensive Checks**: Verify response status, structure, and data
+- **Type Safety**: Ensure response data matches expected TypeScript types
+- **Error Messages**: Test error response content and structure
+- **Business Logic**: Verify core URL shortening and analytics logic
 
 ## Running Tests
 
-### Commands
+### Available Commands
 ```bash
 # Run all tests
 npm run test
 
-# Run tests in watch mode
-npm run test:watch
-
-# Run tests with coverage
-npm run test:coverage
+# Run tests in watch mode (for development)
+npm run test -- --watch
 
 # Run specific test file
-npm run test tests/api/link/create.test.ts
+npm run test tests/api/link.spec.ts
+
+# Run tests with verbose output
+npm run test -- --reporter=verbose
 
 # Run tests matching pattern
 npm run test -- --grep "authentication"
+
+# Run tests for specific API group
+npm run test tests/api/link/ tests/api/stats/
+```
+
+### Debugging Tests
+```bash
+# Run tests with debugging
+npm run test -- --inspect-brk
+
+# Run single test with detailed output
+npm run test -- --run --reporter=verbose tests/api/link.spec.ts
 ```
 
 ### CI/CD Integration
-- Tests should run on every pull request
-- Enforce minimum coverage thresholds
-- Block merges if tests fail
+- Tests run automatically on every pull request
+- Enforce test passage before merging
+- Consider adding coverage reporting and thresholds
+- Use test results to gate deployments
+
+## Coverage Goals
+
+### Target Areas
+- **API Endpoints**: 100% coverage of all public endpoints
+- **Authentication**: Complete coverage of auth flows and edge cases
+- **Validation**: All input validation paths and error scenarios
+- **Business Logic**: Core URL shortening and analytics functionality
+
+### Coverage Exclusions
+- Configuration files and build scripts
+- Type definitions and interfaces
+- Third-party integrations (mock instead)
+- Development-only utilities
+
+### Monitoring
+- Track coverage trends over time
+- Identify uncovered critical paths
+- Balance coverage percentage with test quality
+- Focus on meaningful coverage over arbitrary numbers

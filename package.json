@@ -20,7 +20,7 @@
     "deploy": "npm run deploy:pages",
     "deploy:pages": "wrangler pages deploy dist",
     "deploy:worker": "wrangler deploy",
-    "preview": "wrangler dev --port 8888 --var $(cat .env | sed 's/=/:/g')",
+    "preview": "wrangler dev --var $(cat .env | sed 's/=/:/g')",
     "test": "vitest"
   },
   "dependencies": {
@@ -52,10 +52,12 @@
     "zod": "^3.25.20"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "^3.14.0",
     "@antfu/eslint-config": "^4.13.2",
+    "@cloudflare/vitest-pool-workers": "^0.8.33",
+    "@faker-js/faker": "^9.8.0",
     "@nuxt/eslint": "^1.4.1",
     "@nuxt/eslint-config": "^1.4.1",
-    "@nuxt/test-utils": "^3.19.1",
     "@nuxthub/core": "^0.8.27",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/i18n": "^9.5.4",
