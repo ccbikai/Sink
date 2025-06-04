@@ -8,7 +8,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
   <section class="md:pt-6">
     <div class="container flex flex-col items-center py-8 mx-auto sm:flex-row">
       <a
-        href="https://sink.cool"
+        href="https://green.computer"
         class="text-xl font-black leading-none text-gray-900 select-none dark:text-gray-100 logo"
         :title="title"
       >{{ title }}</a>
@@ -18,7 +18,7 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
         target="_blank"
         title="HTML.ZONE"
       >
-        &copy; {{ new Date().getFullYear() }} Products of HTML.ZONE
+        &copy; {{ new Date().getFullYear() }} Product of GREEN COMPUTER SYSTEMS
       </a>
       <span
         class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
