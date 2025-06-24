@@ -1,14 +1,39 @@
 <script setup>
+import { ref, computed, watch, onMounted } from 'vue'
 import { useInfiniteScroll } from '@vueuse/core'
 import { Loader } from 'lucide-vue-next'
+import { usePreferences } from '~/composables/usePreferences'
 
+const { preferences, updateLinkSorting, isLoading: prefsLoading } = usePreferences()
 const links = ref([])
 const limit = 24
 let cursor = ''
 let listComplete = false
 let listError = false
 
+// Initialize sorting state from preferences or default to 'az'
 const sortBy = ref('az')
+
+// Initialize preferences and set initial sort
+onMounted(async () => {
+  if (preferences.value.linkSorting?.field) {
+    sortBy.value = preferences.value.linkSorting.field
+  }
+})
+
+// Watch for changes in sorting preference
+watch(sortBy, (newValue) => {
+  // Determine the direction based on the sort field
+  const direction = newValue === 'za' || newValue === 'oldest' ? 'desc' : 'asc'
+  updateLinkSorting(newValue, direction)
+})
+
+// Watch for changes in preferences
+watch(() => preferences.value.linkSorting, (newSorting) => {
+  if (newSorting?.field && newSorting.field !== sortBy.value) {
+    sortBy.value = newSorting.field
+  }
+}, { deep: true })
 
 const displayedLinks = computed(() => {
   const sorted = [...links.value]
@@ -47,12 +72,16 @@ async function getLinks() {
 
 const { isLoading } = useInfiniteScroll(
   document,
-  getLinks,
+  async () => {
+    if (!prefsLoading.value) {
+      await getLinks()
+    }
+  },
   {
     distance: 150,
     interval: 1000,
     canLoadMore: () => {
-      return !listError && !listComplete
+      return !listError && !listComplete && !prefsLoading.value
     },
   },
 )
