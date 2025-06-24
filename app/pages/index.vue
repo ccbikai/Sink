@@ -1,9 +1,9 @@
+<script setup lang="ts">
+definePageMeta({
+  middleware: 'redirect-home',
+})
+</script>
+
 <template>
-  <main class="flex flex-col justify-center">
-    <HomeTwitter />
-    <HomeHero />
-    <HomeFeatures />
-    <HomeLogos />
-    <HomeCta />
-  </main>
+  <this will not render navbar and footer- />
 </template>
