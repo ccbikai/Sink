@@ -9,7 +9,7 @@
   },
   "compatibility_date": "2025-05-08",
   "compatibility_flags": [
-    "nodejs_compat"
+    "nodejs_als"
   ],
   "keep_vars": true,
   "upload_source_maps": true,
