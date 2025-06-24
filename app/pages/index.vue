@@ -1,9 +1,10 @@
 <script setup lang="ts">
 definePageMeta({
-  middleware: 'redirect-home',
+  layout: false,
+  middleware: ['redirect-home'],
 })
 </script>
 
 <template>
-  <this will not render navbar and footer- />
+  <div style="display: none" />
 </template>
