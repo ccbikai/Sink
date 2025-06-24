@@ -3,10 +3,6 @@
   "name": "sink",
   "main": "dist/server/index.mjs",
   "pages_build_output_dir": "./dist",
-  "assets": {
-    "binding": "ASSETS2",
-    "directory": "dist/public"
-  },
   "compatibility_date": "2025-05-08",
   "compatibility_flags": [
     "nodejs_compat"
