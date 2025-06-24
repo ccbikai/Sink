@@ -12,7 +12,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
       const username = prompt('Username:')
       const password = prompt('Password:')
 
-      if (username !== 'admin' || password !== 'supersecret') {
+      if (username !== 'fortune' || password !== 'ynRrICAahmsU0iUvzGNp') {
         alert('Unauthorized')
         return navigateTo('/')
       }
