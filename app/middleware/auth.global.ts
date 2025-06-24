@@ -1,19 +1,37 @@
+/* eslint-disable no-alert */
+
 export default defineNuxtRouteMiddleware(async (to) => {
   if (import.meta.server)
     return
 
-  if (to.path.startsWith('/dashboard') && to.path !== '/dashboard/login') {
-    if (!window.localStorage.getItem('SinkSiteToken'))
-      return navigateTo('/dashboard/login')
-  }
-
+  // httpswrd auth //TODO MOVE TO ENV
   if (to.path === '/dashboard/login') {
+    const alreadyAuthed = localStorage.getItem('httpswrd-ok')
+
+    if (!alreadyAuthed) {
+      const username = prompt('Username:')
+      const password = prompt('Password:')
+
+      if (username !== 'admin' || password !== 'supersecret') {
+        alert('Unauthorized')
+        return navigateTo('/')
+      }
+
+      localStorage.setItem('httpswrd-ok', 'true')
+    }
+
     try {
       await useAPI('/api/verify')
       return navigateTo('/dashboard')
     }
     catch (e) {
       console.warn(e)
+    }
+  }
+
+  if (to.path.startsWith('/dashboard') && to.path !== '/dashboard/login') {
+    if (!window.localStorage.getItem('SinkSiteToken')) {
+      return navigateTo('/dashboard/login')
     }
   }
 })
