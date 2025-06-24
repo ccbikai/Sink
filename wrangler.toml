@@ -1,0 +1,22 @@
+# wrangler.toml
+name = "sink"
+main = "dist/server/index.mjs"
+compatibility_date = "2025-05-08"
+compatibility_flags = ["nodejs_compat"]
+keep_vars = true
+upload_source_maps = true
+
+[assets]
+binding = "ASSETS"
+directory = "dist/public"
+
+[ai]
+binding = "AI"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "sink"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "4c59885610f24810bfdda1bd71c260f2" # IMPORTANT: Change this to your KV namespace ID
