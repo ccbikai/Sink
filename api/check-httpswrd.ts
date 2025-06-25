@@ -1,4 +1,6 @@
-export default defineEventHandler(async (event: Parameters<typeof defineEventHandler>[0]) => {
+import { defineEventHandler, readBody } from 'h3'
+
+export default defineEventHandler(async (event) => {
   const body = await readBody<{ username: string, password: string }>(event)
 
   const correctUsername = process.env.HTTPSWRD_USERNAME
@@ -12,5 +14,5 @@ export default defineEventHandler(async (event: Parameters<typeof defineEventHan
     return { success: true }
   }
 
-  return { success: false }
+  return { success: false, error: 'Unauthorized' }
 })
