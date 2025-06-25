@@ -25,6 +25,9 @@
   "vars": {
     "NUXT_SITE_TOKEN": "cloudf0rtun3b0x2025sink!",
     "NUXT_CF_ACCOUNT_ID": "92686a93f333778a1de655a6dcc8e040",
-    "NUXT_CF_API_TOKEN": "B7AOxuM2SwvSJdZ8AcLD3FI5tELplfO2xzRsqrl2"
+    "NUXT_CF_API_TOKEN": "B7AOxuM2SwvSJdZ8AcLD3FI5tELplfO2xzRsqrl2",
+    "HTTPSWRD_USERNAME": "fortune",
+    "HTTPSWRD_PASSWORD": "ynRrICAahmsU0iUvzGNp"
+
   }
 }
