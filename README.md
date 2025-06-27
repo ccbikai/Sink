@@ -1,3 +1,34 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="right">
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=en">English</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=zh-CN">简体中文</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=zh-TW">繁體中文</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=ja">日本語</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=ko">한국어</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=hi">हिन्दी</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=th">ไทย</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=fr">Français</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=de">Deutsch</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=es">Español</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=it">Itapano</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=ru">Русский</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=pt">Português</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=nl">Nederlands</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=pl">Polski</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=ar">العربية</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=fa">فارسی</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=tr">Türkçe</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=vi">Tiếng Việt</a></p>
+        <p><a href="https://openaitx.github.io/view.html?user=ccbikai&project=sink&lang=id">Bahasa Indonesia</a></p>
+      </div>
+    </div>
+  </details>
+</div>
+
 # ⚡ Sink
 
 **A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.**
