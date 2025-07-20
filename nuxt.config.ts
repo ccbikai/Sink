@@ -50,6 +50,9 @@ export default defineNuxtConfig({
     '/dashboard': {
       redirect: '/dashboard/links',
     },
+    '/api/**': {
+      cors: process.env.NUXT_API_CORS === 'true',
+    },
   },
 
   future: {
@@ -58,10 +61,6 @@ export default defineNuxtConfig({
 
   experimental: {
     enforceModuleCompatibility: true,
-  },
-
-  compatibilityDate: {
-    cloudflare: '2025-05-08',
   },
 
   nitro: {

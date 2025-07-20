@@ -61,3 +61,7 @@ Set the maximum query data volume for the Metric list.
 ## `NUXT_DISABLE_BOT_ACCESS_LOG`
 
 Access statistics do not count bot traffic.
+
+## `NUXT_API_CORS`
+
+Set the environment variable `NUXT_API_CORS=true` during build to enable CORS support for the API.
