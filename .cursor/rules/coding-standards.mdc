@@ -156,50 +156,238 @@ export async function createLink(url: string, slug?: string): Promise<LinkData> 
 }
 ```
 
-## Testing Requirements
+## Testing Standards
 
-### Type Checking
-- Resolve all TypeScript errors
-- Use strict type configuration
+### Unit Testing Requirements
+- **Mandatory for all `server/api` endpoints** - Every API route must have comprehensive unit tests
+- Use Vitest as the primary testing framework with Nuxt Test Utils
+- Follow the Test-Driven Development (TDD) approach when possible
+- Maintain test coverage above 80% for API endpoints
 
-### Code Style
-- Follow ESLint rules
-- Use Prettier for code formatting
-- Automatically run lint-staged on commit
+### Testing Scope and Strategy
+- **API Layer**: Test all endpoints in [server/api/](mdc:server/api/) directory
+- **Validation Logic**: Test Zod schemas and input validation
+- **Error Handling**: Verify error responses and status codes
+- **Authentication**: Test token validation and authorization flows
+- **Business Logic**: Cover edge cases and critical functionality
 
-### Manual Testing
-- Test main user flows
-- Verify API endpoint functionality
-- Check responsive design
+### Test File Organization
+```typescript
+// File naming convention
+tests/api/link/create.test.ts          // Unit tests for API endpoints
+tests/api/helpers/fixtures.ts          // Shared test data
+tests/sink.spec.ts                     // Integration/E2E tests
+```
+
+### Testing Best Practices
+- **Write descriptive test names** that explain the behavior being tested
+- **Test both happy path and error scenarios**
+- **Use meaningful assertions** that validate expected behavior
+- **Keep tests independent** - no test should depend on another test's state
+- **Mock external dependencies** to ensure test reliability
+
+```typescript
+// ✅ Good test structure
+describe('POST /api/link/create', () => {
+  it('should create a new link with valid URL and custom slug', async () => {
+    const response = await $fetch('/api/link/create', {
+      method: 'POST',
+      body: { url: 'https://example.com', slug: 'my-link' }
+    })
+
+    expect(response.success).toBe(true)
+    expect(response.data.slug).toBe('my-link')
+    expect(response.data.url).toBe('https://example.com')
+  })
+
+  it('should reject requests with invalid URL format', async () => {
+    await expect($fetch('/api/link/create', {
+      method: 'POST',
+      body: { url: 'not-a-valid-url' }
+    })).rejects.toThrow()
+  })
+})
+```
+
+### Test Data Management
+- Use factory functions for creating test data
+- Store common test fixtures in `tests/api/helpers/fixtures.ts`
+- Avoid hardcoded values in tests; use constants and variables
+
+```typescript
+// ✅ Good test data management
+const validLinkPayload = {
+  url: 'https://example.com',
+  slug: 'test-slug',
+  expiresAt: new Date(Date.now() + 86400000).toISOString()
+}
+
+const invalidUrlPayload = {
+  url: 'invalid-url-format',
+  slug: 'test-slug'
+}
+```
+
+### Running and Maintaining Tests
+- Run tests locally before pushing changes: `npm run test`
+- Use watch mode during development: `npm run test:watch`
+- Generate coverage reports: `npm run test:coverage`
+- Tests must pass in CI/CD pipeline before merging
 
 ## Git Commit Conventions
 
 ### Commit Message Format
+Follow the conventional commit specification:
 ```
-type(scope): description
+type(scope): brief description
 
-body (optional)
+Optional body explaining what and why vs how
 
-footer (optional)
+Optional footer with issue references
 ```
 
 ### Commit Types
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation update
-- `style`: Code style (no functional impact)
-- `refactor`: Refactoring
-- `perf`: Performance optimization
-- `test`: Testing related
-- `chore`: Build process or auxiliary tool changes
+- **feat**: New feature implementation
+- **fix**: Bug fix or issue resolution
+- **docs**: Documentation updates only
+- **style**: Code formatting changes (no functional impact)
+- **refactor**: Code restructuring without changing functionality
+- **perf**: Performance optimization
+- **test**: Adding or modifying tests
+- **chore**: Build process, dependency updates, or auxiliary tool changes
+- **ci**: Continuous integration configuration changes
 
-### Example
-```
-feat(api): add AI-powered slug generation
+### Scope Examples
+- **api**: Changes to server/api endpoints
+- **ui**: Frontend components or styling
+- **auth**: Authentication related changes
+- **db**: Database or data storage changes
+- **config**: Configuration file updates
 
-- Integrate Cloudflare AI for automatic slug creation
+### Writing Good Commit Messages
+
+#### Good Examples
+```bash
+feat(api): add AI-powered slug generation endpoint
+
+Integrate Cloudflare AI Workers to automatically generate
+meaningful slugs based on URL content and page titles.
+
 - Add new /api/link/ai endpoint
+- Implement content analysis logic
 - Update link creation flow to support AI suggestions
+- Add comprehensive test coverage
 
 Closes #123
 ```
+
+```bash
+fix(auth): resolve token validation edge case
+
+Handle expired tokens more gracefully by returning proper
+401 status code instead of throwing unhandled exceptions.
+
+Fixes #456
+```
+
+```bash
+test(api): add comprehensive coverage for link endpoints
+
+- Add unit tests for create, edit, delete operations
+- Include validation error scenarios
+- Test authentication requirements
+- Achieve 85% coverage for link management APIs
+```
+
+#### Avoid These Patterns
+```bash
+# ❌ Too vague
+fix: stuff
+
+# ❌ Not descriptive
+update code
+
+# ❌ Multiple concerns in one commit
+feat: add new API endpoint and fix UI bug and update docs
+
+# ❌ All caps or inconsistent formatting
+FIX: BROKEN AUTH SYSTEM
+```
+
+### Commit Best Practices
+
+#### Single Responsibility
+Each commit should represent one logical change:
+- One feature addition
+- One bug fix
+- One refactoring operation
+- One documentation update
+
+#### Atomic Commits
+Commits should be complete and functional:
+- Code compiles without errors
+- Tests pass
+- No broken functionality introduced
+
+#### Meaningful Descriptions
+- Use imperative mood ("add feature" not "added feature")
+- Capitalize the first letter
+- No period at the end of the subject line
+- Keep subject line under 50 characters
+- Use body for detailed explanations when needed
+
+### Branch Naming Conventions
+```bash
+# Feature branches
+feature/ai-slug-generation
+feature/link-expiration
+
+# Bug fix branches
+fix/auth-token-validation
+fix/mobile-responsive-layout
+
+# Documentation branches
+docs/api-endpoint-guide
+docs/deployment-instructions
+
+# Hotfix branches
+hotfix/security-vulnerability
+hotfix/production-crash
+```
+
+### Pull Request Guidelines
+
+#### PR Title Format
+Use the same format as commit messages:
+```
+feat(api): add AI-powered slug generation
+fix(auth): resolve token validation edge case
+docs(readme): update installation instructions
+```
+
+#### PR Description Template
+```markdown
+## Summary
+Brief description of changes made
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Refactoring
+- [ ] Performance improvement
+
+## Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+## Checklist
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated if needed
+- [ ] Tests cover new functionality
+- [ ] No breaking changes introduced
+```
+
+This standardized approach ensures clean, readable commit history and makes it easier to track changes, generate changelogs, and collaborate effectively with team members.

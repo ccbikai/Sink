@@ -26,3 +26,4 @@ node_modules
 site
 cache
 public/world.json
+.dev.*

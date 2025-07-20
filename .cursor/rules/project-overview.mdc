@@ -16,6 +16,8 @@ This is a full-stack application built with Nuxt.js, utilizing the following tec
 - **Database**: Cloudflare Workers KV
 - **Analytics Engine**: Cloudflare Workers Analytics Engine
 - **Deployment Platform**: Cloudflare Workers/Pages
+- **Testing Framework**: Vitest with Nuxt Test Utils
+- **Type Safety**: TypeScript with strict mode enabled
 
 ## Core Features
 
@@ -34,12 +36,39 @@ This is a full-stack application built with Nuxt.js, utilizing the following tec
   - `layouts/`: Layout components
   - `middleware/`: Middleware
 - **server/**: Backend API code
-  - `api/`: API route handlers
+  - `api/`: API route handlers ([server/api/](mdc:server/api/))
   - `middleware/`: Server middleware
   - `utils/`: Server utility functions
+- **tests/**: Testing infrastructure
+  - `api/`: Unit tests for API endpoints
+  - `helpers/`: Test utilities and fixtures
+  - [sink.spec.ts](mdc:tests/sink.spec.ts): Integration tests
 - **i18n/**: Internationalization configuration
 - **schemas/**: Data validation schemas
 - **scripts/**: Build scripts
+
+## Testing Strategy
+
+### Testing Philosophy
+The project follows a **focused testing approach** where unit testing is exclusively applied to the `server/api` directory. This ensures:
+- **API Reliability**: All backend endpoints are thoroughly tested
+- **Data Integrity**: Input validation and business logic are verified
+- **Error Handling**: Proper error responses and status codes
+- **Security**: Authentication and authorization mechanisms
+
+### Testing Architecture
+- **Unit Tests**: Comprehensive coverage of all API endpoints in [server/api/](mdc:server/api/)
+- **Integration Tests**: E2E testing for critical user flows
+- **Test Framework**: Vitest with Nuxt Test Utils for API testing
+- **Coverage Target**: Minimum 80% coverage for API endpoints
+- **CI/CD Integration**: Automated testing on every pull request
+
+### Key Test Areas
+1. **Link Management APIs**: Create, edit, delete, query operations
+2. **Statistics APIs**: Analytics data retrieval and processing
+3. **Authentication**: Token validation and security checks
+4. **Input Validation**: Zod schema validation testing
+5. **Error Scenarios**: Comprehensive error handling verification
 
 ## Configuration Files
 
@@ -48,3 +77,29 @@ This is a full-stack application built with Nuxt.js, utilizing the following tec
 - [wrangler.jsonc](mdc:wrangler.jsonc): Cloudflare Workers configuration
 - [tailwind.config.js](mdc:tailwind.config.js): Tailwind CSS configuration
 - [eslint.config.mjs](mdc:eslint.config.mjs): ESLint configuration
+
+## Development Workflow
+
+### Quality Assurance
+The project maintains high code quality through:
+- **Type Safety**: Strict TypeScript configuration
+- **Code Standards**: ESLint and Prettier enforcement
+- **Testing Requirements**: Mandatory unit tests for all API endpoints
+- **Pre-commit Hooks**: Automated linting and testing before commits
+- **Code Reviews**: Comprehensive review process for all changes
+
+### Development Commands
+```bash
+# Development
+npm run dev              # Start development server
+npm run test             # Run all tests
+
+# Quality Checks
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix ESLint issues
+npm run build            # Build for production
+
+# Deployment
+npm run deploy           # Deploy to Cloudflare Pages
+npm run preview          # Preview with Wrangler
+```
