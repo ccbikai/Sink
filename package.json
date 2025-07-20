@@ -55,7 +55,6 @@
     "@anatine/zod-mock": "^3.14.0",
     "@antfu/eslint-config": "^4.13.2",
     "@cloudflare/vitest-pool-workers": "^0.8.33",
-    "@faker-js/faker": "^9.8.0",
     "@nuxt/eslint": "^1.4.1",
     "@nuxt/eslint-config": "^1.4.1",
     "@nuxthub/core": "^0.8.27",

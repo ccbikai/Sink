@@ -96,9 +96,6 @@ importers:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.8.33
         version: 0.8.33(@vitest/runner@3.1.4)(@vitest/snapshot@3.1.4)(vitest@3.1.4(@types/debug@4.1.12)(@types/node@20.12.11)(jiti@2.4.2)(terser@5.31.0)(yaml@2.8.0))
-      '@faker-js/faker':
-        specifier: ^9.8.0
-        version: 9.8.0
       '@nuxt/eslint':
         specifier: ^1.4.1
         version: 1.4.1(@vue/compiler-sfc@3.5.14)(eslint@9.27.0(jiti@2.4.2))(magicast@0.3.5)(typescript@5.7.2)(vite@6.3.5(@types/node@20.12.11)(jiti@2.4.2)(terser@5.31.0)(yaml@2.8.0))
