@@ -67,7 +67,7 @@
     "eslint": "^9.27.0",
     "eslint-plugin-format": "^1.0.1",
     "lint-staged": "^16.0.0",
-    "nuxt": "^3.17.4",
+    "nuxt": "^4.0.3",
     "shadcn-nuxt": "^2.1.0",
     "simple-git-hooks": "^2.13.0",
     "tailwind-merge": "^3.3.0",
