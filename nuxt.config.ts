@@ -55,10 +55,6 @@ export default defineNuxtConfig({
     },
   },
 
-  future: {
-    compatibilityVersion: 4,
-  },
-
   experimental: {
     enforceModuleCompatibility: true,
   },
