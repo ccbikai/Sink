@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
+import type { RadioGroupItemProps } from 'radix-vue'
+import type { HTMLAttributes } from 'vue'
+import { Circle } from 'lucide-vue-next'
 import {
   RadioGroupIndicator,
   RadioGroupItem,
-  type RadioGroupItemProps,
+
   useForwardProps,
 } from 'radix-vue'
-import { Circle } from 'lucide-vue-next'
-import { cn } from '@/utils'
+import { computed } from 'vue'
+import { cn } from '@/lib/utils'
 
 const props = defineProps<RadioGroupItemProps & { class?: HTMLAttributes['class'] }>()
 
