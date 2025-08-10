@@ -59,7 +59,10 @@ export default defineNuxtConfig({
     enforceModuleCompatibility: true,
   },
 
+  compatibilityDate: 'latest',
+
   nitro: {
+    preset: import.meta.env.DEV ? 'cloudflare-module' : undefined,
     experimental: {
       openAPI: true,
     },
