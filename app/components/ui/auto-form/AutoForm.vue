@@ -1,13 +1,14 @@
 <script setup lang="ts" generic="T extends ZodObjectOrWrapped">
-import { computed, toRefs } from 'vue'
-import type { ZodAny, z } from 'zod'
-import { toTypedSchema } from '@vee-validate/zod'
-import type { FormContext, GenericObject } from 'vee-validate'
-import { type ZodObjectOrWrapped, getBaseSchema, getBaseType, getDefaultValueInZodStack, getObjectFormSchema } from './utils'
-import type { Config, ConfigItem, Dependency, Shape } from './interface'
-import AutoFormField from './AutoFormField.vue'
-import { provideDependencies } from './dependencies'
+import type { FormContext, GenericObject } from "vee-validate"
+import type { z, ZodAny } from "zod"
+import type { Config, ConfigItem, Dependency, Shape } from "./interface"
+import type { ZodObjectOrWrapped } from "./utils"
+import { toTypedSchema } from "@vee-validate/zod"
+import { computed, toRefs } from "vue"
 import { Form } from '@/components/ui/form'
+import AutoFormField from "./AutoFormField.vue"
+import { provideDependencies } from "./dependencies"
+import { getBaseSchema, getBaseType, getDefaultValueInZodStack, getObjectFormSchema } from "./utils"
 
 const props = defineProps<{
   schema: T
@@ -17,7 +18,7 @@ const props = defineProps<{
 }>()
 
 const emits = defineEmits<{
-  submit: [event: GenericObject]
+  submit: [event: z.infer<T>]
 }>()
 
 const { dependencies } = toRefs(props)
@@ -31,15 +32,15 @@ const shapes = computed(() => {
   Object.keys(shape).forEach((name) => {
     const item = shape[name] as ZodAny
     const baseItem = getBaseSchema(item) as ZodAny
-    let options = (baseItem && 'values' in baseItem._def) ? baseItem._def.values as string[] : undefined
-    if (!Array.isArray(options) && typeof options === 'object')
+    let options = (baseItem && "values" in baseItem._def) ? baseItem._def.values as string[] : undefined
+    if (!Array.isArray(options) && typeof options === "object")
       options = Object.values(options)
 
     val[name as keyof T] = {
       type: getBaseType(item),
       default: getDefaultValueInZodStack(item),
       options,
-      required: !['ZodOptional', 'ZodNullable'].includes(item._def.typeName),
+      required: !["ZodOptional", "ZodNullable"].includes(item._def.typeName),
       schema: baseItem,
     }
   })
@@ -60,11 +61,11 @@ const fields = computed(() => {
   return val
 })
 
-const formComponent = computed(() => props.form ? 'form' : Form)
+const formComponent = computed(() => props.form ? "form" : Form)
 const formComponentProps = computed(() => {
   if (props.form) {
     return {
-      onSubmit: props.form.handleSubmit(val => emits('submit', val)),
+      onSubmit: props.form.handleSubmit(val => emits("submit", val)),
     }
   }
   else {
@@ -72,7 +73,7 @@ const formComponentProps = computed(() => {
     return {
       keepValues: true,
       validationSchema: formSchema,
-      onSubmit: (val: GenericObject) => emits('submit', val),
+      onSubmit: (val: GenericObject) => emits("submit", val),
     }
   }
 })

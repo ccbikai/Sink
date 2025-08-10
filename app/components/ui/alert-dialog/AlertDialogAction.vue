@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import type { AlertDialogActionProps } from 'radix-vue'
-import type { HTMLAttributes } from 'vue'
-import { AlertDialogAction } from 'radix-vue'
-import { computed } from 'vue'
+import type { AlertDialogActionProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { AlertDialogAction } from "reka-ui"
+import { cn } from "@/lib/utils"
 import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 
-const props = defineProps<AlertDialogActionProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<AlertDialogActionProps & { class?: HTMLAttributes["class"] }>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 </script>
 
 <template>

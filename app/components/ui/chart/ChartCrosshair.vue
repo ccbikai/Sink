@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { VisCrosshair, VisTooltip } from '@unovis/vue'
-import type { BulletLegendItemInterface } from '@unovis/ts'
-import { omit } from '@unovis/ts'
-import { type Component, createApp } from 'vue'
-import { ChartTooltip } from '.'
+import type { BulletLegendItemInterface } from "@unovis/ts"
+import type { Component } from "vue"
+import { omit } from "@unovis/ts"
+import { VisCrosshair, VisTooltip } from "@unovis/vue"
+import { createApp } from "vue"
+import { ChartTooltip } from "."
 
 const props = withDefaults(defineProps<{
   colors: string[]
@@ -21,11 +22,11 @@ function template(d: any) {
     return wm.get(d)
   }
   else {
-    const componentDiv = document.createElement('div')
+    const componentDiv = document.createElement("div")
     const omittedData = Object.entries(omit(d, [props.index])).map(([key, value]) => {
       const legendReference = props.items.find(i => i.name === key)
       return { ...legendReference, value }
-    }).filter(i => i.name)
+    })
     const TooltipComponent = props.customTooltip ?? ChartTooltip
     createApp(TooltipComponent, { title: d[props.index].toString(), data: omittedData }).mount(componentDiv)
     wm.set(d, componentDiv.innerHTML)
@@ -34,17 +35,11 @@ function template(d: any) {
 }
 
 function color(d: unknown, i: number) {
-  return props.colors[i] ?? 'transparent'
+  return props.colors[i] ?? "transparent"
 }
 </script>
 
 <template>
-  <VisTooltip
-    :horizontal-shift="20"
-    :vertical-shift="20"
-  />
-  <VisCrosshair
-    :template="template"
-    :color="color"
-  />
+  <VisTooltip :horizontal-shift="20" :vertical-shift="20" />
+  <VisCrosshair :template="template" :color="color" />
 </template>

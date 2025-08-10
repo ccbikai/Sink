@@ -1,19 +1,15 @@
 <script lang="ts" setup>
-import type { RangeCalendarNextProps } from 'radix-vue'
-import type { HTMLAttributes } from 'vue'
-import { ChevronRight } from 'lucide-vue-next'
-import { RangeCalendarNext, useForwardProps } from 'radix-vue'
-import { computed } from 'vue'
+import type { RangeCalendarNextProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { ChevronRightIcon } from '@radix-icons/vue'
+import { RangeCalendarNext, useForwardProps } from "reka-ui"
+import { cn } from "@/lib/utils"
 import { buttonVariants } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 
-const props = defineProps<RangeCalendarNextProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<RangeCalendarNextProps & { class?: HTMLAttributes["class"] }>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 
 const forwardedProps = useForwardProps(delegatedProps)
 </script>
@@ -21,14 +17,14 @@ const forwardedProps = useForwardProps(delegatedProps)
 <template>
   <RangeCalendarNext
     :class="cn(
-      buttonVariants({ variant: 'outline-solid' }),
+      buttonVariants({ variant: 'outline' }),
       'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100',
       props.class,
     )"
     v-bind="forwardedProps"
   >
     <slot>
-      <ChevronRight class="h-4 w-4" />
+      <ChevronRightIcon class="h-4 w-4" />
     </slot>
   </RangeCalendarNext>
 </template>

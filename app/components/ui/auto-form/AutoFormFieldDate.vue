@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import type { FieldProps } from './interface'
-import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
-import { CalendarIcon } from 'lucide-vue-next'
+import type { FieldProps } from "./interface"
+import { DateFormatter, getLocalTimeZone } from "@internationalized/date"
+import { CalendarIcon } from "lucide-vue-next"
+import { cn } from "@/lib/utils"
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
+import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { cn } from '@/lib/utils'
-import AutoFormLabel from './AutoFormLabel.vue'
-import { beautifyObjectName } from './utils'
+import AutoFormLabel from "./AutoFormLabel.vue"
+import { beautifyObjectName, maybeBooleanishToBoolean } from "./utils"
 
 defineProps<FieldProps>()
 
-const df = new DateFormatter('en-US', {
-  dateStyle: 'long',
+const df = new DateFormatter("en-US", {
+  dateStyle: "long",
 })
 </script>
 
@@ -28,7 +28,7 @@ const df = new DateFormatter('en-US', {
         <slot v-bind="slotProps">
           <div>
             <Popover>
-              <PopoverTrigger as-child :disabled="disabled">
+              <PopoverTrigger as-child :disabled="maybeBooleanishToBoolean(config?.inputProps?.disabled) ?? disabled">
                 <Button
                   variant="outline"
                   :class="cn(
@@ -36,7 +36,7 @@ const df = new DateFormatter('en-US', {
                     !slotProps.componentField.modelValue && 'text-muted-foreground',
                   )"
                 >
-                  <CalendarIcon class="mr-2 h-4 w-4" :size="16" />
+                  <CalendarIcon class="mr-2 h-4 w-4" />
                   {{ slotProps.componentField.modelValue ? df.format(slotProps.componentField.modelValue.toDate(getLocalTimeZone())) : "Pick a date" }}
                 </Button>
               </PopoverTrigger>

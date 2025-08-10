@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import type { RangeCalendarHeadingProps } from 'radix-vue'
-import type { HTMLAttributes } from 'vue'
-import { RangeCalendarHeading, useForwardProps } from 'radix-vue'
-import { computed } from 'vue'
-import { cn } from '@/lib/utils'
+import type { RangeCalendarHeadingProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { RangeCalendarHeading, useForwardProps } from "reka-ui"
+import { cn } from "@/lib/utils"
 
-const props = defineProps<RangeCalendarHeadingProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<RangeCalendarHeadingProps & { class?: HTMLAttributes["class"] }>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
+defineSlots<{
+  default: (props: { headingValue: string }) => any
+}>()
 
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 
 const forwardedProps = useForwardProps(delegatedProps)
 </script>

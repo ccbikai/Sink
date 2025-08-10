@@ -1,15 +1,12 @@
-<script lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { FORM_ITEM_INJECTION_KEY } from '~/composables'
-</script>
-
 <script lang="ts" setup>
-import { useId } from 'radix-vue'
-import { provide } from 'vue'
-import { cn } from '@/lib/utils'
+import type { HTMLAttributes } from "vue"
+import { useId } from "reka-ui"
+import { provide } from "vue"
+import { cn } from "@/lib/utils"
+import { FORM_ITEM_INJECTION_KEY } from "./injectionKeys"
 
 const props = defineProps<{
-  class?: HTMLAttributes['class']
+  class?: HTMLAttributes["class"]
 }>()
 
 const id = useId()

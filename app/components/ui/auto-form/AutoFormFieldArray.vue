@@ -1,16 +1,16 @@
 <script setup lang="ts" generic="T extends z.ZodAny">
-import type { Config, ConfigItem } from './interface'
-import { PlusIcon, TrashIcon } from 'lucide-vue-next'
-import { FieldArray, FieldContextKey, useField } from 'vee-validate'
-import { computed, provide } from 'vue'
-import * as z from 'zod'
+import type { Config, ConfigItem } from "./interface"
+import { PlusIcon, TrashIcon } from "lucide-vue-next"
+import { FieldArray, FieldContextKey, useField } from "vee-validate"
+import { computed, provide } from "vue"
+import * as z from "zod"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
 import { FormItem, FormMessage } from '@/components/ui/form'
 import { Separator } from '@/components/ui/separator'
-import AutoFormField from './AutoFormField.vue'
-import AutoFormLabel from './AutoFormLabel.vue'
-import { beautifyObjectName, getBaseType } from './utils'
+import AutoFormField from "./AutoFormField.vue"
+import AutoFormLabel from "./AutoFormLabel.vue"
+import { beautifyObjectName, getBaseType } from "./utils"
 
 const props = defineProps<{
   fieldName: string
@@ -76,7 +76,7 @@ provide(FieldContextKey, fieldContext)
                     :config="config as ConfigItem"
                   />
 
-                  <div class="my-4! flex justify-end">
+                  <div class="!my-4 flex justify-end">
                     <Button
                       type="button"
                       size="icon"

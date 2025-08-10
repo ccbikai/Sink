@@ -1,13 +1,15 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { BulletLegendItemInterface } from '@unovis/ts'
-import type { Component } from 'vue'
-import type { BaseChartProps } from '@/components/ui/chart'
-import { Area, Axis, CurveType, Line } from '@unovis/ts'
-import { VisArea, VisAxis, VisLine, VisXYContainer } from '@unovis/vue'
-import { useMounted } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import type { BulletLegendItemInterface } from "@unovis/ts"
+import type { Component } from "vue"
+import type { BaseChartProps } from "."
+import { Area, Axis, CurveType, Line } from "@unovis/ts"
+
+import { VisArea, VisAxis, VisLine, VisXYContainer } from "@unovis/vue"
+import { useMounted } from "@vueuse/core"
+import { useId } from "reka-ui"
+import { computed, ref } from "vue"
+import { cn } from "@/lib/utils"
 import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart'
-import { cn } from '@/lib/utils'
 
 const props = withDefaults(defineProps<BaseChartProps<T> & {
   /**
@@ -42,6 +44,8 @@ const emits = defineEmits<{
 type KeyOfT = Extract<keyof T, string>
 type Data = typeof props.data[number]
 
+const chartRef = useId()
+
 const index = computed(() => props.index as KeyOfT)
 const colors = computed(() => props.colors?.length ? props.colors : defaultColors(props.categories.length))
 
@@ -54,7 +58,7 @@ const legendItems = ref<BulletLegendItemInterface[]>(props.categories.map((categ
 const isMounted = useMounted()
 
 function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
-  emits('legendItemClick', d, i)
+  emits("legendItemClick", d, i)
 }
 </script>
 
@@ -65,7 +69,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
     <VisXYContainer :style="{ height: isMounted ? '100%' : 'auto' }" :margin="{ left: 20, right: 20 }" :data="data">
       <svg width="0" height="0">
         <defs>
-          <linearGradient v-for="(color, i) in colors" :id="`color-${i}`" :key="i" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient v-for="(color, i) in colors" :id="`${chartRef}-color-${i}`" :key="i" x1="0" y1="0" x2="0" y2="1">
             <template v-if="showGradiant">
               <stop offset="5%" :stop-color="color" stop-opacity="0.4" />
               <stop offset="95%" :stop-color="color" stop-opacity="0" />
@@ -87,7 +91,7 @@ function handleLegendItemClick(d: BulletLegendItemInterface, i: number) {
           :curve-type="curveType"
           :attributes="{
             [Area.selectors.area]: {
-              fill: `url(#color-${i})`,
+              fill: `url(#${chartRef}-color-${i})`,
             },
           }"
           :opacity="legendItems.find(item => item.name === category)?.inactive ? filterOpacity : 1"

@@ -1,20 +1,16 @@
 <script lang="ts" setup>
-import type { CalendarRootEmits, CalendarRootProps } from 'radix-vue'
-import type { HTMLAttributes } from 'vue'
-import { CalendarRoot, useForwardPropsEmits } from 'radix-vue'
-import { computed } from 'vue'
-import { cn } from '@/lib/utils'
-import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from '.'
+import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
+import { cn } from "@/lib/utils"
+import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from "."
 
-const props = defineProps<CalendarRootProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<CalendarRootProps & { class?: HTMLAttributes["class"] }>()
 
 const emits = defineEmits<CalendarRootEmits>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
