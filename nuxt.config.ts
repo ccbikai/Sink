@@ -12,13 +12,10 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
   ],
-
   devtools: { enabled: true },
-
   colorMode: {
     classSuffix: '',
   },
-
   runtimeConfig: {
     siteToken: crypto.randomUUID(),
     redirectStatusCode: '301',
@@ -38,7 +35,6 @@ export default defineNuxtConfig({
       slugDefaultLength: '6',
     },
   },
-
   routeRules: {
     '/': {
       prerender: true,
@@ -54,13 +50,10 @@ export default defineNuxtConfig({
       cors: process.env.NUXT_API_CORS === 'true',
     },
   },
-
   experimental: {
     enforceModuleCompatibility: true,
   },
-
   compatibilityDate: 'latest',
-
   nitro: {
     preset: import.meta.env.DEV ? 'cloudflare-module' : undefined,
     experimental: {
@@ -84,7 +77,6 @@ export default defineNuxtConfig({
       },
     },
   },
-
   hub: {
     ai: true,
     analytics: true,
@@ -94,21 +86,18 @@ export default defineNuxtConfig({
     kv: true,
     workers: provider !== 'cloudflare_pages',
   },
-
   eslint: {
     config: {
       stylistic: true,
       standalone: false,
     },
   },
-
   i18n: {
     locales: currentLocales,
     compilation: {
       strictMessage: false,
       escapeHtml: true,
     },
-    lazy: true,
     strategy: 'no_prefix',
     detectBrowserLanguage: {
       useCookie: true,
@@ -118,7 +107,6 @@ export default defineNuxtConfig({
     baseUrl: '/',
     defaultLocale: 'en-US',
   },
-
   shadcn: {
     /**
      * Prefix for all the imported component
