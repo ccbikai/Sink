@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { VisBulletLegend } from '@unovis/vue'
 import type { BulletLegendItemInterface } from '@unovis/ts'
 import { BulletLegend } from '@unovis/ts'
+import { VisBulletLegend } from '@unovis/vue'
 import { nextTick, onMounted, ref } from 'vue'
 import { buttonVariants } from '@/components/ui/button'
 
@@ -21,7 +21,7 @@ onMounted(() => {
   nextTick(() => {
     const elements = elRef.value?.querySelectorAll(selector)
     const classes = buttonVariants({ variant: 'ghost', size: 'xs' }).split(' ')
-    elements?.forEach(el => el.classList.add(...classes, '!inline-flex', '!mr-2'))
+    elements?.forEach(el => el.classList.add(...classes, 'inline-flex!', 'mr-2!'))
   })
 })
 
