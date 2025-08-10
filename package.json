@@ -42,7 +42,7 @@
     "nanoid": "^5.1.5",
     "pluralize": "^8.0.0",
     "qr-code-styling": "^1.9.2",
-    "radix-vue": "^1.9.17",
+    "reka-ui": "^2.4.1",
     "tw-animate-css": "^1.3.6",
     "ua-parser-js": "^2.0.4",
     "vaul-vue": "^0.4.1",
