@@ -49,7 +49,7 @@ function copyLink() {
         <Avatar>
           <AvatarImage
             :src="linkIcon"
-            alt="@radix-vue"
+            :alt="link.slug"
             loading="lazy"
           />
           <AvatarFallback>

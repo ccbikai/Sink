@@ -16,7 +16,7 @@ defineProps({
     >
       <AvatarImage
         :src="`https://unavatar.io/${name}?fallback=false`"
-        alt="@radix-vue"
+        :alt="link.slug"
         loading="lazy"
       />
       <AvatarFallback>
