@@ -26,6 +26,7 @@
   "dependencies": {
     "@intlify/message-compiler": "^11.1.11",
     "@number-flow/vue": "^0.4.8",
+    "@radix-icons/vue": "^1.0.0",
     "@unovis/ts": "^1.5.2",
     "@unovis/vue": "^1.5.2",
     "@vee-validate/zod": "^4.15.1",
