@@ -22,7 +22,6 @@ export default eventHandler(async (event) => {
     const lowerCaseSlug = slug.toLowerCase()
     link = await getLink(caseSensitive ? slug : lowerCaseSlug)
 
-    // fallback to original slug if caseSensitive is false and the slug is not found
     if (!caseSensitive && !link && lowerCaseSlug !== slug) {
       console.log('original slug fallback:', `slug:${slug} lowerCaseSlug:${lowerCaseSlug}`)
       link = await getLink(slug)
