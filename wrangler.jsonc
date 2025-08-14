@@ -34,6 +34,10 @@
     {
       "binding": "NUXT_DATASET",
       "dataset": "sink"
+    },
+    {
+      "binding": "sink",
+      "dataset": "sink"
     }
   ]
 }
