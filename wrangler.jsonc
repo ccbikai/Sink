@@ -25,5 +25,15 @@
     "logs": {
       "enabled": true
     }
-  }
+  },
+  "analytics_engine_datasets": [
+    {
+      "binding": "ANALYTICS",
+      "dataset": "sink"
+    },
+    {
+      "binding": "NUXT_DATASET",
+      "dataset": "sink"
+    }
+  ]
 }
