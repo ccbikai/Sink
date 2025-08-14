@@ -26,5 +26,10 @@
       "binding": "KV",
       "id": "2f63f85478544527ae1c3c1cec097d5d"
     }
-  ]
+  ],
+  "observability": {
+    "logs": {
+      "enabled": true
+    }
+  }
 }
