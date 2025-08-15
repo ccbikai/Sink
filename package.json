@@ -44,6 +44,7 @@
     "qr-code-styling": "^1.9.2",
     "radix-vue": "^1.9.17",
     "ua-parser-js": "^2.0.3",
+    "v": "^0.3.0",
     "vaul-vue": "^0.4.1",
     "vee-validate": "^4.15.0",
     "virtua": "^0.41.2",
