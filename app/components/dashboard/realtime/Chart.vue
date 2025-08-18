@@ -17,7 +17,10 @@ async function getRealtimeStats() {
     },
   })
 
-  stats.value = data?.[0] || {}
+  // 确保visits字段有默认值0
+  stats.value = {
+    visits: Number(data?.[0]?.visits) || 0
+  }
 }
 
 watch([time, filters], getRealtimeStats, {
@@ -32,7 +35,7 @@ onMounted(async () => {
 <template>
   <Card class="md:w-80 h-72 flex flex-col p-4 md:m-2">
     <div class="h-24">
-      <CardHeader v-if="stats.visits" class="flex flex-row justify-between items-center pb-2 space-y-0 px-0 pt-2">
+      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0 px-0 pt-2">
         <CardTitle class="text-sm font-medium flex items-center gap-2">
           <span class="size-1.5 inline-flex animate-ping rounded-full bg-green-400 opacity-75" />
           {{ $t('dashboard.visits') }}
@@ -40,7 +43,7 @@ onMounted(async () => {
         <MousePointerClick class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent class="px-0 pb-4">
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !stats.visits }" :value="stats.visits" />
+        <NumberFlow class="text-2xl font-bold" :value="stats.visits" />
       </CardContent>
     </div>
     <DashboardAnalysisViews

@@ -1,7 +1,21 @@
-import { LinkSchema } from '@@/schemas/link'
+import { LinkSchema } from '../../../schemas/link'
+import { getUserFromToken } from '../../utils/auth'
+import { getExpiration } from '../../utils/time'
+import { eventHandler, readValidatedBody, getRequestProtocol, getRequestHost, setResponseStatus } from 'h3'
+import { useRuntimeConfig } from '#imports'
 
 export default eventHandler(async (event) => {
-  const link = await readValidatedBody(event, LinkSchema.parse)
+  // 获取当前登录用户
+  const user = await getUserFromToken(event)
+  
+  const link = await readValidatedBody(event, (data: any) => {
+    // 确保data是一个对象
+    const validatedData = typeof data === 'object' && data !== null ? data : {};
+    return LinkSchema.parse({
+      ...validatedData,
+      userId: user.id
+    })
+  })
   const { caseSensitive } = useRuntimeConfig(event)
 
   if (!caseSensitive) {
@@ -26,10 +40,11 @@ export default eventHandler(async (event) => {
   await KV.put(`link:${link.slug}`, JSON.stringify(link), {
     expiration,
     metadata: {
-      expiration,
-      url: link.url,
-      comment: link.comment,
-    },
+        expiration,
+        url: link.url,
+        comment: link.comment,
+        userId: link.userId
+      },
   })
 
   setResponseStatus(event, 201)

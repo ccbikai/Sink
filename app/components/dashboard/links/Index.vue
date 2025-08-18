@@ -8,7 +8,7 @@ let cursor = ''
 let listComplete = false
 let listError = false
 
-const sortBy = ref('az')
+const sortBy = ref('newest') // 默认按最新排序
 
 const displayedLinks = computed(() => {
   const sorted = [...links.value]
@@ -28,15 +28,20 @@ const displayedLinks = computed(() => {
 
 async function getLinks() {
   try {
-    const data = await useAPI('/api/link/list', {
+    // 调用获取当前用户链接的API
+    const data = await useAPI('/api/link/me', {
       query: {
         limit,
         cursor,
       },
     })
-    links.value = links.value.concat(data.links).filter(Boolean) // Sometimes cloudflare will return null, filter out
-    cursor = data.cursor
-    listComplete = data.list_complete
+    
+    // 添加新链接到列表中
+    links.value = links.value.concat(data.data || []).filter(Boolean)
+    
+    // 更新分页信息
+    cursor = data.cursor || ''
+    listComplete = data.total <= links.value.length || !cursor
     listError = false
   }
   catch (error) {

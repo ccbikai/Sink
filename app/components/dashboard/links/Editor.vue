@@ -22,21 +22,16 @@ const dialogOpen = ref(false)
 
 const isEdit = !!props.link.id
 
-const EditLinkSchema = LinkSchema.pick({
-  url: true,
-  slug: true,
-}).extend({
-  optional: LinkSchema.omit({
-    id: true,
-    url: true,
-    slug: true,
-    createdAt: true,
-    updatedAt: true,
-    title: true,
-    description: true,
-    image: true,
-  }).extend({
+// 重新定义EditLinkSchema，确保不包含userId字段
+const EditLinkSchema = z.object({
+  url: z.string().trim().url().max(2048),
+  slug: z.string().trim().max(2048).regex(new RegExp(useAppConfig().slugRegex)).default(nanoid()),
+  optional: z.object({
+    comment: z.string().trim().max(2048).optional(),
     expiration: z.coerce.date().optional(),
+    title: z.string().trim().max(2048).optional(),
+    description: z.string().trim().max(2048).optional(),
+    image: z.string().trim().url().max(2048).optional(),
   }).optional(),
 })
 
@@ -85,9 +80,7 @@ async function aiSlug() {
   aiSlugPending.value = true
   try {
     const { slug } = await useAPI('/api/link/ai', {
-      query: {
-        url: form.values.url,
-      },
+      query: { url: form.values.url },
     })
     form.setFieldValue('slug', slug)
   }
