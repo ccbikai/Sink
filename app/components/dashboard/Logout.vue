@@ -1,9 +1,30 @@
 <script setup>
 import { LogOut } from 'lucide-vue-next'
+import { toast } from 'vue-sonner'
 
-function logOut() {
-  localStorage.removeItem('SinkSiteToken')
-  navigateTo('/dashboard/login')
+const { t } = useI18n()
+
+async function logOut() {
+  try {
+    // 调用登出API
+    await useAPI('/api/auth/logout', {
+      method: 'POST',
+    })
+    
+    // 清除本地存储的用户信息
+    localStorage.removeItem('SinkUser')
+    
+    toast.success(t('logout.success'), {
+      description: t('logout.success_message'),
+    })
+    
+    navigateTo('/dashboard/login')
+  } catch (e) {
+    console.error(e)
+    // 即使API调用失败，也清除本地状态并跳转
+    localStorage.removeItem('SinkUser')
+    navigateTo('/dashboard/login')
+  }
 }
 </script>
 

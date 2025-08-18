@@ -1,3 +1,5 @@
+import { eventHandler, createError } from 'h3'
+
 interface Link {
   slug: string
   url: string

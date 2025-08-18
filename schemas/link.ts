@@ -1,5 +1,6 @@
-import { customAlphabet } from 'nanoid'
 import { z } from 'zod'
+import { customAlphabet } from 'nanoid/non-secure'
+import { useAppConfig, useRuntimeConfig } from '#imports'
 
 const { slugRegex } = useAppConfig()
 
@@ -11,6 +12,7 @@ export const LinkSchema = z.object({
   id: z.string().trim().max(26).default(nanoid(10)),
   url: z.string().trim().url().max(2048),
   slug: z.string().trim().max(2048).regex(new RegExp(slugRegex)).default(nanoid()),
+  userId: z.string().trim().max(26),
   comment: z.string().trim().max(2048).optional(),
   createdAt: z.number().int().safe().default(() => Math.floor(Date.now() / 1000)),
   updatedAt: z.number().int().safe().default(() => Math.floor(Date.now() / 1000)),
@@ -22,3 +24,5 @@ export const LinkSchema = z.object({
   description: z.string().trim().max(2048).optional(),
   image: z.string().trim().url().max(2048).optional(),
 })
+
+export type Link = z.infer<typeof LinkSchema>

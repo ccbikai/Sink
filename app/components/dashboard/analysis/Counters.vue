@@ -23,7 +23,12 @@ async function getLinkCounters() {
       ...filters.value,
     },
   })
-  counters.value = data?.[0]
+  // 确保即使API返回数据不完整，所有字段也有默认值0
+  counters.value = {
+    visits: Number(data?.[0]?.visits) || 0,
+    visitors: Number(data?.[0]?.visitors) || 0,
+    referers: Number(data?.[0]?.referers) || 0,
+  }
 }
 
 watch([time, filters], getLinkCounters, {
@@ -45,7 +50,7 @@ onMounted(async () => {
         <MousePointerClick class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visits }" :value="counters.visits" />
+        <NumberFlow class="text-2xl font-bold" :value="counters.visits" />
       </CardContent>
     </Card>
     <Card>
@@ -56,7 +61,7 @@ onMounted(async () => {
         <Users class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visitors }" :value="counters.visitors" />
+        <NumberFlow class="text-2xl font-bold" :value="counters.visitors" />
       </CardContent>
     </Card>
     <Card>
@@ -67,7 +72,7 @@ onMounted(async () => {
         <Flame class="w-4 h-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.referers }" :value="counters.referers" />
+        <NumberFlow class="text-2xl font-bold" :value="counters.referers" />
       </CardContent>
     </Card>
   </div>

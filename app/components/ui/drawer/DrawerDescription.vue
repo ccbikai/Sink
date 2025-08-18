@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { DrawerDescriptionProps } from 'vaul-vue'
 import type { HtmlHTMLAttributes } from 'vue'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils'
 import { DrawerDescription } from 'vaul-vue'
 import { computed } from 'vue'
 

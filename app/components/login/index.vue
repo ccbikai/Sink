@@ -2,14 +2,25 @@
 import { AlertCircle } from 'lucide-vue-next'
 import { toast } from 'vue-sonner'
 import { z } from 'zod'
+// 导入UI组件
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { AutoForm } from '@/components/ui/auto-form'
 
 const { t } = useI18n()
 
 const LoginSchema = z.object({
-  token: z.string().describe('SiteToken'),
+  email: z.string().email(),
+  password: z.string().min(8),
 })
 const loginFieldConfig = {
-  token: {
+  email: {
+    inputProps: {
+      type: 'email',
+      placeholder: 'your@email.com',
+    },
+  },
+  password: {
     inputProps: {
       type: 'password',
       placeholder: '********',
@@ -17,18 +28,23 @@ const loginFieldConfig = {
   },
 }
 
-const { previewMode } = useRuntimeConfig().public
-
 async function onSubmit(form) {
   try {
-    localStorage.setItem('SinkSiteToken', form.token)
-    await useAPI('/api/verify')
+    const response = await useAPI('/api/auth/login', {
+      method: 'POST',
+      body: form,
+    })
+    
+    // 存储用户信息和token
+    localStorage.setItem('SinkUser', JSON.stringify(response.user))
+    localStorage.setItem('SinkSiteToken', response.token)
+    
     navigateTo('/dashboard')
   }
   catch (e) {
     console.error(e)
     toast.error(t('login.failed'), {
-      description: e.message,
+      description: e.message || t('login.invalid_credentials'),
     })
   }
 }
@@ -51,16 +67,15 @@ async function onSubmit(form) {
         :field-config="loginFieldConfig"
         @submit="onSubmit"
       >
-        <Alert v-if="previewMode">
-          <AlertCircle class="w-4 h-4" />
-          <AlertTitle>{{ $t('login.tips') }}</AlertTitle>
-          <AlertDescription>
-            {{ $t('login.preview_token') }} <code class="font-mono text-green-500">SinkCool</code> .
-          </AlertDescription>
-        </Alert>
         <Button class="w-full">
           {{ $t('login.submit') }}
         </Button>
+        <div class="text-center text-sm text-muted-foreground">
+          {{ $t('login.dont_have_account') }} 
+          <a href="/dashboard/register" class="text-primary hover:underline">
+            {{ $t('login.register_link') }}
+          </a>
+        </div>
       </AutoForm>
     </CardContent>
   </Card>
