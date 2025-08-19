@@ -51,6 +51,7 @@ export default eventHandler(async (event) => {
       metadata: {
         expiration,
         url: link.url,
+        env: link.env,
         comment: link.comment,
       },
     })

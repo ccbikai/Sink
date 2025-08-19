@@ -25,11 +25,13 @@ const isEdit = !!props.link.id
 const EditLinkSchema = LinkSchema.pick({
   url: true,
   slug: true,
+  env: true,
 }).extend({
   optional: LinkSchema.omit({
     id: true,
     url: true,
     slug: true,
+    env: true,
     createdAt: true,
     updatedAt: true,
     title: true,
@@ -43,6 +45,10 @@ const EditLinkSchema = LinkSchema.pick({
 const fieldConfig = {
   slug: {
     disabled: isEdit,
+  },
+  env: {
+    label: 'Environment',
+    description: 'Select the environment for this link',
   },
   optional: {
     comment: {
@@ -65,6 +71,7 @@ const form = useForm({
   initialValues: {
     slug: link.value.slug,
     url: link.value.url,
+    env: link.value.env || 'production',
     optional: {
       comment: link.value.comment,
     },
@@ -107,6 +114,7 @@ async function onSubmit(formData) {
   const link = {
     url: formData.url,
     slug: formData.slug,
+    env: formData.env,
     ...(formData.optional || []),
     expiration: formData.optional?.expiration ? date2unix(formData.optional?.expiration, 'end') : undefined,
   }

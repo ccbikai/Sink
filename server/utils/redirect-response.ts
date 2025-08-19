@@ -1,13 +1,11 @@
 import type { DeviceInfo, SmartLinkOptions } from './device-detection'
+import { getEnvironmentBadge, getSafeYouConfig } from './safeyou.config'
 
 const TIMEOUTS = Object.freeze({
-  FALLBACK: 1500,
-  REDIRECT: 250,
-  ULTIMATE: 2000,
-  ANDROID_ATTEMPT: 300,
-  IOS_VISIBILITY: 300,
-  APP_DETECTION: 100,
-  IN_APP_REDIRECT: 100,
+  INITIAL_DELAY: 50,
+  APP_ATTEMPT: 1500,
+  FALLBACK_SHOW: 2000,
+  FORCE_REDIRECT: 3000,
 } as const)
 
 const HEADERS = Object.freeze({
@@ -15,8 +13,6 @@ const HEADERS = Object.freeze({
   CONTENT_TYPE: 'text/html; charset=utf-8',
   SECURITY: 'nosniff',
 } as const)
-
-const DEFAULT_APP_NAME = 'App'
 
 function escapeHtml(str: string): string {
   return str
@@ -27,7 +23,6 @@ function escapeHtml(str: string): string {
     .replace(/'/g, '&#x27;')
 }
 
-// Safe JSON stringification for script injection
 function safeJsonStringify(obj: any): string {
   return JSON.stringify(obj)
     .replace(/</g, '\\u003c')
@@ -48,333 +43,391 @@ function setSecureHeaders(event: any): void {
   }
 }
 
-function getRequestHost(event: any): string {
-  try {
-    return getHeader(event, 'host') || 'localhost'
+function generateSafeYouStyles(environment: string): string {
+  const envColors = {
+    production: { primary: '#6b46c1', secondary: '#9333ea', tertiary: '#c026d3' },
+    staging: { primary: '#dc2626', secondary: '#ea580c', tertiary: '#f59e0b' },
+    development: { primary: '#059669', secondary: '#0d9488', tertiary: '#06b6d4' },
   }
-  catch {
-    return 'localhost'
-  }
+
+  const colors = envColors[environment as keyof typeof envColors] || envColors.production
+
+  return `<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:linear-gradient(135deg,${colors.primary} 0%,${colors.secondary} 50%,${colors.tertiary} 100%);
+  color:#fff;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+.container{
+  max-width:400px;
+  text-align:center;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(20px);
+  border-radius:24px;
+  padding:40px 30px;
+  border:1px solid rgba(255,255,255,0.2);
+  box-shadow:0 20px 40px rgba(0,0,0,0.1);
+  position:relative;
+  z-index:2;
+}
+.logo{
+  width:80px;
+  height:80px;
+  background:#fff;
+  border-radius:20px;
+  margin:0 auto 24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  color:${colors.primary};
+  font-size:32px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.1);
+  position:relative;
+}
+h1{font-size:28px;margin-bottom:12px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,0.1)}
+.status{font-size:16px;opacity:0.9;margin-bottom:32px;font-weight:500}
+.spinner{
+  width:40px;
+  height:40px;
+  margin:20px auto;
+  border:3px solid rgba(255,255,255,0.3);
+  border-top:3px solid #fff;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+.fallback{
+  margin-top:40px;
+  padding:24px;
+  background:rgba(255,255,255,0.1);
+  border-radius:16px;
+  backdrop-filter:blur(10px);
+  display:none;
+  border:1px solid rgba(255,255,255,0.15);
+}
+.fallback h3{
+  font-size:18px;
+  margin-bottom:16px;
+  font-weight:600;
+}
+.fallback p{
+  font-size:14px;
+  opacity:0.9;
+  margin-bottom:20px;
+  line-height:1.5;
+}
+.fallback a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  padding:12px 24px;
+  background:rgba(255,255,255,0.2);
+  border-radius:8px;
+  display:inline-block;
+  margin:8px 4px;
+  transition:all 0.3s ease;
+  font-size:14px;
+  border:1px solid rgba(255,255,255,0.2);
+  min-width:140px;
+}
+.fallback a:hover{
+  background:rgba(255,255,255,0.3);
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+.env-badge{
+  position:absolute;
+  top:20px;
+  right:20px;
+  padding:8px 16px;
+  background:rgba(255,255,255,0.2);
+  border-radius:24px;
+  font-size:12px;
+  text-transform:uppercase;
+  font-weight:700;
+  letter-spacing:0.8px;
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.2);
+  z-index:3;
+}
+.background-blur{
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 70%);
+  animation:float 6s ease-in-out infinite;
+  z-index:1;
+}
+@keyframes float{
+  0%,100%{transform:translate(0,0) rotate(0deg)}
+  33%{transform:translate(30px,-30px) rotate(120deg)}
+  66%{transform:translate(-20px,20px) rotate(240deg)}
+}
+</style>`
 }
 
-function generateOptimizedStyles(): string {
-  return `<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}.container{max-width:400px;text-align:center}.spinner{width:50px;height:50px;border:3px solid rgba(255,255,255,0.3);border-top:3px solid #fff;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}h1{font-size:24px;margin-bottom:8px;font-weight:600}.status{font-size:14px;opacity:0.9;margin-bottom:20px}.fallback{margin-top:30px;padding:16px;background:rgba(255,255,255,0.1);border-radius:10px;backdrop-filter:blur(8px);display:none}.fallback a{color:#fff;text-decoration:none;font-weight:600;padding:10px 20px;background:rgba(255,255,255,0.2);border-radius:6px;display:inline-block;margin:4px;transition:all 0.2s ease;font-size:14px}.fallback a:hover{background:rgba(255,255,255,0.3);transform:translateY(-1px)}</style>`
+export function generateAutoRedirectResponse(event: any, config: SmartLinkOptions, device: DeviceInfo, context?: any): string {
+  setSecureHeaders(event)
+
+  const environment = context?.environment || 'production'
+  const safeYouConfig = getSafeYouConfig(environment)
+  const escapedTarget = escapeHtml(config.target)
+  const envBadge = getEnvironmentBadge(context?.host || '')
+
+  const iosMetaTags = safeYouConfig.iosAppId
+    ? `
+<meta name="apple-itunes-app" content="app-id=${safeYouConfig.iosAppId}">
+<meta property="al:ios:app_store_id" content="${safeYouConfig.iosAppId}">
+<meta property="al:ios:app_name" content="Safe You">
+<meta property="al:ios:url" content="${safeYouConfig.iosUrlScheme}://open?url=${encodeURIComponent(config.target)}&env=${environment}">
+<link rel="alternate" href="ios-app://${safeYouConfig.iosAppId}/${safeYouConfig.iosUrlScheme}/open?url=${encodeURIComponent(config.target)}&env=${environment}">`
+    : ''
+
+  const androidMetaTags = safeYouConfig.androidPackageName
+    ? `
+<meta property="al:android:package" content="${safeYouConfig.androidPackageName}">
+<meta property="al:android:app_name" content="${safeYouConfig.androidAppName}">
+<meta property="al:android:url" content="${safeYouConfig.androidUrlScheme}://${safeYouConfig.androidHost}/open?url=${encodeURIComponent(config.target)}&env=${environment}">
+<link rel="alternate" href="android-app://${safeYouConfig.androidPackageName}/${safeYouConfig.androidUrlScheme}/${safeYouConfig.androidHost}/open?url=${encodeURIComponent(config.target)}&env=${environment}">`
+    : ''
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+<title>SafeYou - Opening App...</title>
+<meta name="description" content="Opening SafeYou app for ${environment} environment">
+<meta name="theme-color" content="#6b46c1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+${iosMetaTags}${androidMetaTags}
+${generateSafeYouStyles(environment)}
+</head>
+<body>
+<div class="background-blur"></div>
+<div class="env-badge">${envBadge}</div>
+<div class="container">
+  <div class="logo">SY</div>
+  <h1 id="title">Opening SafeYou</h1>
+  <div class="spinner" id="spinner"></div>
+  <div class="status" id="status">Launching SafeYou app for ${environment}</div>
+
+  <div class="fallback" id="fallback">
+    <h3>Choose an option</h3>
+    <p>Access SafeYou in your preferred way:</p>
+    <div>
+      <a href="${escapedTarget}" id="browser-link">Open in Browser</a>
+      ${safeYouConfig.iosAppId && device.isIOS
+        ? `
+        <a href="https://apps.apple.com/app/id${safeYouConfig.iosAppId}" id="appstore-link">Download from App Store</a>
+      `
+        : ''}
+      ${safeYouConfig.androidPackageName && device.isAndroid
+        ? `
+        <a href="https://play.google.com/store/apps/details?id=${safeYouConfig.androidPackageName}" id="playstore-link">Get on Play Store</a>
+      `
+        : ''}
+    </div>
+  </div>
+</div>
+
+${generateSimpleRedirectScript(config, device, context, safeYouConfig)}
+</body>
+</html>`
 }
 
-function generateProductionRedirectScript(config: SmartLinkOptions, device: DeviceInfo, urlPath: string): string {
-  const safeConfig = {
+export function generateSocialMetaResponse(event: any, config: SmartLinkOptions): string {
+  setSecureHeaders(event)
+
+  const escapedTarget = escapeHtml(config.target)
+  const environment = config.environment || 'production'
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SafeYou Link</title>
+<meta name="description" content="SafeYou secure link for ${environment}">
+<meta property="og:title" content="SafeYou Link">
+<meta property="og:description" content="SafeYou secure link for ${environment}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="${escapedTarget}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SafeYou Link">
+<meta name="twitter:description" content="SafeYou secure link for ${environment}">
+</head>
+<body>
+<h1>SafeYou Link</h1>
+<p>This is a SafeYou secure link for ${environment} environment.</p>
+<a href="${escapedTarget}">Visit Link</a>
+</body>
+</html>`
+}
+
+function generateSimpleRedirectScript(config: any, device: any, context: any, safeYouConfig: any): string {
+  const environment = context?.environment || 'production'
+
+  const scriptConfig = {
     target: config.target,
-    urlPath,
+    environment,
     device: {
       isIOS: device.isIOS,
       isAndroid: device.isAndroid,
       isMobile: device.isMobile,
       isInAppBrowser: device.isInAppBrowser,
     },
-    ios: {
-      scheme: config.iosUrlScheme || '',
-      universalLink: config.iosUniversalLink || '',
-      appId: config.iosAppId || '',
-    },
-    android: {
-      scheme: config.androidUrlScheme || '',
-      package: config.androidPackageName || '',
+    app: {
+      iosScheme: safeYouConfig.iosUrlScheme,
+      iosUniversalLink: safeYouConfig.iosUniversalLink,
+      iosAppId: safeYouConfig.iosAppId,
+      androidScheme: safeYouConfig.androidUrlScheme,
+      androidHost: safeYouConfig.androidHost,
+      androidPackage: safeYouConfig.androidPackageName,
     },
     timeouts: TIMEOUTS,
   }
 
   return `<script>
-(function(){
-'use strict';
-const CONFIG=${safeJsonStringify(safeConfig)};
-const elements={
-  title:document.getElementById('title'),
-  status:document.getElementById('status'),
-  fallback:document.getElementById('fallback')
-};
-let redirected=false,appOpened=false,timeoutIds=[];
+(function() {
+  'use strict';
 
-function clearTimeouts(){timeoutIds.forEach(clearTimeout);timeoutIds=[]}
-function addTimeout(fn,delay){timeoutIds.push(setTimeout(fn,delay))}
-function updateStatus(title,status){
-  if(elements.title)elements.title.textContent=title;
-  if(elements.status)elements.status.textContent=status;
-}
-function showFallback(){
-  if(elements.fallback&&!redirected){
-    elements.fallback.style.display='block';
+  const CONFIG = ${safeJsonStringify(scriptConfig)};
+  let redirected = false;
+
+  function log(msg) {
+    console.log('[SafeYou] ' + msg);
   }
-}
-function performRedirect(){
-  if(redirected)return;
-  redirected=true;
-  clearTimeouts();
-  window.location.href=CONFIG.target;
-}
 
-function attemptIOSAppOpen(){
-  if(appOpened||redirected)return;
-  appOpened=true;
-  updateStatus('Opening App...','Launching iOS app');
+  function redirect() {
+    if (redirected) return;
+    redirected = true;
 
-function attemptIOSAppOpen(){
-  if(appOpened||redirected)return;
-  appOpened=true;
-  updateStatus('Opening App...','Launching iOS app');
-  if(CONFIG.ios.universalLink){
-    const universalUrl=CONFIG.target.startsWith(CONFIG.ios.universalLink)
-      ?CONFIG.target
-      :CONFIG.ios.universalLink+CONFIG.urlPath;
+    log('Redirecting to: ' + CONFIG.target);
+    window.location.href = CONFIG.target;
+  }
 
-    try{
-      window.location.href=universalUrl;
-      const handleVisibilityChange=()=>{
-        if(document.visibilityState==='hidden'){
-          updateStatus('Success!','App opened successfully');
-          document.removeEventListener('visibilitychange',handleVisibilityChange);
+  function showFallback() {
+    if (redirected) return;
+
+    log('Showing fallback options');
+    const title = document.getElementById('title');
+    const status = document.getElementById('status');
+    const spinner = document.getElementById('spinner');
+    const fallback = document.getElementById('fallback');
+
+    if (title) title.textContent = 'Choose an Option';
+    if (status) status.textContent = 'Select how you\'d like to access SafeYou';
+    if (spinner) spinner.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+  }
+
+  function tryAppLaunch() {
+    if (redirected) return;
+
+    log('Attempting app launch');
+
+    let appOpened = false;
+    const detectApp = () => {
+      if (!appOpened) {
+        appOpened = true;
+        log('App may have opened');
+      }
+    };
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) detectApp();
+    });
+    window.addEventListener('blur', detectApp);
+    window.addEventListener('pagehide', detectApp);
+
+    const params = 'url=' + encodeURIComponent(CONFIG.target)
+
+    if (CONFIG.device.isIOS && CONFIG.app.iosUniversalLink) {
+      const universalUrl = CONFIG.app.iosUniversalLink + '?link=' + encodeURIComponent(CONFIG.target)
+      log('Trying iOS Universal Link: ' + universalUrl);
+      window.location.href = universalUrl;
+
+      setTimeout(() => {
+        if (!appOpened && CONFIG.app.iosScheme) {
+          const schemeUrl = CONFIG.app.iosScheme + '://open?' + params;
+          log('Trying iOS scheme: ' + schemeUrl);
+          window.location.href = schemeUrl;
         }
-      };
-      document.addEventListener('visibilitychange',handleVisibilityChange);
+      }, 800);
 
-      addTimeout(()=>{
-        document.removeEventListener('visibilitychange',handleVisibilityChange);
-        if(document.visibilityState==='visible'){
-          if(CONFIG.ios.appId){
-            updateStatus('Opening App Store...','Downloading app');
-            window.location.href='https://apps.apple.com/app/id'+CONFIG.ios.appId;
-          }else performRedirect();
-        }
-      },CONFIG.timeouts.IOS_VISIBILITY);
+    } else if (CONFIG.device.isAndroid && CONFIG.app.androidPackage) {
+      const intentUrl = 'intent://' + CONFIG.app.androidHost + '/open?' + params + '#Intent;' +
+        'scheme=' + CONFIG.app.androidScheme + ';' +
+        'package=' + CONFIG.app.androidPackage + ';' +
+        'action=android.intent.action.VIEW;' +
+        'category=android.intent.category.BROWSABLE;' +
+        'S.browser_fallback_url=' + encodeURIComponent(CONFIG.target) + ';' +
+        'end';
+
+      log('Trying Android Intent: ' + intentUrl);
+      window.location.href = intentUrl;
+
+    } else {
+      log('No app config or unknown device, showing fallback');
+      showFallback();
       return;
-    }catch(e){console.warn('Universal link failed:',e)}
-  }
-
-  if(CONFIG.ios.scheme){
-    const schemeUrl=CONFIG.ios.scheme+'://open?url='+encodeURIComponent(CONFIG.target);
-    addTimeout(()=>{
-      if(!redirected){
-        try{
-          window.location.href=schemeUrl;
-        }
-        catch(e){console.warn('iOS scheme failed:',e)}
-      }
-    },CONFIG.timeouts.ANDROID_ATTEMPT);
-
-    const handleVisibilityChange=()=>{
-      if(document.visibilityState==='hidden'){
-        updateStatus('Success!','App opened successfully');
-        document.removeEventListener('visibilitychange',handleVisibilityChange);
-      }
-    };
-    document.addEventListener('visibilitychange',handleVisibilityChange);
-
-    addTimeout(()=>{
-      document.removeEventListener('visibilitychange',handleVisibilityChange);
-      if(!redirected&&document.visibilityState==='visible'){
-        showFallback();
-        addTimeout(performRedirect,CONFIG.timeouts.FALLBACK);
-      }
-    },CONFIG.timeouts.FALLBACK);
-  }
-
-  addTimeout(performRedirect,CONFIG.timeouts.ULTIMATE);
-}
-  if(CONFIG.ios.scheme){
-    const schemeUrl=CONFIG.ios.scheme+'://open/?url='+encodeURIComponent(CONFIG.target);
-    addTimeout(()=>{
-      if(!redirected){
-        try{window.open(schemeUrl,'_self')}
-        catch(e){console.warn('iOS scheme failed:',e)}
-      }
-    },CONFIG.timeouts.ANDROID_ATTEMPT);
-
-    const handleVisibilityChange=()=>{
-      if(document.visibilityState==='hidden'){
-        updateStatus('Success!','App opened successfully');
-        document.removeEventListener('visibilitychange',handleVisibilityChange);
-      }
-    };
-    document.addEventListener('visibilitychange',handleVisibilityChange);
-
-    addTimeout(()=>{
-      document.removeEventListener('visibilitychange',handleVisibilityChange);
-      if(!redirected&&document.visibilityState==='visible'){
-        showFallback();
-        addTimeout(performRedirect,CONFIG.timeouts.FALLBACK);
-      }
-    },CONFIG.timeouts.FALLBACK);
-  }
-
-  addTimeout(performRedirect,CONFIG.timeouts.ULTIMATE);
-}
-
-function attemptAndroidAppOpen(){
-  if(appOpened||redirected)return;
-  appOpened=true;
-  updateStatus('Opening App...','Launching Android app');
-
-  if(!CONFIG.android.scheme||!CONFIG.android.package){
-    return performRedirect();
-  }
-
-  const intentUrl='intent://open?url='+encodeURIComponent(CONFIG.urlPath)
-    +'#Intent;scheme='+CONFIG.android.scheme
-    +';package='+CONFIG.android.package
-    +';action=android.intent.action.VIEW'
-    +';category=android.intent.category.BROWSABLE'
-    +';end';
-
-  let focused=true;
-  const handleBlur=()=>{
-    focused=false;
-    updateStatus('Success!','App opened successfully');
-    window.removeEventListener('blur',handleBlur);
-    window.removeEventListener('focus',handleFocus);
-  };
-  const handleFocus=()=>{
-    if(!focused){
-      focused=true;
-      addTimeout(()=>{if(!redirected)performRedirect()},0);
     }
-  };
 
-  window.addEventListener('blur',handleBlur);
-  window.addEventListener('focus',handleFocus);
-
-  try{
-    window.location.href=intentUrl;
-  }catch(e){
-    console.warn('Android intent failed:',e);
-    performRedirect();
+    // Show fallback after app attempt timeout
+    setTimeout(() => {
+      if (!appOpened) {
+        log('App attempt timeout, showing fallback');
+        showFallback();
+      }
+    }, CONFIG.timeouts.APP_ATTEMPT);
   }
 
-  addTimeout(()=>{
-    window.removeEventListener('blur',handleBlur);
-    window.removeEventListener('focus',handleFocus);
-    performRedirect();
-  },CONFIG.timeouts.ULTIMATE);
-}
+  function init() {
+    log('Initializing redirect');
 
-function handleInAppBrowser(){
-  updateStatus('Opening in Browser...','Redirecting to external browser');
-  addTimeout(()=>{
-    if(!redirected){
-      const a=document.createElement('a');
-      a.href=CONFIG.target;
-      a.target='_blank';
-      a.rel='noopener noreferrer';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      addTimeout(performRedirect,CONFIG.timeouts.REDIRECT);
+    if (!CONFIG.target) {
+      log('No target URL');
+      showFallback();
+      return;
     }
-  },CONFIG.timeouts.IN_APP_REDIRECT);
-}
 
-function init(){
-  if(CONFIG.device.isInAppBrowser){
-    handleInAppBrowser();
-  }else if(CONFIG.device.isIOS){
-    addTimeout(attemptIOSAppOpen,CONFIG.timeouts.APP_DETECTION);
-  }else if(CONFIG.device.isAndroid){
-    addTimeout(attemptAndroidAppOpen,CONFIG.timeouts.APP_DETECTION);
-  }else{
-    updateStatus('Redirecting...','Taking you to your destination');
-    addTimeout(performRedirect,CONFIG.timeouts.REDIRECT);
+    if (!CONFIG.device.isMobile || CONFIG.device.isInAppBrowser) {
+      log('Non-mobile or in-app browser, redirecting immediately');
+      setTimeout(redirect, CONFIG.timeouts.INITIAL_DELAY);
+      return;
+    }
+
+    log('Mobile device detected');
+    setTimeout(tryAppLaunch, CONFIG.timeouts.INITIAL_DELAY);
+
+    setTimeout(showFallback, CONFIG.timeouts.FALLBACK_SHOW);
+
+    setTimeout(redirect, CONFIG.timeouts.FORCE_REDIRECT);
   }
-}
 
-history.pushState(null,null,location.href);
-window.addEventListener('popstate',()=>history.pushState(null,null,location.href));
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',init);
-}else init();
 })();
 </script>`
-}
-
-export function generateSocialMetaResponse(event: any, config: SmartLinkOptions): string {
-  const appName = config.androidAppName || DEFAULT_APP_NAME
-  const escapedTarget = escapeHtml(config.target)
-  const escapedAppName = escapeHtml(appName)
-
-  setSecureHeaders(event)
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta property="og:title" content="Open in ${escapedAppName}">
-<meta property="og:description" content="Click to open this content in our mobile app">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Open in ${escapedAppName}">
-<meta name="twitter:description" content="Click to open this content in our mobile app">
-${config.iosAppId ? `<meta name="apple-itunes-app" content="app-id=${config.iosAppId}">` : ''}
-<title>${escapedAppName} Link</title>
-<meta http-equiv="refresh" content="0;url=${escapedTarget}">
-</head>
-<body>
-<script>setTimeout(function(){window.location.href="${config.target.replace(/"/g, '\\"')}"}, 0);</script>
-<p>Redirecting... <a href="${escapedTarget}">Click here if not redirected</a></p>
-</body>
-</html>`
-}
-
-export function generateAutoRedirectResponse(event: any, config: SmartLinkOptions, device: DeviceInfo): string {
-  setSecureHeaders(event)
-
-  const urlPath = config.target
-  const escapedTarget = escapeHtml(config.target)
-  const host = getRequestHost(event)
-
-  const iosMetaTags = config.iosAppId && (config.iosUrlScheme || config.iosUniversalLink)
-    ? `
-<meta name="apple-itunes-app" content="app-id=${config.iosAppId}">
-<meta property="al:ios:app_store_id" content="${config.iosAppId}">
-<meta property="al:ios:url" content="${config.iosUniversalLink && config.target.startsWith(config.iosUniversalLink)
-  ? config.target
-  : config.target}">`
-    : ''
-
-  const androidMetaTags = config.androidPackageName
-    ? `
-<meta property="al:android:package" content="${config.androidPackageName}">
-${config.androidUrlScheme
-  ? `
-<meta property="al:android:url" content="${config.androidUrlScheme}://open?url=${encodeURIComponent(urlPath)}">
-<link rel="alternate" href="android-app://${config.androidPackageName}/${config.androidUrlScheme}/${host}${event.path}">`
-  : ''}`
-    : ''
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Redirecting...</title>
-${iosMetaTags}${androidMetaTags}
-${generateOptimizedStyles()}
-</head>
-<body>
-<div class="container">
-<h1 id="title">Redirecting...</h1>
-<div class="spinner"></div>
-<div class="status" id="status">Please wait while we redirect you</div>
-<div class="fallback" id="fallback">
-<p style="margin-bottom:15px">Taking too long?</p>
-<a href="${escapedTarget}">Continue in Browser</a>
-${config.iosAppId && device.isIOS
-  ? `<a href="https://apps.apple.com/app/id${config.iosAppId}">Download App</a>`
-  : ''}
-${config.androidPackageName && device.isAndroid
-  ? `<a href="https://play.google.com/store/apps/details?id=${config.androidPackageName}">Download App</a>`
-  : ''}
-</div>
-</div>
-${generateProductionRedirectScript(config, device, urlPath)}
-</body>
-</html>`
 }

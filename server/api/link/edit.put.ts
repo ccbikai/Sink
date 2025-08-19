@@ -18,8 +18,8 @@ export default eventHandler(async (event) => {
     const newLink = {
       ...existingLink,
       ...link,
-      id: existingLink.id, // don't update id
-      createdAt: existingLink.createdAt, // don't update createdAt
+      id: existingLink.id,
+      createdAt: existingLink.createdAt,
       updatedAt: Math.floor(Date.now() / 1000),
     }
     const expiration = getExpiration(event, newLink.expiration)
@@ -29,6 +29,7 @@ export default eventHandler(async (event) => {
         expiration,
         url: newLink.url,
         comment: newLink.comment,
+        env: newLink.env,
       },
     })
     setResponseStatus(event, 201)

@@ -2,26 +2,29 @@ import type { LinkSchema } from '@@/schemas/link'
 import type { z } from 'zod'
 import type { SmartLinkOptions } from '../utils/device-detection'
 import { parsePath, withQuery } from 'ufo'
-import {
-  detectApp,
-  parseUserAgent,
-  validateAppConfig,
-} from '../utils/device-detection'
+import { parseUserAgent } from '../utils/device-detection'
 import { generateAutoRedirectResponse, generateSocialMetaResponse } from '../utils/redirect-response'
+import { detectEnvironmentFromHost, getConfigForLink, getSafeYouConfig } from '../utils/safeyou.config'
 
 interface ProcessingContext {
   slug: string
   userAgent: string
   startTime: number
+  environment: string
+  requestHost: string
   device?: ReturnType<typeof parseUserAgent>
 }
 
 export default eventHandler(async (event) => {
   const startTime = Date.now()
+  const requestHost = getHeader(event, 'host') || 'safeyou.space'
+
   const context: ProcessingContext = {
     slug: '',
     userAgent: getHeader(event, 'user-agent') || '',
     startTime,
+    environment: 'production', // Will be updated after fetching link
+    requestHost,
   }
 
   try {
@@ -34,19 +37,22 @@ export default eventHandler(async (event) => {
       linkCacheTtl,
       redirectWithQuery,
       caseSensitive,
-      redirectStatusCode,
-      ...appConfig
     } = useRuntimeConfig(event)
 
-    if (event.path === '/' && homeURL) {
-      return sendRedirect(event, homeURL)
+    if (event.path === '/') {
+      if (homeURL) {
+        return sendRedirect(event, homeURL)
+      }
+      const hostEnv = detectEnvironmentFromHost(requestHost)
+      const envConfig = getSafeYouConfig(hostEnv)
+      return sendRedirect(event, envConfig.webUrl)
     }
 
     if (!isValidRequest(slug, reserveSlug, slugRegex, event.context.cloudflare?.env?.KV)) {
       return
     }
 
-    // Fetch link from KV
+    // Fetch link from KV (without environment filtering)
     const link = await getLinkFromKV(
       event.context.cloudflare.env.KV,
       slug,
@@ -55,19 +61,47 @@ export default eventHandler(async (event) => {
     )
 
     if (!link) {
-      return
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Link not found',
+        data: {
+          host: requestHost,
+        },
+      })
     }
 
-    setImmediate(() => logAccess(event, link))
+    // Now determine the actual environment to use (link env takes priority)
+    const actualEnvironment = detectEnvironmentFromHost(requestHost)
+    context.environment = actualEnvironment
+
+    // Log access with environment context
+    setImmediate(() => logAccess(event, link, context))
 
     const target = redirectWithQuery
       ? withQuery(link.url, getQuery(event))
       : link.url
+
+    const safeYouConfig = getConfigForLink(link, requestHost)
+
+    console.log('Processing link redirect:', {
+      slug: context.slug,
+      linkEnvironment: link.env || 'not specified',
+      hostEnvironment: detectEnvironmentFromHost(requestHost),
+      finalEnvironment: actualEnvironment,
+      targetUrl: target,
+      configUsed: {
+        iosAppId: safeYouConfig.iosAppId,
+        iosUrlScheme: safeYouConfig.iosUrlScheme,
+        androidPackage: safeYouConfig.androidPackageName,
+        androidHost: safeYouConfig.androidHost,
+      },
+    })
+
     return await handleSmartRedirect(event, {
       slug,
       target,
       fallbackUrl: target,
-      ...extractAppConfig(appConfig),
+      ...safeYouConfig,
     }, context)
   }
   catch (error: unknown) {
@@ -89,17 +123,6 @@ function isValidRequest(
   )
 }
 
-function extractAppConfig(runtimeConfig: any): Partial<SmartLinkOptions> {
-  return {
-    iosAppId: runtimeConfig.iosAppId,
-    iosUrlScheme: runtimeConfig.iosUrlScheme,
-    iosUniversalLink: runtimeConfig.iosUniversalLink,
-    androidPackageName: runtimeConfig.androidPackageName,
-    androidAppName: runtimeConfig.androidAppName,
-    androidUrlScheme: runtimeConfig.androidUrlScheme,
-  }
-}
-
 async function getLinkFromKV(
   KV: any,
   slug: string,
@@ -114,7 +137,8 @@ async function getLinkFromKV(
       try {
         return await KV.get(`link:${key}`, { type: 'json', cacheTtl })
       }
-      catch {
+      catch (error) {
+        console.error('KV fetch error:', error)
         return null
       }
     }
@@ -128,12 +152,13 @@ async function getLinkFromKV(
 
     return link
   }
-  catch {
+  catch (error) {
+    console.error('getLinkFromKV error:', error)
     return null
   }
 }
 
-async function logAccess(event: any, link: any): Promise<void> {
+async function logAccess(event: any, link: any, context: ProcessingContext): Promise<void> {
   try {
     event.context.link = link
     event.context.accessLog = {
@@ -142,6 +167,9 @@ async function logAccess(event: any, link: any): Promise<void> {
       ip: getClientIP(event),
       referer: getHeader(event, 'referer'),
       slug: link.slug,
+      environment: context.environment,
+      requestHost: context.requestHost,
+      linkEnvironment: link.env || null,
     }
 
     await useAccessLog?.(event)
@@ -150,6 +178,7 @@ async function logAccess(event: any, link: any): Promise<void> {
     console.error('Access logging failed:', {
       error: error instanceof Error ? error.message : String(error),
       slug: link?.slug,
+      environment: context.environment,
     })
   }
 }
@@ -163,32 +192,48 @@ async function handleSmartRedirect(
     const device = parseUserAgent(context.userAgent)
     context.device = device
 
+    console.log('Smart redirect initiated:', {
+      environment: context.environment,
+      slug: context.slug,
+      device: {
+        isIOS: device.isIOS,
+        isAndroid: device.isAndroid,
+        isMobile: device.isMobile,
+        isBot: device.isBot,
+        isInApp: device.isInApp,
+      },
+      appConfig: {
+        iosAppId: options.iosAppId,
+        iosUrlScheme: options.iosUrlScheme,
+        androidPackage: options.androidPackageName,
+        androidHost: options.androidHost,
+        universalLink: options.iosUniversalLink,
+      },
+    })
+
     if (device.isBot) {
+      console.log('Bot detected, serving social meta response')
       return generateSocialMetaResponse(event, options)
     }
 
-    const detectedConfig = detectApp(options.target, context.userAgent)
-
-    const finalConfig = Object.keys(detectedConfig).length > 0
-      ? { ...options, ...detectedConfig }
-      : options
-
-    console.log('Final config:', finalConfig) // Add for debugging
+    const finalConfig = {
+      ...options,
+      environment: context.environment,
+      requestHost: context.requestHost,
+    }
 
     if (device.isInApp) {
+      console.log('In-app browser detected, direct redirect')
       return sendRedirect(event, finalConfig.target, 302)
     }
 
-    if (device.isMobile && validateAppConfig(finalConfig)) {
-      console.log('Using smart redirect for mobile with app config') // Debug
-      return generateAutoRedirectResponse(event, finalConfig, device)
-    }
-
     if (device.isMobile) {
-      console.log('Using smart redirect for mobile without app config') // Debug
-      return generateAutoRedirectResponse(event, finalConfig, device)
+      console.log(`Mobile device detected, using SafeYou smart redirect for ${context.environment} environment`)
+      return generateAutoRedirectResponse(event, finalConfig, device, context)
     }
 
+    // Desktop users go directly to target
+    console.log('Desktop user, direct redirect')
     const { redirectStatusCode } = useRuntimeConfig(event)
     return sendRedirect(event, finalConfig.target, +redirectStatusCode || 308)
   }
@@ -196,28 +241,15 @@ async function handleSmartRedirect(
     console.error('Smart redirect failed:', {
       error: error instanceof Error ? error.message : String(error),
       slug: context.slug,
+      environment: context.environment,
       processingTime: `${Date.now() - context.startTime}ms`,
     })
 
+    // Fallback to direct redirect
     const { redirectStatusCode } = useRuntimeConfig(event)
     return sendRedirect(event, options.target, +redirectStatusCode || 308)
   }
 }
-
-// function mergeAppConfig(
-//   base: SmartLinkOptions,
-//   detected: Partial<SmartLinkOptions>
-// ): SmartLinkOptions {
-//   return {
-//     ...base,
-//     ...(detected.iosAppId && { iosAppId: detected.iosAppId }),
-//     ...(detected.iosUrlScheme && { iosUrlScheme: detected.iosUrlScheme }),
-//     ...(detected.iosUniversalLink && { iosUniversalLink: detected.iosUniversalLink }),
-//     ...(detected.androidPackageName && { androidPackageName: detected.androidPackageName }),
-//     ...(detected.androidAppName && { androidAppName: detected.androidAppName }),
-//     ...(detected.androidUrlScheme && { androidUrlScheme: detected.androidUrlScheme }),
-//   }
-// }
 
 function getClientIP(event: any): string {
   const headers = [
@@ -245,6 +277,8 @@ function handleError(error: unknown, event: any, context: ProcessingContext): ne
     error: errorMessage,
     slug: context.slug,
     path: event.path,
+    environment: context.environment,
+    host: context.requestHost,
     processingTime: `${processingTime}ms`,
   })
 
@@ -253,6 +287,8 @@ function handleError(error: unknown, event: any, context: ProcessingContext): ne
     statusMessage: 'Link processing failed',
     data: {
       timestamp: new Date().toISOString(),
+      environment: context.environment,
+      host: context.requestHost,
       processingTime: `${processingTime}ms`,
     },
   })
