@@ -112,6 +112,7 @@ export function useAccessLog(event: H3Event) {
 
   const { request: { cf } } = event.context.cloudflare
   const link = event.context.link || {}
+  const accessLog = event.context.accessLog || {}
 
   const isBot = cf?.botManagement?.verifiedBot
     || ['crawler', 'fetcher'].includes(uaInfo?.browser?.type || '')
@@ -125,7 +126,9 @@ export function useAccessLog(event: H3Event) {
 
   const regionNames = new Intl.DisplayNames(['en'], { type: 'region' })
   const countryName = regionNames.of(cf?.country || 'WD') // fallback to "Worldwide"
+
   const accessLogs = {
+    // Original fields
     url: link.url,
     slug: link.slug,
     ua: userAgent,
@@ -146,6 +149,38 @@ export function useAccessLog(event: H3Event) {
     // For RealTime Globe
     latitude: Number(cf?.latitude || getHeader(event, 'cf-iplatitude') || 0),
     longitude: Number(cf?.longitude || getHeader(event, 'cf-iplongitude') || 0),
+
+    // Enhanced deep linking fields
+    appName: accessLog.appName || 'unknown',
+    environment: accessLog.environment || 'production',
+    requestHost: accessLog.requestHost,
+    linkEnvironment: accessLog.linkEnvironment,
+
+    // Device capabilities for deep linking
+    isIOS: accessLog.device?.isIOS || false,
+    isAndroid: accessLog.device?.isAndroid || false,
+    isMobile: accessLog.device?.isMobile || false,
+    isInAppBrowser: accessLog.device?.isInAppBrowser || false,
+    isBot: accessLog.device?.isBot || isBot,
+    isInTargetApp: accessLog.device?.isInApp || false,
+    osVersion: accessLog.device?.osVersion || uaInfo?.os?.version,
+    deviceModel: accessLog.device?.deviceModel || uaInfo?.device?.model,
+
+    // Deep linking context
+    appDetected: accessLog.deepLink?.appDetected,
+    redirectType: accessLog.deepLink?.redirectType || 'browser-redirect',
+    detectionMethod: accessLog.deepLink?.detectionMethod || 'unknown',
+    canLaunchApp: accessLog.deepLink?.canLaunchApp || false,
+    processingTime: accessLog.processingTime || 0,
+
+    // App launch capability flags
+    supportsUniversalLinks: accessLog.device?.isIOS && !accessLog.device?.isInAppBrowser,
+    supportsAppLinks: accessLog.device?.isAndroid && !accessLog.device?.isInAppBrowser,
+    supportsCustomSchemes: accessLog.device?.isMobile && !accessLog.device?.isBot,
+
+    // User experience metrics
+    redirectStrategy: determineRedirectStrategy(accessLog),
+    expectedOutcome: determineExpectedOutcome(accessLog),
   }
 
   if (process.env.NODE_ENV === 'production') {
@@ -156,7 +191,75 @@ export function useAccessLog(event: H3Event) {
     })
   }
   else {
-    console.log('access logs:', accessLogs, logs2blobs(accessLogs), logs2doubles(accessLogs), { ...blobs2logs(logs2blobs(accessLogs)), ...doubles2logs(logs2doubles(accessLogs)) })
+    console.log('Enhanced access logs:', {
+      basic: {
+        slug: accessLogs.slug,
+        appName: accessLogs.appName,
+        country: accessLogs.country,
+        device: accessLogs.deviceType,
+        os: accessLogs.os,
+        browser: accessLogs.browser,
+      },
+      deepLinking: {
+        redirectType: accessLogs.redirectType,
+        detectionMethod: accessLogs.detectionMethod,
+        canLaunchApp: accessLogs.canLaunchApp,
+        redirectStrategy: accessLogs.redirectStrategy,
+        expectedOutcome: accessLogs.expectedOutcome,
+        processingTime: `${accessLogs.processingTime}ms`,
+      },
+      full: accessLogs,
+    })
     return Promise.resolve()
   }
+}
+
+function determineRedirectStrategy(accessLog: any): string {
+  const device = accessLog.device || {}
+
+  if (device.isBot)
+    return 'social-meta'
+  if (device.isInTargetApp)
+    return 'direct-redirect'
+  if (!device.isMobile)
+    return 'browser-redirect'
+  if (device.isInAppBrowser)
+    return 'browser-redirect'
+  if (device.isMobile && !device.isBot)
+    return 'deep-link-attempt'
+
+  return 'fallback-redirect'
+}
+
+function determineExpectedOutcome(accessLog: any): string {
+  const device = accessLog.device || {}
+  const deepLink = accessLog.deepLink || {}
+
+  if (device.isBot)
+    return 'social-preview'
+  if (device.isInTargetApp)
+    return 'same-app-navigation'
+  if (!device.isMobile)
+    return 'browser-navigation'
+  if (device.isInAppBrowser)
+    return 'browser-navigation'
+
+  if (device.isMobile && deepLink.canLaunchApp) {
+    switch (accessLog.appName) {
+      case 'youtube':
+        return device.isIOS ? 'youtube-app-launch' : 'youtube-intent-launch'
+      case 'facebook':
+        return device.isIOS ? 'facebook-app-launch' : 'facebook-intent-launch'
+      case 'whatsapp':
+        return device.isIOS ? 'whatsapp-app-launch' : 'whatsapp-intent-launch'
+      case 'spotify':
+        return device.isIOS ? 'spotify-app-launch' : 'spotify-intent-launch'
+      case 'safeyou':
+        return device.isIOS ? 'safeyou-universal-link' : 'safeyou-intent-launch'
+      default:
+        return 'app-launch-attempt'
+    }
+  }
+
+  return 'fallback-to-browser'
 }

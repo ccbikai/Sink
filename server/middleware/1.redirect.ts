@@ -2,9 +2,11 @@ import type { LinkSchema } from '@@/schemas/link'
 import type { z } from 'zod'
 import type { SmartLinkOptions } from '../utils/device-detection'
 import { parsePath, withQuery } from 'ufo'
+import { useAccessLog } from '../utils/access-log'
+import { detectAppFromHost, detectAppFromUrl, detectEnvironmentFromHost, getConfigForLink } from '../utils/apps.config'
 import { parseUserAgent } from '../utils/device-detection'
+
 import { generateAutoRedirectResponse, generateSocialMetaResponse } from '../utils/redirect-response'
-import { detectEnvironmentFromHost, getConfigForLink, getSafeYouConfig } from '../utils/safeyou.config'
 
 interface ProcessingContext {
   slug: string
@@ -12,6 +14,7 @@ interface ProcessingContext {
   startTime: number
   environment: string
   requestHost: string
+  appName: string
   device?: ReturnType<typeof parseUserAgent>
 }
 
@@ -23,8 +26,9 @@ export default eventHandler(async (event) => {
     slug: '',
     userAgent: getHeader(event, 'user-agent') || '',
     startTime,
-    environment: 'production', // Will be updated after fetching link
+    environment: 'production',
     requestHost,
+    appName: 'safeyou',
   }
 
   try {
@@ -43,57 +47,73 @@ export default eventHandler(async (event) => {
       if (homeURL) {
         return sendRedirect(event, homeURL)
       }
-      const hostEnv = detectEnvironmentFromHost(requestHost)
-      const envConfig = getSafeYouConfig(hostEnv)
-      return sendRedirect(event, envConfig.webUrl)
+
+      // Detect app and environment for home redirect
+      const appName = detectAppFromHost(requestHost)
+      // const environment = detectEnvironmentFromHost(requestHost)
+      const appConfig = getConfigForLink({ app: appName }, requestHost)
+
+      return sendRedirect(event, appConfig.webUrl)
     }
 
     if (!isValidRequest(slug, reserveSlug, slugRegex, event.context.cloudflare?.env?.KV)) {
       return
     }
 
-    // Fetch link from KV (without environment filtering)
     const link = await getLinkFromKV(
       event.context.cloudflare.env.KV,
       slug,
       caseSensitive,
       linkCacheTtl,
     )
+    let detectedApp = 'safeyou' // default
 
-    if (!link) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: 'Link not found',
-        data: {
-          host: requestHost,
-        },
-      })
+    if (link.url) {
+      detectedApp = detectAppFromUrl(link.url)
+      console.log(`[REDIRECT] App detected from URL: ${detectedApp}`)
+    }
+    if (!detectedApp || detectedApp === 'safeyou') {
+      const hostApp = detectAppFromHost(requestHost)
+      if (hostApp && hostApp !== 'unknown') {
+        detectedApp = hostApp
+        console.log(`[REDIRECT] App detected from host: ${detectedApp}`)
+      }
+    }
+    if (link.app && typeof link.app === 'string') {
+      detectedApp = link.app
+      console.log(`[REDIRECT] Using explicit link app: ${detectedApp}`)
     }
 
-    // Now determine the actual environment to use (link env takes priority)
-    const actualEnvironment = detectEnvironmentFromHost(requestHost)
-    context.environment = actualEnvironment
+    context.appName = detectedApp
+    context.environment = detectEnvironmentFromHost(requestHost, detectedApp)
 
-    // Log access with environment context
     setImmediate(() => logAccess(event, link, context))
 
     const target = redirectWithQuery
       ? withQuery(link.url, getQuery(event))
       : link.url
 
-    const safeYouConfig = getConfigForLink(link, requestHost)
+    const enhancedLink = {
+      ...link,
+      app: detectedApp,
+    }
+
+    const appConfig = getConfigForLink(enhancedLink, requestHost)
 
     console.log('Processing link redirect:', {
       slug: context.slug,
+      appName: context.appName,
       linkEnvironment: link.env || 'not specified',
-      hostEnvironment: detectEnvironmentFromHost(requestHost),
-      finalEnvironment: actualEnvironment,
+      hostEnvironment: context.environment,
       targetUrl: target,
       configUsed: {
-        iosAppId: safeYouConfig.iosAppId,
-        iosUrlScheme: safeYouConfig.iosUrlScheme,
-        androidPackage: safeYouConfig.androidPackageName,
-        androidHost: safeYouConfig.androidHost,
+        name: appConfig.name,
+        displayName: appConfig.displayName,
+        iosAppId: appConfig.iosAppId,
+        iosUrlScheme: appConfig.iosUrlScheme,
+        androidPackage: appConfig.androidPackageName,
+        androidHost: appConfig.androidHost,
+        webUrl: appConfig.webUrl,
       },
     })
 
@@ -101,7 +121,8 @@ export default eventHandler(async (event) => {
       slug,
       target,
       fallbackUrl: target,
-      ...safeYouConfig,
+      appName: context.appName,
+      ...appConfig,
     }, context)
   }
   catch (error: unknown) {
@@ -160,6 +181,8 @@ async function getLinkFromKV(
 
 async function logAccess(event: any, link: any, context: ProcessingContext): Promise<void> {
   try {
+    const device = context.device || parseUserAgent(context.userAgent)
+
     event.context.link = link
     event.context.accessLog = {
       timestamp: new Date().toISOString(),
@@ -167,20 +190,71 @@ async function logAccess(event: any, link: any, context: ProcessingContext): Pro
       ip: getClientIP(event),
       referer: getHeader(event, 'referer'),
       slug: link.slug,
+      appName: context.appName,
       environment: context.environment,
       requestHost: context.requestHost,
       linkEnvironment: link.env || null,
+
+      // Enhanced device information
+      device: {
+        isIOS: device.isIOS,
+        isAndroid: device.isAndroid,
+        isMobile: device.isMobile,
+        isInAppBrowser: device.isInAppBrowser,
+        isBot: device.isBot,
+        isInApp: device.isInApp,
+        browserName: device.browserName,
+        osName: device.osName,
+        osVersion: device.osVersion,
+        deviceModel: device.deviceModel,
+      },
+
+      // Deep linking context
+      deepLink: {
+        appDetected: context.appName,
+        targetUrl: link.url,
+        redirectType: device.isMobile ? (device.isInApp ? 'in-app-redirect' : 'deep-link-attempt') : 'browser-redirect',
+        detectionMethod: determineDetectionMethod(link, context),
+        canLaunchApp: device.isMobile && !device.isBot && !device.isInAppBrowser,
+      },
+
+      // Processing metrics
+      processingTime: Date.now() - context.startTime,
     }
 
-    await useAccessLog?.(event)
+    console.log('Access log created:', {
+      slug: link.slug,
+      appName: context.appName,
+      device: event.context.accessLog.device,
+      deepLink: event.context.accessLog.deepLink,
+      processingTime: `${event.context.accessLog.processingTime}ms`,
+    })
+
+    // This is where useAccessLog gets called
+    await useAccessLog(event)
   }
   catch (error) {
     console.error('Access logging failed:', {
       error: error instanceof Error ? error.message : String(error),
       slug: link?.slug,
+      appName: context.appName,
       environment: context.environment,
+      processingTime: context.startTime ? `${Date.now() - context.startTime}ms` : 'unknown',
     })
   }
+}
+
+function determineDetectionMethod(link: any, context: ProcessingContext): string {
+  if (link.app) {
+    return 'explicit-link-app'
+  }
+  if (link.url && detectAppFromUrl(link.url) !== 'safeyou') {
+    return 'url-pattern-detection'
+  }
+  if (detectAppFromHost(context.requestHost) !== 'safeyou') {
+    return 'host-pattern-detection'
+  }
+  return 'default-fallback'
 }
 
 async function handleSmartRedirect(
@@ -193,6 +267,7 @@ async function handleSmartRedirect(
     context.device = device
 
     console.log('Smart redirect initiated:', {
+      appName: context.appName,
       environment: context.environment,
       slug: context.slug,
       device: {
@@ -208,6 +283,7 @@ async function handleSmartRedirect(
         androidPackage: options.androidPackageName,
         androidHost: options.androidHost,
         universalLink: options.iosUniversalLink,
+        webUrl: options.webUrl,
       },
     })
 
@@ -220,6 +296,7 @@ async function handleSmartRedirect(
       ...options,
       environment: context.environment,
       requestHost: context.requestHost,
+      appName: context.appName,
     }
 
     if (device.isInApp) {
@@ -228,7 +305,7 @@ async function handleSmartRedirect(
     }
 
     if (device.isMobile) {
-      console.log(`Mobile device detected, using SafeYou smart redirect for ${context.environment} environment`)
+      console.log(`Mobile device detected, using ${context.appName} smart redirect for ${context.environment} environment`)
       return generateAutoRedirectResponse(event, finalConfig, device, context)
     }
 
@@ -241,6 +318,7 @@ async function handleSmartRedirect(
     console.error('Smart redirect failed:', {
       error: error instanceof Error ? error.message : String(error),
       slug: context.slug,
+      appName: context.appName,
       environment: context.environment,
       processingTime: `${Date.now() - context.startTime}ms`,
     })
@@ -276,6 +354,7 @@ function handleError(error: unknown, event: any, context: ProcessingContext): ne
   console.error('Redirect handler error:', {
     error: errorMessage,
     slug: context.slug,
+    appName: context.appName,
     path: event.path,
     environment: context.environment,
     host: context.requestHost,
@@ -287,6 +366,7 @@ function handleError(error: unknown, event: any, context: ProcessingContext): ne
     statusMessage: 'Link processing failed',
     data: {
       timestamp: new Date().toISOString(),
+      appName: context.appName,
       environment: context.environment,
       host: context.requestHost,
       processingTime: `${processingTime}ms`,

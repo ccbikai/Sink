@@ -1,15 +1,5 @@
 import { UAParser } from 'ua-parser-js'
 
-export interface AppConfig {
-  iosAppId?: string
-  iosUrlScheme?: string
-  iosUniversalLink?: string
-  androidPackageName?: string
-  androidAppName?: string
-  androidUrlScheme?: string
-  fallbackUrl?: string
-}
-
 export interface DeviceInfo {
   isIOS: boolean
   isAndroid: boolean
@@ -27,6 +17,7 @@ export interface SmartLinkOptions extends AppConfig {
   slug: string
   target: string
   environment?: string
+  appName?: string
 }
 
 const BOT_PATTERNS = [
@@ -64,6 +55,8 @@ const IN_APP_PATTERNS = [
   /Discord/i,
   /Slack/i,
   /SafeYOU/i,
+  /YouTube/i,
+  /Facebook/i,
 ] as const
 
 const MOBILE_PATTERNS = /iPad|iPhone|iPod|Android|Mobile|Tablet/i
@@ -105,21 +98,38 @@ export function parseUserAgent(userAgent: string): DeviceInfo {
     deviceModel: result.device.model,
   }
 
+  // Enhanced logging for debugging deep linking
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Device analysis:', {
+      userAgent: `${userAgent.substring(0, 100)}...`,
+      parsed: {
+        isIOS,
+        isAndroid,
+        isMobile,
+        isInAppBrowser,
+        isInApp,
+        isBot,
+      },
+      capabilities: {
+        canDeepLink: isMobile && !isBot && !isInAppBrowser,
+        supportsUniversalLinks: isIOS && !isInAppBrowser,
+        supportsAppLinks: isAndroid && !isInAppBrowser,
+        supportsCustomSchemes: isMobile && !isBot,
+      },
+      details: {
+        browserName: deviceInfo.browserName,
+        osName: deviceInfo.osName,
+        osVersion: deviceInfo.osVersion,
+        deviceModel: deviceInfo.deviceModel,
+      },
+    })
+  }
+
   uaCache.set(userAgent, deviceInfo)
   return deviceInfo
 }
 
-export function detectIfInTargetApp(userAgent: string, appPatterns?: RegExp[]): boolean {
-  const defaultPatterns = [
-    /SafeYou/i,
-    /SafeYOU/i,
-    /fambox/i,
-  ]
-
-  const patterns = appPatterns || defaultPatterns
-  return patterns.some(pattern => pattern.test(userAgent))
-}
-
+// Restored utility functions for analytics
 export function getDeviceCapabilities(device: DeviceInfo) {
   const supportsAppLinks = device.isAndroid && !device.isInAppBrowser
   const supportsUniversalLinks = device.isIOS && !device.isInAppBrowser
@@ -138,5 +148,51 @@ export function getDeviceCapabilities(device: DeviceInfo) {
 export function validateAppConfig(config: AppConfig): boolean {
   const hasIosConfig = Boolean(config.iosAppId && config.iosUrlScheme)
   const hasAndroidConfig = Boolean(config.androidPackageName && config.androidUrlScheme)
-  return hasIosConfig || hasAndroidConfig
+  const hasWebConfig = Boolean(config.webUrl)
+  return hasIosConfig || hasAndroidConfig || hasWebConfig
 }
+
+export function detectIfInTargetApp(userAgent: string, appPatterns?: RegExp[]): boolean {
+  const defaultPatterns = [
+    /SafeYou/i,
+    /SafeYOU/i,
+    /fambox/i,
+    /YouTube/i,
+    /Facebook/i,
+    /FBAV/i,
+    /FBAN/i,
+    /WhatsApp/i,
+    /Spotify/i,
+  ]
+
+  const patterns = appPatterns || defaultPatterns
+  const detected = patterns.some(pattern => pattern.test(userAgent))
+
+  if (detected) {
+    console.log('Target app detected in user agent:', userAgent.substring(0, 100))
+  }
+
+  return detected
+}
+
+// export function getDeviceCapabilities(device: DeviceInfo) {
+//   const supportsAppLinks = device.isAndroid && !device.isInAppBrowser
+//   const supportsUniversalLinks = device.isIOS && !device.isInAppBrowser
+//   const supportsCustomSchemes = device.isMobile && !device.isBot
+//
+//   const recommendedStrategy: 'app' | 'browser' = device.isMobile && !device.isBot ? 'app' : 'browser'
+//
+//   return {
+//     supportsAppLinks,
+//     supportsUniversalLinks,
+//     supportsCustomSchemes,
+//     recommendedStrategy,
+//   } as const
+// }
+//
+// export function validateAppConfig(config: AppConfig): boolean {
+//   const hasIosConfig = Boolean(config.iosAppId && config.iosUrlScheme)
+//   const hasAndroidConfig = Boolean(config.androidPackageName && config.androidUrlScheme)
+//   const hasWebConfig = Boolean(config.webUrl)
+//   return hasIosConfig || hasAndroidConfig || hasWebConfig
+// }
