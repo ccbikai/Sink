@@ -1,38 +1,37 @@
 <script setup>
 import { Ellipsis, X } from 'lucide-vue-next'
-import { GitHubIcon } from 'vue3-simple-icons'
 
 const showMenu = ref(false)
-const { title, github } = useAppConfig()
+const { title } = useAppConfig()
 </script>
 
 <template>
   <section class="pb-6">
     <nav class="container relative z-50 h-24 select-none">
       <div
-        class="container relative flex flex-wrap items-center justify-between h-24 px-0 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center"
+        class="container relative flex flex-wrap items-center justify-around h-24 px-0 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center"
       >
-        <div class="flex items-center justify-start w-1/4 h-full pr-4">
-          <a
-            href="/"
-            :title="title"
-            class="flex items-center py-4 space-x-2 text-xl font-black text-gray-900 dark:text-gray-100 md:py-0"
-          >
-            <span
-              class="flex items-center justify-center w-8 h-8 rounded-full"
-            >
-              <img
-                src="/sink.png"
-                :alt="title"
-                class="w-full h-full rounded-full"
-              >
-            </span>
-            <span class="mx-2">{{ title }}</span>
-          </a>
-        </div>
+        <!--        <div class="flex items-center justify-start w-1/4 h-full pr-4"> -->
+        <!--          <a -->
+        <!--            href="/" -->
+        <!--            :title="title" -->
+        <!--            class="flex items-center py-4 space-x-2 text-xl font-black text-gray-900 dark:text-gray-100 md:py-0" -->
+        <!--          > -->
+        <!--            <span -->
+        <!--              class="flex items-center justify-center w-8 h-8 rounded-full" -->
+        <!--            > -->
+        <!--              <img -->
+        <!--                src="/sink.png" -->
+        <!--                :alt="title" -->
+        <!--                class="w-full h-full rounded-full" -->
+        <!--              > -->
+        <!--            </span> -->
+        <!--            <span class="mx-2">{{ title }}</span> -->
+        <!--          </a> -->
+        <!--        </div> -->
 
         <div
-          class="top-0 left-0 items-start w-full h-full p-4 text-sm bg-gray-900 bg-opacity-50 md:items-center md:w-3/4 md:absolute lg:text-base md:bg-transparent md:p-0 md:relative md:flex"
+          class="top-0 left-0 items-start w-full h-full p-4 text-sm bg-gray-900 bg-opacity-50 md:items-center md:absolute lg:text-base md:bg-transparent md:p-0  md:flex"
           :class="{ 'flex fixed': showMenu, 'hidden': !showMenu }"
           @touchmove.prevent
         >
@@ -64,16 +63,16 @@ const { title, github } = useAppConfig()
                 href="/dashboard"
                 :title="`${title} Dashboard`"
               >{{ $t('dashboard.title') }}</a>
-              <a
-                :href="github"
-                target="_blank"
-                title="Github"
-                class="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 md:px-3 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800 mr-2"
-              >
-                <GitHubIcon
-                  class="w-5 h-5 mr-1"
-                />
-                GitHub</a>
+              <!--              <a -->
+              <!--                :href="github" -->
+              <!--                target="_blank" -->
+              <!--                title="Github" -->
+              <!--                class="inline-flex items-center w-full px-6 py-3 text-sm font-medium leading-4 text-white bg-gray-900 md:px-3 md:w-auto md:rounded-full hover:bg-gray-800 focus:outline-none md:focus:ring-2 focus:ring-0 focus:ring-offset-2 focus:ring-gray-800 mr-2" -->
+              <!--              > -->
+              <!--                <GitHubIcon -->
+              <!--                  class="w-5 h-5 mr-1" -->
+              <!--                /> -->
+              <!--                GitHub</a> -->
 
               <SwitchLanguage />
 
