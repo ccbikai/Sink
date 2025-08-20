@@ -48,9 +48,7 @@ export default eventHandler(async (event) => {
         return sendRedirect(event, homeURL)
       }
 
-      // Detect app and environment for home redirect
       const appName = detectAppFromHost(requestHost)
-      // const environment = detectEnvironmentFromHost(requestHost)
       const appConfig = getConfigForLink({ app: appName }, requestHost)
 
       return sendRedirect(event, appConfig.webUrl)
