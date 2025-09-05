@@ -341,7 +341,22 @@ function generateRedirectScript(config: SmartLinkOptions, device: DeviceInfo, co
   let appLaunchAttempted = false;
 
   function log(msg) {
-    console.log('[DeepLink-' + CONFIG.appName + '] ' + msg);
+    if (typeof console !== 'undefined' && console.log) {
+      console.log('[DeepLink-' + CONFIG.appName + '] ' + msg);
+    }
+  }
+  
+  function redirectToAppStore() {
+    if (CONFIG.device.isIOS && CONFIG.app.iosAppId) {
+      log('Redirecting to App Store');
+      window.location.href = 'https://apps.apple.com/app/id' + CONFIG.app.iosAppId;
+      return true;
+    } else if (CONFIG.device.isAndroid && CONFIG.app.androidPackage) {
+      log('Redirecting to Play Store');
+      window.location.href = 'https://play.google.com/store/apps/details?id=' + CONFIG.app.androidPackage;
+      return true;
+    }
+    return false;
   }
 
   function redirect() {
@@ -392,10 +407,31 @@ function generateRedirectScript(config: SmartLinkOptions, device: DeviceInfo, co
 
     // Enhanced app detection
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) detectApp();
+      if (document.hidden) {
+        detectApp();
+      } else if (!appOpened && !redirected) {
+        // If we come back to the page and the app wasn't opened,
+        // it means the app is not installed
+        log('App not detected, redirecting to app store...');
+        if (!redirectToAppStore()) {
+          // If app store redirect fails, show fallback options
+          showFallback();
+        }
+      }
     });
+    
     window.addEventListener('blur', detectApp);
     window.addEventListener('pagehide', detectApp);
+    
+    // Set a timeout to handle cases where visibility change events don't fire
+    setTimeout(() => {
+      if (!appOpened && !redirected) {
+        log('App launch timeout, redirecting to app store...');
+        if (!redirectToAppStore()) {
+          showFallback();
+        }
+      }
+    }, 2500); // 2.5 seconds should be enough to detect if the app opened
 
     if (CONFIG.device.isIOS) {
       log('iOS device detected, launching ' + CONFIG.appName + ' app');
@@ -516,13 +552,15 @@ function generateRedirectScript(config: SmartLinkOptions, device: DeviceInfo, co
       return;
     }
 
-    // Set timeout to detect if app didn't open
+    // Set a timeout to redirect to app store if app doesn't open
     detectionTimeout = setTimeout(() => {
-      if (!appOpened) {
-        log('App launch timeout - showing fallback options');
-        showFallback();
+      if (!appOpened && !redirected) {
+        log('App not detected after timeout, redirecting to app store...');
+        if (!redirectToAppStore()) {
+          showFallback();
+        }
       }
-    }, CONFIG.timeouts.APP_ATTEMPT);
+    }, 1000);
   }
   function extractYouTubeVideoId(url) {
     const regExp = /^.*((youtu.be\\/)|(v\\/)|(\\/u\\/\\w\\/)|(embed\\/)|(watch\\?)|(watch\\.+))\\??v?=?([^#\\&\\?]*).*/;
