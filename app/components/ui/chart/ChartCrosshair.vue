@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { BulletLegendItemInterface } from "@unovis/ts"
-import type { Component } from "vue"
-import { omit } from "@unovis/ts"
-import { VisCrosshair, VisTooltip } from "@unovis/vue"
-import { createApp } from "vue"
-import { ChartTooltip } from "."
+import type { BulletLegendItemInterface } from '@unovis/ts'
+import { omit } from '@unovis/ts'
+import { VisCrosshair, VisTooltip } from '@unovis/vue'
+import { type Component, createApp } from 'vue'
+import { ChartTooltip } from '.'
 
 const props = withDefaults(defineProps<{
   colors: string[]
@@ -22,7 +21,7 @@ function template(d: any) {
     return wm.get(d)
   }
   else {
-    const componentDiv = document.createElement("div")
+    const componentDiv = document.createElement('div')
     const omittedData = Object.entries(omit(d, [props.index])).map(([key, value]) => {
       const legendReference = props.items.find(i => i.name === key)
       return { ...legendReference, value }
@@ -35,7 +34,7 @@ function template(d: any) {
 }
 
 function color(d: unknown, i: number) {
-  return props.colors[i] ?? "transparent"
+  return props.colors[i] ?? 'transparent'
 }
 </script>
 

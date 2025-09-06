@@ -57,7 +57,7 @@ onMounted(() => {
     <Button
       variant="outline"
       size="sm"
-      class="relative justify-start w-full h-10 bg-background text-muted-foreground sm:w-32 md:w-48"
+      class="relative justify-start w-full h-9 bg-background text-muted-foreground sm:w-32 md:w-48"
     >
       <span class="hidden md:inline-flex">{{ $t('links.search_placeholder') }}</span>
       <span class="inline-flex md:hidden">{{ $t('common.search') }}</span>

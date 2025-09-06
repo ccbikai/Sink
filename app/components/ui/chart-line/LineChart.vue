@@ -1,12 +1,10 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import type { BulletLegendItemInterface } from "@unovis/ts"
-import type { Component } from "vue"
 import type { BaseChartProps } from "."
-import { Axis, CurveType, Line } from "@unovis/ts"
-
+import { type BulletLegendItemInterface, CurveType } from "@unovis/ts"
+import { Axis, Line } from "@unovis/ts"
 import { VisAxis, VisLine, VisXYContainer } from "@unovis/vue"
 import { useMounted } from "@vueuse/core"
-import { computed, ref } from "vue"
+import { type Component, computed, ref } from "vue"
 import { cn } from "@/lib/utils"
 import { ChartCrosshair, ChartLegend, defaultColors } from '@/components/ui/chart'
 

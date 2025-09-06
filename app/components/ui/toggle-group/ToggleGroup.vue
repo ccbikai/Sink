@@ -22,13 +22,19 @@ provide("toggleGroup", {
   size: props.size,
 })
 
-const delegatedProps = reactiveOmit(props, "class")
-
+const delegatedProps = reactiveOmit(props, "class", "size", "variant")
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
 
 <template>
-  <ToggleGroupRoot v-slot="slotProps" v-bind="forwarded" :class="cn('flex items-center justify-center gap-1', props.class)">
+  <ToggleGroupRoot
+    v-slot="slotProps"
+    data-slot="toggle-group"
+    :data-size="size"
+    :data-variant="variant"
+    v-bind="forwarded"
+    :class="cn('group/toggle-group flex w-fit items-center rounded-md data-[variant=outline]:shadow-xs', props.class)"
+  >
     <slot v-bind="slotProps" />
   </ToggleGroupRoot>
 </template>

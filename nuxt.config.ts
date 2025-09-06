@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite'
 import { provider } from 'std-env'
 import { currentLocales } from './i18n/i18n'
 
@@ -5,14 +6,14 @@ import { currentLocales } from './i18n/i18n'
 export default defineNuxtConfig({
   modules: [
     '@nuxthub/core',
-    'shadcn-nuxt',
-    '@vueuse/motion/nuxt',
-    '@nuxt/eslint',
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
+    '@nuxt/eslint',
+    '@vueuse/motion/nuxt',
+    'shadcn-nuxt',
   ],
   devtools: { enabled: true },
+  css: ['~/assets/css/tailwind.css'],
   colorMode: {
     classSuffix: '',
   },
@@ -85,6 +86,11 @@ export default defineNuxtConfig({
     database: false,
     kv: true,
     workers: provider !== 'cloudflare_pages',
+  },
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
   },
   eslint: {
     config: {
