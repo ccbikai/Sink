@@ -167,7 +167,9 @@
   button {
     @apply cursor-pointer;
   }
+}
 
+@layer utilities {
   .container {
     @apply 2xl:max-w-[1400px] mx-auto px-4;
   }

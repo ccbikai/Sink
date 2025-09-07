@@ -37,7 +37,7 @@ onMounted(async () => {
 
 <template>
   <div class="grid gap-4 sm:gap-3 lg:gap-4 sm:grid-cols-3">
-    <Card class="gap-4">
+    <Card class="gap-0">
       <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle class="text-sm font-medium">
           {{ $t('dashboard.visits') }}
@@ -48,7 +48,7 @@ onMounted(async () => {
         <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visits }" :value="counters.visits" />
       </CardContent>
     </Card>
-    <Card class="gap-4">
+    <Card class="gap-0">
       <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle class="text-sm font-medium">
           {{ $t('dashboard.visitors') }}
@@ -59,7 +59,7 @@ onMounted(async () => {
         <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visitors }" :value="counters.visitors" />
       </CardContent>
     </Card>
-    <Card class="gap-4">
+    <Card class="gap-0">
       <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
         <CardTitle class="text-sm font-medium">
           {{ $t('dashboard.referers') }}

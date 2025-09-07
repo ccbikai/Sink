@@ -10,7 +10,7 @@ const { title, github } = useAppConfig()
   <section class="pb-6">
     <nav class="container relative z-50 h-24 select-none">
       <div
-        class="container relative flex flex-wrap items-center justify-between h-24 px-0 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center"
+        class="relative flex flex-wrap items-center justify-between h-24 px-0 mx-auto overflow-hidden font-medium border-b border-gray-200 md:overflow-visible lg:justify-center"
       >
         <div class="flex items-center justify-start w-1/4 h-full pr-4">
           <a
