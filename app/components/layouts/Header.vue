@@ -32,7 +32,7 @@ const { title, github } = useAppConfig()
         </div>
 
         <div
-          class="top-0 left-0 items-start w-full h-full p-4 text-sm bg-gray-900 bg-opacity-50 md:items-center md:w-3/4 md:absolute lg:text-base md:bg-transparent md:p-0 md:relative md:flex"
+          class="top-0 left-0 items-start w-full h-full p-4 text-sm bg-gray-900/50 md:items-center md:w-3/4 md:absolute lg:text-base md:bg-transparent md:p-0 md:relative md:flex"
           :class="{ 'flex fixed': showMenu, 'hidden': !showMenu }"
           @touchmove.prevent
         >
