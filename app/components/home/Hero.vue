@@ -8,18 +8,31 @@ const { title, description, github } = useAppConfig()
 
 <template>
   <main
-    class="grid pt-8 pb-8 lg:grid-cols-2 place-items-center md:py-12"
+    class="
+      grid place-items-center pt-8 pb-8
+      md:py-12
+      lg:grid-cols-2
+    "
   >
     <div>
       <h1
-        class="text-5xl font-bold lg:text-6xl xl:text-7xl lg:tracking-tight xl:tracking-tighter"
+        class="
+          text-5xl font-bold
+          lg:text-6xl lg:tracking-tight
+          xl:text-7xl xl:tracking-tighter
+        "
       >
         {{ title }}
       </h1>
-      <p class="max-w-xl mt-4 text-lg text-slate-600">
+      <p class="mt-4 max-w-xl text-lg text-slate-600">
         {{ description }}
       </p>
-      <div class="flex flex-col gap-3 mt-6 sm:flex-row">
+      <div
+        class="
+          mt-6 flex flex-col gap-3
+          sm:flex-row
+        "
+      >
         <HomeLink
           href="/dashboard"
           target="_blank"
@@ -28,7 +41,7 @@ const { title, description, github } = useAppConfig()
           rel="noopener"
         >
           <AreaChart
-            class="w-5 h-5"
+            class="h-5 w-5"
           />
           {{ $t('dashboard.title') }}
         </HomeLink>
@@ -42,13 +55,18 @@ const { title, description, github } = useAppConfig()
           target="_blank"
         >
           <GitHubIcon
-            class="w-5 h-5"
+            class="h-5 w-5"
           />
           GitHub Repo
         </HomeLink>
       </div>
     </div>
-    <div class="hidden py-6 md:block">
+    <div
+      class="
+        hidden py-6
+        md:block
+      "
+    >
       <div
         class="w-[512px]"
         v-html="heroImg"

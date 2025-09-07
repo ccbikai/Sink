@@ -55,11 +55,32 @@ onMounted(() => {
     <Button
       variant="outline"
       size="sm"
-      class="relative justify-start w-full h-9 bg-background text-muted-foreground sm:w-32 md:w-48"
+      class="
+        relative h-9 w-full justify-start bg-background text-muted-foreground
+        sm:w-32
+        md:w-48
+      "
     >
-      <span class="hidden md:inline-flex">{{ $t('links.search_placeholder') }}</span>
-      <span class="inline-flex md:hidden">{{ $t('common.search') }}</span>
-      <kbd class="pointer-events-none absolute right-[0.3rem] top-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+      <span
+        class="
+          hidden
+          md:inline-flex
+        "
+      >{{ $t('links.search_placeholder') }}</span>
+      <span
+        class="
+          inline-flex
+          md:hidden
+        "
+      >{{ $t('common.search') }}</span>
+      <kbd
+        class="
+          pointer-events-none absolute top-2 right-[0.3rem] hidden h-5
+          items-center gap-1 rounded border bg-muted px-1.5 font-mono
+          text-[10px] font-medium opacity-100 select-none
+          sm:flex
+        "
+      >
         <span class="text-xs">⌘</span>K
       </kbd>
     </Button>
@@ -70,23 +91,32 @@ onMounted(() => {
     </Command>
     <!-- disable command search -->
     <Command class="flex-1">
-      <CommandList class="max-h-auto sm:max-h-[300px]">
+      <CommandList
+        class="
+          max-h-none
+          sm:max-h-[300px]
+        "
+      >
         <CommandEmpty>
           {{ $t('links.no_results') }}
         </CommandEmpty>
         <CommandGroup v-if="filteredLinks.length" :heading="$t('links.group_title')">
-          <CommandItem v-for="link in filteredLinks" :key="link.item?.id" class="cursor-pointer" :value="link.item" @select="selectLink(link.item)">
-            <div class="flex gap-1 w-full">
-              <div class="inline-flex overflow-hidden flex-1 gap-1 items-center">
+          <CommandItem
+            v-for="link in filteredLinks" :key="link.item?.id" class="
+              cursor-pointer
+            " :value="link.item" @select="selectLink(link.item)"
+          >
+            <div class="flex w-full gap-1">
+              <div class="inline-flex flex-1 items-center gap-1 overflow-hidden">
                 <div class="text-sm font-medium">
                   {{ link.item?.slug }}
                 </div>
-                <div class="flex-1 text-xs truncate text-muted-foreground">
+                <div class="flex-1 truncate text-xs text-muted-foreground">
                   ({{ link.item?.url }})
                 </div>
               </div>
               <Badge v-if="link.item?.comment" variant="secondary">
-                <div class="truncate max-w-24">
+                <div class="max-w-24 truncate">
                   {{ link.item?.comment }}
                 </div>
               </Badge>
@@ -100,7 +130,7 @@ onMounted(() => {
     <DialogTrigger as-child>
       <TriggerComponent />
     </DialogTrigger>
-    <DialogContent class="overflow-hidden p-0 shadow-lg gap-0">
+    <DialogContent class="gap-0 overflow-hidden p-0 shadow-lg">
       <SearchComponent />
     </DialogContent>
   </Dialog>

@@ -64,18 +64,18 @@ function copyLink() {
 
           <div class="flex-1 overflow-hidden">
             <div class="flex items-center">
-              <div class="font-bold leading-5 truncate text-md">
+              <div class="truncate leading-5 font-bold">
                 {{ host }}/{{ link.slug }}
               </div>
 
               <CopyCheck
                 v-if="copied"
-                class="w-4 h-4 ml-1 shrink-0"
+                class="ml-1 h-4 w-4 shrink-0"
                 @click.prevent
               />
               <Copy
                 v-else
-                class="w-4 h-4 ml-1 shrink-0"
+                class="ml-1 h-4 w-4 shrink-0"
                 @click.prevent="copyLink"
               />
             </div>
@@ -83,7 +83,7 @@ function copyLink() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger as-child>
-                  <p class="text-sm truncate">
+                  <p class="truncate text-sm">
                     {{ link.comment || link.title || link.description }}
                   </p>
                 </TooltipTrigger>
@@ -102,13 +102,13 @@ function copyLink() {
             rel="noopener noreferrer"
             @click.stop
           >
-            <LinkIcon class="w-5 h-5" />
+            <LinkIcon class="h-5 w-5" />
           </a>
 
           <Popover>
             <PopoverTrigger>
               <QrCode
-                class="w-5 h-5"
+                class="h-5 w-5"
                 @click.prevent
               />
             </PopoverTrigger>
@@ -123,7 +123,7 @@ function copyLink() {
           <Popover v-model:open="editPopoverOpen">
             <PopoverTrigger>
               <SquareChevronDown
-                class="w-5 h-5"
+                class="h-5 w-5"
                 @click.prevent
               />
             </PopoverTrigger>
@@ -136,10 +136,14 @@ function copyLink() {
                 @update:link="updateLink"
               >
                 <div
-                  class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground"
+                  class="
+                    flex cursor-pointer items-center rounded-sm px-2 py-1.5
+                    text-sm outline-hidden select-none
+                    hover:bg-accent hover:text-accent-foreground
+                  "
                 >
                   <SquarePen
-                    class="w-5 h-5 mr-2"
+                    class="mr-2 h-5 w-5"
                   />
                   {{ $t('common.edit') }}
                 </div>
@@ -152,21 +156,27 @@ function copyLink() {
                 @update:link="updateLink"
               >
                 <div
-                  class="cursor-pointer flex select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden hover:bg-accent hover:text-accent-foreground"
+                  class="
+                    flex cursor-pointer items-center rounded-sm px-2 py-1.5
+                    text-sm outline-hidden select-none
+                    hover:bg-accent hover:text-accent-foreground
+                  "
                 >
                   <Eraser
-                    class="w-5 h-5 mr-2"
+                    class="mr-2 h-5 w-5"
                   /> {{ $t('common.delete') }}
                 </div>
               </DashboardLinksDelete>
             </PopoverContent>
           </Popover>
         </div>
-        <div class="flex w-full h-5 space-x-2 text-sm">
+        <div class="flex h-5 w-full space-x-2 text-sm">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger as-child>
-                <span class="inline-flex items-center leading-5 whitespace-nowrap"><CalendarPlus2 class="w-4 h-4 mr-1" /> {{ shortDate(link.createdAt) }}</span>
+                <span
+                  class="inline-flex items-center leading-5 whitespace-nowrap"
+                ><CalendarPlus2 class="mr-1 h-4 w-4" /> {{ shortDate(link.createdAt) }}</span>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Created At: {{ longDate(link.createdAt) }}</p>
@@ -179,7 +189,9 @@ function copyLink() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger as-child>
-                  <span class="inline-flex items-center leading-5 whitespace-nowrap"><Hourglass class="w-4 h-4 mr-1" /> {{ shortDate(link.expiration) }}</span>
+                  <span
+                    class="inline-flex items-center leading-5 whitespace-nowrap"
+                  ><Hourglass class="mr-1 h-4 w-4" /> {{ shortDate(link.expiration) }}</span>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Expires At: {{ longDate(link.expiration) }}</p>

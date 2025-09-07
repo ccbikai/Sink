@@ -27,7 +27,12 @@ async function deleteLink() {
     <AlertDialogTrigger as-child>
       <slot />
     </AlertDialogTrigger>
-    <AlertDialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
+    <AlertDialogContent
+      class="
+        max-h-[95svh] max-w-[95svw] grid-rows-[auto_minmax(0,1fr)_auto]
+        md:max-w-lg
+      "
+    >
       <AlertDialogHeader>
         <AlertDialogTitle>{{ $t('links.delete_confirm_title') }}</AlertDialogTitle>
         <AlertDialogDescription>

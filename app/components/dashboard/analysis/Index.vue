@@ -60,13 +60,18 @@ onBeforeMount(() => {
 
 <template>
   <main class="space-y-6">
-    <div class="flex flex-col gap-6 sm:gap-2 sm:flex-row sm:justify-between">
+    <div
+      class="
+        flex flex-col gap-6
+        sm:flex-row sm:justify-between sm:gap-2
+      "
+    >
       <DashboardNav class="flex-1">
         <template
           v-if="link"
           #left
         >
-          <h3 class="text-xl font-bold leading-10">
+          <h3 class="text-xl leading-10 font-bold">
             {{ link.slug }} {{ $t('dashboard.stats') }}
           </h3>
         </template>

@@ -16,15 +16,22 @@ defineProps({
 <template>
   <div class="w-full text-sm">
     <div
-      class="flex justify-between transition-colors border-b hover:bg-muted/50 leading-[48px]"
+      class="
+        flex justify-between border-b leading-[48px] transition-colors
+        hover:bg-muted/50
+      "
     >
       <div
-        class="h-12 px-4 font-medium text-left align-middle text-muted-foreground "
+        class="
+          h-12 px-4 text-left align-middle font-medium text-muted-foreground
+        "
       >
         {{ $t('dashboard.name') }}
       </div>
       <div
-        class="h-12 px-4 font-medium text-right align-middle text-muted-foreground"
+        class="
+          h-12 px-4 text-right align-middle font-medium text-muted-foreground
+        "
       >
         {{ $t('dashboard.count') }}
       </div>
@@ -34,10 +41,15 @@ defineProps({
       :data="metrics"
       :style="{ height: '342px' }"
     >
-      <div class="px-4 py-2 transition-colors border-b hover:bg-muted/50">
+      <div
+        class="
+          border-b px-4 py-2 transition-colors
+          hover:bg-muted/50
+        "
+      >
         <div class="flex justify-between">
           <div
-            class="flex-1 leading-5 truncate font-mediums"
+            class="flex-1 truncate leading-5"
           >
             <DashboardAnalysisMetricsName
               :name="metric.name"

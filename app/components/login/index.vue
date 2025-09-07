@@ -52,10 +52,12 @@ async function onSubmit(form) {
         @submit="onSubmit"
       >
         <Alert v-if="previewMode">
-          <AlertCircle class="w-4 h-4" />
+          <AlertCircle class="h-4 w-4" />
           <AlertTitle>{{ $t('login.tips') }}</AlertTitle>
           <AlertDescription>
-            {{ $t('login.preview_token') }} <code class="font-mono text-green-500">SinkCool</code> .
+            {{ $t('login.preview_token') }} <code
+              class="font-mono text-green-500"
+            >SinkCool</code> .
           </AlertDescription>
         </Alert>
         <Button class="w-full">

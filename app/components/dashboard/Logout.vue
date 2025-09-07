@@ -11,10 +11,15 @@ function logOut() {
   <AlertDialog>
     <AlertDialogTrigger as-child>
       <LogOut
-        class="w-4 h-4 cursor-pointer"
+        class="h-4 w-4 cursor-pointer"
       />
     </AlertDialogTrigger>
-    <AlertDialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
+    <AlertDialogContent
+      class="
+        max-h-[95svh] max-w-[95svw] grid-rows-[auto_minmax(0,1fr)_auto]
+        md:max-w-lg
+      "
+    >
       <AlertDialogHeader>
         <AlertDialogTitle>{{ $t('logout.title') }}</AlertDialogTitle>
         <AlertDialogDescription>

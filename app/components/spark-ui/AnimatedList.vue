@@ -79,7 +79,9 @@ onMounted(() => loadComponents())
 
 <template>
   <div :class="cn('overflow-auto', $props.class)">
-    <transition-group name="list" tag="div" class="flex flex-col-reverse items-center p-2" move-class="move">
+    <transition-group
+      name="list" tag="div" class="flex flex-col-reverse items-center p-2" move-class="move"
+    >
       <div
         v-for="(item, idx) in itemsToShow"
         :key="item.props.key"

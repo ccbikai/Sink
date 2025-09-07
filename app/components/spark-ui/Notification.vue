@@ -11,19 +11,25 @@ const props = defineProps<{
 }>()
 
 const className = cn(
-  'relative mx-auto min-h-fit w-full cursor-pointer border rounded-2xl my-1',
+  'relative mx-auto my-1 min-h-fit w-full cursor-pointer rounded-2xl border',
   // animation styles
-  'transition-all duration-200 ease-in-out hover:scale-[103%] transform-gpu',
+  `
+    transform-gpu transition-all duration-200 ease-in-out
+    hover:scale-[103%]
+  `,
   // light styles
   'bg-white',
   // dark styles
-  'dark:bg-transparent dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]',
+  `
+    dark:bg-transparent dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]
+    dark:backdrop-blur-md dark:[border:1px_solid_rgba(255,255,255,.1)]
+  `,
 )
 </script>
 
 <template>
   <figure :class="className">
-    <div class="flex flex-row py-2 items-center px-2 gap-2">
+    <div class="flex flex-row items-center gap-2 px-2 py-2">
       <div
         class="flex size-10 items-center justify-center rounded-2xl"
         :style="{ backgroundColor: props.color || 'transparent' }"
@@ -31,8 +37,15 @@ const className = cn(
         <span class="text-lg">{{ props.icon }}</span>
       </div>
       <div class="flex flex-col overflow-hidden">
-        <div class="flex flex-row items-center whitespace-pre text-lg font-medium ">
-          <span class="text-sm text-foreground sm:text-lg">{{ props.name }}</span>
+        <div
+          class="flex flex-row items-center text-lg font-medium whitespace-pre"
+        >
+          <span
+            class="
+              text-sm text-foreground
+              sm:text-lg
+            "
+          >{{ props.name }}</span>
           <span class="mx-1">·</span>
           <span class="text-xs text-gray-500">{{ shortTime(props.time) }}</span>
         </div>

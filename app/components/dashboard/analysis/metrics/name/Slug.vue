@@ -7,7 +7,7 @@ defineProps({
 <template>
   <NuxtLink
     :to="`/dashboard/link?slug=${name}`"
-    class="inline-flex items-center justify-start w-full"
+    class="inline-flex w-full items-center justify-start"
   >
     <span class="w-full truncate">{{ name }}</span>
   </NuxtLink>

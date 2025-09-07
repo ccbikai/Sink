@@ -68,6 +68,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "eslint": "^9.35.0",
+    "eslint-plugin-better-tailwindcss": "^3.7.6",
     "eslint-plugin-format": "^1.0.1",
     "lint-staged": "^16.1.6",
     "nuxt": "^4.1.1",

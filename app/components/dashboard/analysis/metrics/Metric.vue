@@ -55,7 +55,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card class="flex flex-col p-0 gap-0">
+  <Card class="flex flex-col gap-0 p-0">
     <template v-if="metrics.length">
       <CardContent class="p-0">
         <DashboardAnalysisMetricsList
@@ -73,11 +73,16 @@ onMounted(() => {
             <Button
               variant="link"
             >
-              <Maximize class="w-4 h-4 mr-2" />
+              <Maximize class="mr-2 h-4 w-4" />
               {{ $t('dashboard.details') }}
             </Button>
           </DialogTrigger>
-          <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-(--breakpoint-md) grid-rows-[auto_minmax(0,1fr)_auto]">
+          <DialogContent
+            class="
+              max-h-[95svh] max-w-[95svw] grid-rows-[auto_minmax(0,1fr)_auto]
+              md:max-w-(--breakpoint-md)
+            "
+          >
             <DialogHeader>
               <DialogTitle>{{ name }}</DialogTitle>
             </DialogHeader>
@@ -91,12 +96,12 @@ onMounted(() => {
       </CardFooter>
     </template>
     <template v-else>
-      <div class="flex justify-between items-center px-4 h-12">
+      <div class="flex h-12 items-center justify-between px-4">
         <Skeleton
-          class="w-32 h-4 rounded-full"
+          class="h-4 w-32 rounded-full"
         />
         <Skeleton
-          class="w-20 h-4 rounded-full"
+          class="h-4 w-20 rounded-full"
         />
       </div>
       <div
@@ -105,7 +110,7 @@ onMounted(() => {
         class="px-4 py-4"
       >
         <Skeleton
-          class="w-full h-4 rounded-full"
+          class="h-4 w-full rounded-full"
         />
       </div>
     </template>
