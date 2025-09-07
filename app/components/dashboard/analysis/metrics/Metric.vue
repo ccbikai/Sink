@@ -18,12 +18,12 @@ const filters = inject('filters')
 
 const total = ref(0)
 const metrics = ref([])
-const top6 = ref([])
+const top10 = ref([])
 
 async function getLinkMetrics() {
   total.value = 0
   metrics.value = []
-  top6.value = []
+  top10.value = []
   const { data } = await useAPI('/api/stats/metrics', {
     query: {
       type: props.type,
@@ -41,7 +41,7 @@ async function getLinkMetrics() {
       item.percent = Math.floor(item.count / total.value * 100) || (item.count ? 1 : 0)
       return item
     })
-    top6.value = metrics.value.slice(0, 6)
+    top10.value = metrics.value.slice(0, 10)
   }
 }
 
@@ -60,7 +60,7 @@ onMounted(() => {
       <CardContent class="p-0">
         <DashboardAnalysisMetricsList
           class="flex-1"
-          :metrics="top6"
+          :metrics="top10"
           :type="type"
         />
       </CardContent>
@@ -100,7 +100,7 @@ onMounted(() => {
         />
       </div>
       <div
-        v-for="i in 3"
+        v-for="i in 5"
         :key="i"
         class="px-4 py-4"
       >
