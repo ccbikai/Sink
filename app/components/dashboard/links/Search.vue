@@ -65,13 +65,16 @@ onMounted(() => {
     </Button>
   </TriggerTemplate>
   <SearchTemplate>
-    <Command class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+    <Command class="h-12">
       <CommandInput v-model="searchTerm" :placeholder="$t('links.search_placeholder')" />
-      <CommandList>
+    </Command>
+    <!-- disable command search -->
+    <Command class="flex-1">
+      <CommandList class="max-h-auto sm:max-h-[300px]">
         <CommandEmpty>
           {{ $t('links.no_results') }}
         </CommandEmpty>
-        <CommandGroup :heading="$t('links.group_title')">
+        <CommandGroup v-if="filteredLinks.length" :heading="$t('links.group_title')">
           <CommandItem v-for="link in filteredLinks" :key="link.item?.id" class="cursor-pointer" :value="link.item" @select="selectLink(link.item)">
             <div class="flex gap-1 w-full">
               <div class="inline-flex overflow-hidden flex-1 gap-1 items-center">
@@ -97,7 +100,7 @@ onMounted(() => {
     <DialogTrigger as-child>
       <TriggerComponent />
     </DialogTrigger>
-    <DialogContent class="overflow-hidden p-0 shadow-lg">
+    <DialogContent class="overflow-hidden p-0 shadow-lg gap-0">
       <SearchComponent />
     </DialogContent>
   </Dialog>
@@ -105,7 +108,7 @@ onMounted(() => {
     <DrawerTrigger as-child>
       <TriggerComponent />
     </DrawerTrigger>
-    <DrawerContent class="h-[500px]">
+    <DrawerContent class="h-[500px] gap-0">
       <SearchComponent />
     </DrawerContent>
   </Drawer>
