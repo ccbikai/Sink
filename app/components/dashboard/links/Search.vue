@@ -11,8 +11,6 @@ const router = useRouter()
 
 const isOpen = ref(false)
 const searchTerm = ref('')
-const selectedLink = ref(null)
-
 const links = ref([])
 
 const { results: filteredLinks } = useFuse(searchTerm, links, {
@@ -61,16 +59,16 @@ onMounted(() => {
     >
       <span class="hidden md:inline-flex">{{ $t('links.search_placeholder') }}</span>
       <span class="inline-flex md:hidden">{{ $t('common.search') }}</span>
-      <kbd class="pointer-events-none absolute right-[0.3rem] top-[0.5rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+      <kbd class="pointer-events-none absolute right-[0.3rem] top-2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
         <span class="text-xs">⌘</span>K
       </kbd>
     </Button>
   </TriggerTemplate>
   <SearchTemplate>
-    <Command v-model:search-term="searchTerm" v-model="selectedLink" class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
-      <CommandInput :placeholder="$t('links.search_placeholder')" />
+    <Command class="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+      <CommandInput v-model="searchTerm" :placeholder="$t('links.search_placeholder')" />
       <CommandList>
-        <CommandEmpty v-if="searchTerm">
+        <CommandEmpty>
           {{ $t('links.no_results') }}
         </CommandEmpty>
         <CommandGroup :heading="$t('links.group_title')">

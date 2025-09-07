@@ -44,7 +44,7 @@ onMounted(async () => {
       </CardContent>
     </div>
     <DashboardAnalysisViews
-      class="w-full h-40 border-none !p-0 shadow-none"
+      class="w-full h-40 border-none p-0! shadow-none"
       mode="simple"
       chart-type="bar"
     />

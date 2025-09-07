@@ -13,7 +13,7 @@ defineProps<{
 
 <template>
   <Card class="text-sm py-0 gap-0">
-    <CardHeader v-if="title" class="p-3 !pb-1 border-b">
+    <CardHeader v-if="title" class="p-3 pb-1! border-b">
       <CardTitle>
         {{ title }}
       </CardTitle>
