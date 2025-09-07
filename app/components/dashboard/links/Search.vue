@@ -61,7 +61,7 @@ onMounted(() => {
     >
       <span class="hidden md:inline-flex">{{ $t('links.search_placeholder') }}</span>
       <span class="inline-flex md:hidden">{{ $t('common.search') }}</span>
-      <kbd class="pointer-events-none absolute right-[0.3rem] top-[0.6rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+      <kbd class="pointer-events-none absolute right-[0.3rem] top-[0.5rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
         <span class="text-xs">⌘</span>K
       </kbd>
     </Button>

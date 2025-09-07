@@ -55,13 +55,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card class="flex flex-col">
+  <Card class="flex flex-col p-0 gap-0">
     <template v-if="metrics.length">
-      <DashboardAnalysisMetricsList
-        class="flex-1"
-        :metrics="top6"
-        :type="type"
-      />
+      <CardContent class="p-0">
+        <DashboardAnalysisMetricsList
+          class="flex-1"
+          :metrics="top6"
+          :type="type"
+        />
+      </CardContent>
       <CardFooter class="py-2">
         <Dialog>
           <DialogTrigger

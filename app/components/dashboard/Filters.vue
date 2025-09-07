@@ -70,10 +70,11 @@ onBeforeMount(() => {
           >
             <CommandItem
               :value="link.slug"
+              class="py-2"
             >
               <Check
                 :class="cn(
-                  'mr-2 h-4 w-4',
+                  'h-4 w-4',
                   selectedLinks.includes(link.slug) ? 'opacity-100' : 'opacity-0',
                 )"
               />

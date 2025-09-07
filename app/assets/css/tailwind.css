@@ -6,8 +6,6 @@
 */
 @custom-variant dark (&:is(.dark *));
 
-@config '@@/tailwind.config.js';
-
 /*
   ---break---
 */
@@ -164,5 +162,13 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  .container {
+    @apply 2xl:max-w-[1400px] mx-auto px-4;
   }
 }
