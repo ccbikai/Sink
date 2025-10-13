@@ -88,14 +88,14 @@ const socialMediaConfigs: DeepLinkConfig[] = [
       try {
         const parts = url.pathname.split('/').filter(p => p)
 
-        // Handle user profiles: /@username
-        if (parts[0]?.startsWith('@')) {
-          return `user/profile?username=${parts[0].substring(1)}`
-        }
-
         // Handle videos: /@username/video/VIDEO_ID
         if (parts[0]?.startsWith('@') && parts[1] === 'video' && parts[2]) {
           return `video?id=${parts[2]}`
+        }
+
+        // Handle user profiles: /@username
+        if (parts[0]?.startsWith('@')) {
+          return `user/profile?username=${parts[0].substring(1)}`
         }
 
         // Handle direct video links: /video/VIDEO_ID
@@ -864,7 +864,6 @@ export function getConfigForHostname(hostname: string): DeepLinkConfig | undefin
     const configNormalized = normalizeHostname(config.hostname)
     return normalized === configNormalized
       || normalized.endsWith(`.${configNormalized}`)
-      || configNormalized.endsWith(`.${normalized}`)
   })
 }
 

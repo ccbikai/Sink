@@ -20,8 +20,12 @@ export interface MobileDeepLinkResult {
 export async function handleMobileDeepLink(event: H3Event, targetUrl: string): Promise<MobileDeepLinkResult> {
   const config = useRuntimeConfig(event)
 
+  // Normalize runtime config values (they arrive as strings)
+  const enableMobileDeepLinks = String(config.enableMobileDeepLinks) === 'true'
+  const deepLinkTimeout = Number(config.deepLinkTimeout) || 3000
+
   // Check if mobile deep linking is enabled in environment
-  if (!config.enableMobileDeepLinks) {
+  if (!enableMobileDeepLinks) {
     return {
       shouldInterceptRedirect: false,
       htmlResponse: null,
@@ -45,9 +49,11 @@ export async function handleMobileDeepLink(event: H3Event, targetUrl: string): P
   const parsedUrl = new URL(targetUrl)
 
   // Find matching deep link configuration
-  const matchingConfig = DEEP_LINK_CONFIGS.find(config =>
-    parsedUrl.hostname.includes(config.hostname),
-  )
+  const hostname = parsedUrl.hostname.toLowerCase()
+  const matchingConfig = DEEP_LINK_CONFIGS.find((config) => {
+    const candidate = config.hostname.toLowerCase()
+    return hostname === candidate || hostname.endsWith(`.${candidate}`)
+  })
 
   if (!matchingConfig) {
     return {
@@ -230,7 +236,7 @@ export async function handleMobileDeepLink(event: H3Event, targetUrl: string): P
         // Fallback to browser after timeout
         setTimeout(function() {
           window.location.replace("${safeTargetUrl}");
-        }, ${config.deepLinkTimeout || 3000});
+        }, ${deepLinkTimeout});
       </script>
     </body>
     </html>
