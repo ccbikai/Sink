@@ -3,6 +3,8 @@ import { currentLocales } from './i18n/i18n'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  devtools: { enabled: true },
+
   modules: [
     '@nuxthub/core',
     'shadcn-nuxt',
@@ -11,9 +13,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
+    '@nuxtjs/google-fonts',
   ],
-
-  devtools: { enabled: true },
 
   colorMode: {
     classSuffix: '',
@@ -102,6 +103,12 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
       standalone: false,
+    },
+  },
+
+  googleFonts: {
+    families: {
+      'Plus Jakarta Sans': [400, 500, 600, 700, 800],
     },
   },
 
