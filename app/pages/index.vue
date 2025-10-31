@@ -1,7 +1,15 @@
+<script setup>
+definePageMeta({
+  layout: 'home',
+})
+</script>
+
 <template>
   <main class="flex flex-col justify-center">
-    <HomeTwitter />
-    <HomeHero />
+    <div class="container">
+      <HomeTwitter />
+      <HomeHero />
+    </div>
     <HomeFeatures />
   </main>
 </template>
