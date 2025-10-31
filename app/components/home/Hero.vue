@@ -1,7 +1,6 @@
 <script setup>
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
-import heroImg from '@/assets/images/hero.svg?raw'
 
 const { title, description, github } = useAppConfig()
 </script>
@@ -49,9 +48,10 @@ const { title, description, github } = useAppConfig()
       </div>
     </div>
     <div class="hidden py-6 md:block">
-      <div
-        class="w-[512px]"
-        v-html="heroImg"
+      <Lottie
+        name="paperplane"
+        :width="512"
+        :height="512"
       />
     </div>
   </main>

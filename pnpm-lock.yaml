@@ -56,6 +56,9 @@ importers:
       nanoid:
         specifier: ^5.1.5
         version: 5.1.5
+      nuxt-lottie:
+        specifier: ^1.0.7
+        version: 1.0.7(magicast@0.3.5)
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
@@ -4404,6 +4407,9 @@ packages:
   longest-streak@3.1.0:
     resolution: {integrity: sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g==}
 
+  lottie-web@5.13.0:
+    resolution: {integrity: sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==}
+
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
@@ -4865,6 +4871,9 @@ packages:
 
   number-flow@0.5.7:
     resolution: {integrity: sha512-P83Y9rBgN3Xpz5677YDNtuQHZpIldw6WXeWRg0+edrfFthhV7QqRdABas5gtu07QPLvbA8XhfO69rIvbKRzYIg==}
+
+  nuxt-lottie@1.0.7:
+    resolution: {integrity: sha512-tZC7Pj35l6657ewoyo1HBYYzpxE/MW/HPh/UgqBCW0c606yknEgvjNvqRk/2/zT97eqH/GClIINOrPn49ouIeQ==}
 
   nuxt@3.17.4:
     resolution: {integrity: sha512-49tkp7/+QVhuEOFoTDVvNV6Pc5+aI7wWjZHXzLUrt3tlWLPFh0yYbNXOc3kaxir1FuhRQHHyHZ7azCPmGukfFg==}
@@ -11494,6 +11503,8 @@ snapshots:
 
   longest-streak@3.1.0: {}
 
+  lottie-web@5.13.0: {}
+
   lru-cache@10.4.3: {}
 
   lru-cache@5.1.1:
@@ -12212,6 +12223,13 @@ snapshots:
   number-flow@0.5.7:
     dependencies:
       esm-env: 1.2.1
+
+  nuxt-lottie@1.0.7(magicast@0.3.5):
+    dependencies:
+      '@nuxt/kit': 3.17.4(magicast@0.3.5)
+      lottie-web: 5.13.0
+    transitivePeerDependencies:
+      - magicast
 
   nuxt@3.17.4(@parcel/watcher@2.4.1)(@types/node@20.12.11)(db0@0.3.2)(encoding@0.1.13)(eslint@9.27.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.41.0)(terser@5.31.0)(typescript@5.7.2)(vite@6.3.5(@types/node@20.12.11)(jiti@2.4.2)(terser@5.31.0)(yaml@2.8.0))(vue-tsc@2.2.10(typescript@5.7.2))(yaml@2.8.0):
     dependencies:
