@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
+    '@nuxtjs/google-fonts',
   ],
 
   devtools: { enabled: true },
@@ -102,6 +103,12 @@ export default defineNuxtConfig({
     config: {
       stylistic: true,
       standalone: false,
+    },
+  },
+
+  googleFonts: {
+    families: {
+      'Plus Jakarta Sans': [400, 500, 600, 700, 800],
     },
   },
 

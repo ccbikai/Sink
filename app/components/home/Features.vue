@@ -37,29 +37,29 @@ const features = computed(() => [
 </script>
 
 <template>
-  <main class="pt-16 md:py-12">
-    <div class="md:pb-12">
-      <h2 class="text-4xl font-bold lg:text-5xl lg:tracking-tight">
+  <main class="py-12 md:py-16">
+    <div class="text-center md:pb-12 md:text-left">
+      <h2 class="text-3xl font-bold sm:text-4xl lg:text-5xl lg:tracking-tight">
         {{ $t('home.features.title') }}
       </h2>
-      <p class="my-8 text-lg md:mb-0 text-slate-600">
+      <p class="max-w-xl mx-auto mt-4 text-base text-slate-600 sm:text-lg md:mx-0 md:max-w-none">
         {{ $t('home.features.subtitle') }}
       </p>
     </div>
 
-    <div class="grid gap-8 md:gap-16 sm:grid-cols-2 md:grid-cols-3">
+    <div class="grid gap-8 mt-8 sm:grid-cols-2 md:grid-cols-3 md:gap-12 md:mt-12">
       <div
         v-for="item in features"
         :key="item.title"
-        class="flex items-start gap-4"
+        class="flex flex-col items-center gap-4 text-center md:flex-row md:items-start md:text-left"
       >
-        <div class="w-8 h-8 p-2 mt-1 bg-black rounded-full shrink-0">
+        <div class="flex items-center justify-center w-12 h-12 p-2 bg-black rounded-full shrink-0">
           <component
             :is="item.icon"
-            class="w-4 h-4 text-white"
+            class="w-6 h-6 text-white"
           />
         </div>
-        <div>
+        <div class="flex-1">
           <h3 class="text-lg font-semibold">
             {{ item.title }}
           </h3>

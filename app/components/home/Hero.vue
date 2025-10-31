@@ -8,23 +8,23 @@ const { title, description, github } = useAppConfig()
 
 <template>
   <main
-    class="grid pt-8 pb-8 lg:grid-cols-2 place-items-center md:py-12"
+    class="grid pt-8 pb-4 lg:grid-cols-2 place-items-center md:py-12"
   >
-    <div>
+    <div class="text-center lg:text-left">
       <h1
-        class="text-5xl font-bold lg:text-6xl xl:text-7xl lg:tracking-tight xl:tracking-tighter"
+        class="text-4xl font-bold lg:text-6xl xl:text-7xl lg:tracking-tight xl:tracking-tighter"
       >
         {{ title }}
       </h1>
-      <p class="max-w-xl mt-4 text-lg text-slate-600">
+      <p class="max-w-xl mt-4 text-base text-slate-600 md:text-lg">
         {{ description }}
       </p>
-      <div class="flex flex-col gap-3 mt-6 sm:flex-row">
+      <div class="flex flex-col items-center gap-3 mt-6 sm:flex-row">
         <HomeLink
           href="/dashboard"
           target="_blank"
           title="Dashboard"
-          class="flex items-center justify-center gap-1"
+          class="flex items-center justify-center w-full gap-1 sm:w-auto"
           rel="noopener"
         >
           <AreaChart
@@ -38,7 +38,7 @@ const { title, description, github } = useAppConfig()
           rel="noopener"
           :href="github"
           title="Github"
-          class="flex items-center justify-center gap-1"
+          class="flex items-center justify-center w-full gap-1 sm:w-auto"
           target="_blank"
         >
           <GitHubIcon
