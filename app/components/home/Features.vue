@@ -47,8 +47,6 @@ const features = computed(() => [
           {{ $t('home.features.subtitle') }}
         </p>
       </div>
-    </div>
-    <div class="px-4 md:px-8">
       <div class="grid gap-8 mt-8 sm:grid-cols-2 md:grid-cols-3 md:gap-12 md:mt-12">
         <div
           v-for="item in features"
