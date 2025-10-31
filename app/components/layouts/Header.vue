@@ -83,7 +83,7 @@ const { title, github } = useAppConfig()
           class="top-0 left-0 items-center justify-end hidden w-full h-full p-4 text-sm md:w-3/4 md:absolute lg:text-base md:p-0 md:relative md:flex"
         >
           <NuxtLink
-            class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/10 hover:text-primary"
+            class="inline-flex items-center justify-center px-4 py-2 mr-2 text-sm font-medium transition-colors rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/10 hover:text-primary"
             href="/dashboard"
             :title="`${title} Dashboard`"
           >

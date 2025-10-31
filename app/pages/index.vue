@@ -3,6 +3,5 @@
     <HomeTwitter />
     <HomeHero />
     <HomeFeatures />
-    <HomeLogos />
   </main>
 </template>
