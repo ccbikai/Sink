@@ -1,5 +1,5 @@
 <script setup>
-import { AlignJustify, X } from 'lucide-vue-next'
+import { AlignJustify, Plane, X } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const showMenu = ref(false)
@@ -21,11 +21,7 @@ const { title, github } = useAppConfig()
             <span
               class="flex items-center justify-center w-8 h-8 rounded-full"
             >
-              <img
-                src="/sink.png"
-                :alt="title"
-                class="w-full h-full rounded-full"
-              >
+              <Plane class="w-full h-full rounded-full" />
             </span>
             <span class="mx-2">{{ title }}</span>
           </a>
@@ -46,11 +42,7 @@ const { title, github } = useAppConfig()
               <span
                 class="flex items-center justify-center w-8 h-8 text-white bg-gray-900 rounded-full"
               >
-                <img
-                  src="/sink.png"
-                  :alt="title"
-                  class="w-full h-full rounded-full"
-                >
+                <Plane class="w-full h-full rounded-full" />
               </span>
               <span class="mx-2">{{ title }}</span>
             </a>
@@ -90,22 +82,24 @@ const { title, github } = useAppConfig()
         <div
           class="top-0 left-0 items-center justify-end hidden w-full h-full p-4 text-sm md:w-3/4 md:absolute lg:text-base md:p-0 md:relative md:flex"
         >
-          <a
-            class="px-3 mr-2 text-gray-700 cursor-pointer dark:text-gray-300 lg:mr-3"
+          <NuxtLink
+            class="inline-flex items-center justify-center px-4 py-2 mr-2 text-sm font-medium transition-colors rounded-md whitespace-nowrap ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/10 hover:text-primary"
             href="/dashboard"
             :title="`${title} Dashboard`"
-          >{{ $t('dashboard.title') }}</a>
-          <a
+          >
+            {{ $t('dashboard.title') }}
+          </NuxtLink>
+          <NuxtLink
             :href="github"
             target="_blank"
             title="Github"
-            class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-white bg-gray-900 rounded-full hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 mr-2"
+            class="inline-flex items-center justify-center px-4 py-2 mr-2 text-sm font-medium text-white transition-colors rounded-md whitespace-nowrap bg-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-primary/90"
           >
             <GitHubIcon
               class="w-5 h-5 mr-1"
             />
             GitHub
-          </a>
+          </NuxtLink>
           <div class="flex items-center">
             <SwitchLanguage />
             <SwitchTheme />

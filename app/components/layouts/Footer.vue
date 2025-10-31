@@ -1,7 +1,17 @@
 <script setup>
 import { BloggerIcon, GitHubIcon, GmailIcon, MastodonIcon, TelegramIcon, XIcon } from 'vue3-simple-icons'
+import cloudflareLogoRaw from '~/assets/images/cloudflare-logo.svg?raw'
 
 const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig()
+const route = useRoute()
+const isHome = computed(() => route.path === '/')
+const colorMode = useColorMode()
+const cloudflareLogo = computed(() => {
+  if (colorMode.value === 'dark') {
+    return cloudflareLogoRaw.replace(/fill="#000"/g, 'fill="#FFF"')
+  }
+  return cloudflareLogoRaw
+})
 </script>
 
 <template>
@@ -20,6 +30,11 @@ const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig
       >
         &copy; {{ new Date().getFullYear() }} Product of GREEN COMPUTER SYSTEMS
       </a>
+      <div
+        v-if="isHome"
+        class="flex items-center justify-center mt-4 sm:ml-auto sm:mt-0"
+        v-html="cloudflareLogo"
+      />
       <span
         class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
       >
