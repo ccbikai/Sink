@@ -1,6 +1,5 @@
 <script setup>
-import { AlignJustify, X } from 'lucide-vue-next'
-import { GitHubIcon } from 'vue3-simple-icons'
+import { AlignJustify, Plane, X } from 'lucide-vue-next'
 
 const showMenu = ref(false)
 const { title, github } = useAppConfig()
@@ -21,11 +20,7 @@ const { title, github } = useAppConfig()
             <span
               class="flex items-center justify-center w-8 h-8 rounded-full"
             >
-              <img
-                src="/sink.png"
-                :alt="title"
-                class="w-full h-full rounded-full"
-              >
+              <Plane class="w-full h-full rounded-full" />
             </span>
             <span class="mx-2">{{ title }}</span>
           </a>
@@ -46,11 +41,7 @@ const { title, github } = useAppConfig()
               <span
                 class="flex items-center justify-center w-8 h-8 text-white bg-gray-900 rounded-full"
               >
-                <img
-                  src="/sink.png"
-                  :alt="title"
-                  class="w-full h-full rounded-full"
-                >
+                <Plane class="w-full h-full rounded-full" />
               </span>
               <span class="mx-2">{{ title }}</span>
             </a>
