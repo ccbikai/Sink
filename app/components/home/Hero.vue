@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
@@ -15,12 +15,15 @@ useHead({
   ],
 })
 
-function onLottieLoad() {
-  if (lottiePlayer.value) {
-    lottiePlayer.value.loop = true
-    lottiePlayer.value.play()
-  }
-}
+onMounted(async () => {
+  await nextTick()
+  setTimeout(() => {
+    if (lottiePlayer.value) {
+      lottiePlayer.value.loop = true
+      lottiePlayer.value.play()
+    }
+  }, 100)
+})
 </script>
 
 <template>
@@ -71,7 +74,6 @@ function onLottieLoad() {
           ref="lottiePlayer"
           src="/paperplane.lottie"
           style="width: 512px; height: 512px;"
-          @load="onLottieLoad"
         />
       </ClientOnly>
     </div>
