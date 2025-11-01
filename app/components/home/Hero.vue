@@ -1,17 +1,8 @@
 <script setup>
-import { ref } from 'vue'
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const { title, description, github } = useAppConfig()
-const lottiePlayer = ref(null)
-
-function onReady() {
-  if (lottiePlayer.value) {
-    lottiePlayer.value.loop = true
-    lottiePlayer.value.play()
-  }
-}
 </script>
 
 <template>
@@ -56,13 +47,13 @@ function onReady() {
         </HomeLink>
       </div>
     </div>
-    <div class="hidden py-6 md:block">
+    <div class="py-6">
       <ClientOnly>
         <dotlottie-player
-          ref="lottiePlayer"
           src="/paperplane.lottie"
-          style="width: 512px; height: 512px;"
-          @ready="onReady"
+          class="w-[512px] h-[512px]"
+          autoplay
+          loop
         />
       </ClientOnly>
     </div>
