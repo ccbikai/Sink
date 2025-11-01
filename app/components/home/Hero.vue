@@ -15,6 +15,11 @@ useHead({
   ],
 })
 
+function playAnimation() {
+  if (lottiePlayer.value) {
+    lottiePlayer.value.play()
+  }
+}
 </script>
 
 <template>
@@ -66,8 +71,8 @@ useHead({
           src="/paperplane.lottie"
           loop
           style="width: 512px; height: 512px;"
-          @load="lottiePlayer.play()"
         />
+        <button @click="playAnimation">Play</button>
       </ClientOnly>
     </div>
   </main>
