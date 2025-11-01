@@ -7,28 +7,10 @@ const { title, description, github } = useAppConfig()
 useHead({
   script: [
     {
-      src: 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.13.0/lottie.min.js',
-      integrity: 'sha512-uOtp2vx2X/5+tLBEf5UoQyqwAkFZJBM5XwGa7BfXDnWR+wdpRvlSVzaIVcRe3tGNsStu6UMDCeXKEnr4IBT8gA==',
-      crossorigin: 'anonymous',
-      referrerpolicy: 'no-referrer',
+      src: 'https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs',
+      type: 'module',
     },
   ],
-})
-
-onMounted(() => {
-  // This is a workaround to ensure lottie is defined
-  const interval = setInterval(() => {
-    if (typeof lottie !== 'undefined') {
-      clearInterval(interval)
-      lottie.loadAnimation({
-        container: document.getElementById('lottie-container'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: '/paperplane.lottie',
-      })
-    }
-  }, 100)
 })
 </script>
 
@@ -75,7 +57,12 @@ onMounted(() => {
       </div>
     </div>
     <div class="hidden py-6 md:block">
-      <div id="lottie-container" class="w-[512px] h-[512px]" />
+      <dotlottie-player
+        src="/paperplane.lottie"
+        autoplay
+        loop
+        style="width: 512px; height: 512px;"
+      />
     </div>
   </main>
 </template>
