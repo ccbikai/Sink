@@ -13,9 +13,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
   ],
-
   devtools: { enabled: true },
-
   colorMode: {
     classSuffix: '',
   },

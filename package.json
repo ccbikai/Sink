@@ -22,6 +22,7 @@
     "lint-staged": "lint-staged"
   },
   "dependencies": {
+    "@dotlottie/player-component": "^2.7.12",
     "@intlify/message-compiler": "^11.1.3",
     "@number-flow/vue": "^0.4.7",
     "@unovis/ts": "^1.5.1",

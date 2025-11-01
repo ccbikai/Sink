@@ -5,13 +5,19 @@ import cloudflareLogoRaw from '~/assets/images/cloudflare-logo.svg?raw'
 const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig()
 const route = useRoute()
 const isHome = computed(() => route.path === '/')
-const colorMode = useColorMode()
-const cloudflareLogo = computed(() => {
-  if (colorMode.value === 'dark') {
-    return cloudflareLogoRaw.replace(/fill="#000"/g, 'fill="#FFF"')
-  }
-  return cloudflareLogoRaw
-})
+const cloudflareLogo = computed(() => cloudflareLogoRaw)
+
+useHead(() => ({
+  style: [
+    {
+      innerHTML: `
+        .dark .cf-logo-bg {
+          fill: #fff;
+        }
+      `,
+    },
+  ],
+}))
 </script>
 
 <template>
