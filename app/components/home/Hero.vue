@@ -7,8 +7,8 @@ const { title, description, github } = useAppConfig()
 useHead({
   script: [
     {
-      src: 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js',
-      integrity: 'sha512-jEnuDt6jfecCjUkg1Vr3qhJbCMhflQPHs2G3HQkadEcN/nwOEU8p/COswDkX4/xqt/UFvHiU+HNdvF/if19prg==',
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.13.0/lottie.min.js',
+      integrity: 'sha512-uOtp2vx2X/5+tLBEf5UoQyqwAkFZJBM5XwGa7BfXDnWR+wdpRvlSVzaIVcRe3tGNsStu6UMDCeXKEnr4IBT8gA==',
       crossorigin: 'anonymous',
       referrerpolicy: 'no-referrer',
     },
