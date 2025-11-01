@@ -3,6 +3,33 @@ import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const { title, description, github } = useAppConfig()
+
+useHead({
+  script: [
+    {
+      src: 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js',
+      integrity: 'sha512-jEnuDt6jfecCjUkg1Vr3qhJbCMhflQPHs2G3HQkadEcN/nwOEU8p/COswDkX4/xqt/UFvHiU+HNdvF/if19prg==',
+      crossorigin: 'anonymous',
+      referrerpolicy: 'no-referrer',
+    },
+  ],
+})
+
+onMounted(() => {
+  // This is a workaround to ensure lottie is defined
+  const interval = setInterval(() => {
+    if (typeof lottie !== 'undefined') {
+      clearInterval(interval)
+      lottie.loadAnimation({
+        container: document.getElementById('lottie-container'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: '/paperplane.lottie',
+      })
+    }
+  }, 100)
+})
 </script>
 
 <template>
@@ -48,11 +75,7 @@ const { title, description, github } = useAppConfig()
       </div>
     </div>
     <div class="hidden py-6 md:block">
-      <Lottie
-        name="paperplane"
-        :width="512"
-        :height="512"
-      />
+      <div id="lottie-container" class="w-[512px] h-[512px]" />
     </div>
   </main>
 </template>

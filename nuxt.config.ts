@@ -12,16 +12,8 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxtjs/i18n',
     '@nuxtjs/google-fonts',
-    'nuxt-lottie',
   ],
-
-  lottie: {
-    lottieFolder: 'assets/lottie',
-    autoFolderCreation: false,
-  },
-
   devtools: { enabled: true },
-
   colorMode: {
     classSuffix: '',
   },
