@@ -15,8 +15,9 @@ useHead({
   ],
 })
 
-function playAnimation() {
+function onLottieLoad() {
   if (lottiePlayer.value) {
+    lottiePlayer.value.loop = true
     lottiePlayer.value.play()
   }
 }
@@ -69,10 +70,9 @@ function playAnimation() {
         <dotlottie-player
           ref="lottiePlayer"
           src="/paperplane.lottie"
-          loop
           style="width: 512px; height: 512px;"
+          @load="onLottieLoad"
         />
-        <button @click="playAnimation">Play</button>
       </ClientOnly>
     </div>
   </main>
