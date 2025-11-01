@@ -1,8 +1,10 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const { title, description, github } = useAppConfig()
+const lottiePlayer = ref(null)
 
 useHead({
   script: [
@@ -11,6 +13,15 @@ useHead({
       type: 'module',
     },
   ],
+})
+
+onMounted(() => {
+  // Use a timeout to ensure the player is ready
+  setTimeout(() => {
+    if (lottiePlayer.value) {
+      lottiePlayer.value.play()
+    }
+  }, 100) // A small delay can help
 })
 </script>
 
@@ -59,8 +70,8 @@ useHead({
     <div class="hidden py-6 md:block">
       <ClientOnly>
         <dotlottie-player
+          ref="lottiePlayer"
           src="/paperplane.lottie"
-          autoplay
           loop
           style="width: 512px; height: 512px;"
         />
