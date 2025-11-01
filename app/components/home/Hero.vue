@@ -57,12 +57,14 @@ useHead({
       </div>
     </div>
     <div class="hidden py-6 md:block">
-      <dotlottie-player
-        src="/paperplane.lottie"
-        autoplay
-        loop
-        style="width: 512px; height: 512px;"
-      />
+      <ClientOnly>
+        <dotlottie-player
+          src="/paperplane.lottie"
+          autoplay
+          loop
+          style="width: 512px; height: 512px;"
+        />
+      </ClientOnly>
     </div>
   </main>
 </template>
