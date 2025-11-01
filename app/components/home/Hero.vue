@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
@@ -15,14 +15,6 @@ useHead({
   ],
 })
 
-onMounted(() => {
-  // Use a timeout to ensure the player is ready
-  setTimeout(() => {
-    if (lottiePlayer.value) {
-      lottiePlayer.value.play()
-    }
-  }, 100) // A small delay can help
-})
 </script>
 
 <template>
@@ -74,6 +66,7 @@ onMounted(() => {
           src="/paperplane.lottie"
           loop
           style="width: 512px; height: 512px;"
+          @load="lottiePlayer.play()"
         />
       </ClientOnly>
     </div>
