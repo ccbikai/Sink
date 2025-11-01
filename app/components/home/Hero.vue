@@ -1,20 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { AreaChart } from 'lucide-vue-next'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const { title, description, github } = useAppConfig()
 const lottiePlayer = ref(null)
 
-onMounted(() => {
-  setTimeout(() => {
-    if (lottiePlayer.value) {
-      lottiePlayer.value.loop = true
-      lottiePlayer.value.autoplay = true
-      lottiePlayer.value.play()
-    }
-  }, 500) // Longer timeout for Nuxt
-})
+function onReady() {
+  if (lottiePlayer.value) {
+    lottiePlayer.value.loop = true
+    lottiePlayer.value.play()
+  }
+}
 </script>
 
 <template>
@@ -64,9 +61,8 @@ onMounted(() => {
         <dotlottie-player
           ref="lottiePlayer"
           src="/paperplane.lottie"
-          autoplay
-          loop
           style="width: 512px; height: 512px;"
+          @ready="onReady"
         />
       </ClientOnly>
     </div>
