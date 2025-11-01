@@ -138,9 +138,4 @@ export default defineNuxtConfig({
      */
     componentDir: './app/components/ui',
   },
-  vue: {
-    compilerOptions: {
-      isCustomElement: (tag) => tag === 'dotlottie-player',
-    },
-  },
 })
