@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { MenubarSub, type MenubarSubEmits, useForwardPropsEmits } from 'radix-vue'
+import type { MenubarSubEmits } from "reka-ui"
+import { MenubarSub, useForwardPropsEmits } from "reka-ui"
 
 interface MenubarSubRootProps {
   defaultOpen?: boolean
@@ -13,7 +14,10 @@ const forwarded = useForwardPropsEmits(props, emits)
 </script>
 
 <template>
-  <MenubarSub v-bind="forwarded">
+  <MenubarSub
+    data-slot="menubar-sub"
+    v-bind="forwarded"
+  >
     <slot />
   </MenubarSub>
 </template>

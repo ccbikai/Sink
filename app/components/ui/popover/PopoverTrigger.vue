@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { PopoverTrigger, type PopoverTriggerProps } from 'radix-vue'
+import type { PopoverTriggerProps } from "reka-ui"
+import { PopoverTrigger } from "reka-ui"
 
 const props = defineProps<PopoverTriggerProps>()
 </script>
 
 <template>
-  <PopoverTrigger v-bind="props">
+  <PopoverTrigger
+    data-slot="popover-trigger"
+    v-bind="props"
+  >
     <slot />
   </PopoverTrigger>
 </template>

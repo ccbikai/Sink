@@ -12,11 +12,11 @@ defineProps({
     class="block w-full truncate"
   >
     <Avatar
-      class="w-5 h-5 p-0.5 float-left"
+      class="float-left h-5 w-5 p-0.5"
     >
       <AvatarImage
         :src="`https://unavatar.io/${name}?fallback=false`"
-        alt="@radix-vue"
+        :alt="name"
         loading="lazy"
       />
       <AvatarFallback>

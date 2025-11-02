@@ -10,14 +10,17 @@ const { twitter } = useAppConfig()
     :href="twitter"
     target="_blank"
     title="X(Twitter)"
-    class="inline-flex items-center px-3 py-1 mx-auto my-4 space-x-1 text-sm font-medium rounded-lg bg-muted"
+    class="
+      mx-auto my-4 inline-flex items-center space-x-1 rounded-lg bg-muted px-3
+      py-1 text-sm font-medium
+    "
   >
-    <XIcon class="w-4 h-4" />
+    <XIcon class="h-4 w-4" />
     <Separator
       orientation="vertical"
       class="h-4"
     />
     <span>{{ $t('home.twitter.follow') }}</span>
-    <ArrowRight class="w-4 h-4" />
+    <ArrowRight class="h-4 w-4" />
   </a>
 </template>

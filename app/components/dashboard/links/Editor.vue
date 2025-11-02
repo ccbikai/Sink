@@ -140,7 +140,12 @@ const { previewMode } = useRuntimeConfig().public
         </Button>
       </slot>
     </DialogTrigger>
-    <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-lg grid-rows-[auto_minmax(0,1fr)_auto]">
+    <DialogContent
+      class="
+        max-h-[95svh] max-w-[95svw] grid-rows-[auto_minmax(0,1fr)_auto]
+        md:max-w-lg
+      "
+    >
       <DialogHeader>
         <DialogTitle>{{ link.id ? $t('links.edit') : $t('links.create') }}</DialogTitle>
       </DialogHeader>
@@ -151,7 +156,7 @@ const { previewMode } = useRuntimeConfig().public
         {{ $t('links.preview_mode_tip') }}
       </p>
       <AutoForm
-        class="overflow-y-auto px-2 space-y-2"
+        class="space-y-2 overflow-y-auto px-2"
         :schema="EditLinkSchema"
         :form="form"
         :field-config="fieldConfig"
@@ -163,13 +168,13 @@ const { previewMode } = useRuntimeConfig().public
             v-if="!isEdit"
             class="relative"
           >
-            <div class="flex absolute right-0 top-1 space-x-3">
+            <div class="absolute top-0 right-0 flex space-x-3">
               <Shuffle
-                class="w-4 h-4 cursor-pointer"
+                class="h-4 w-4 cursor-pointer"
                 @click="randomSlug"
               />
               <Sparkles
-                class="w-4 h-4 cursor-pointer"
+                class="h-4 w-4 cursor-pointer"
                 :class="{ 'animate-bounce': aiSlugPending }"
                 @click="aiSlug"
               />
@@ -184,7 +189,10 @@ const { previewMode } = useRuntimeConfig().public
             <Button
               type="button"
               variant="secondary"
-              class="mt-2 sm:mt-0"
+              class="
+                mt-2
+                sm:mt-0
+              "
             >
               {{ $t('common.close') }}
             </Button>

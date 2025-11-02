@@ -102,10 +102,10 @@ export function useAccessLog(event: H3Event) {
 
   const userAgent = getHeader(event, 'user-agent') || ''
   const uaInfo = (new UAParser(userAgent, {
-    // eslint-disable-next-line ts/ban-ts-comment
+
     // @ts-expect-error
     browser: [Crawlers.browser || [], CLIs.browser || [], Emails.browser || [], Fetchers.browser || [], InApps.browser || [], MediaPlayers.browser || [], Vehicles.browser || []].flat(),
-    // eslint-disable-next-line ts/ban-ts-comment
+
     // @ts-expect-error
     device: [ExtraDevices.device || []].flat(),
   })).getResult()

@@ -1,3 +1,4 @@
+import type { InputComponents } from './interface'
 import AutoFormFieldArray from './AutoFormFieldArray.vue'
 import AutoFormFieldBoolean from './AutoFormFieldBoolean.vue'
 import AutoFormFieldDate from './AutoFormFieldDate.vue'
@@ -7,7 +8,7 @@ import AutoFormFieldInput from './AutoFormFieldInput.vue'
 import AutoFormFieldNumber from './AutoFormFieldNumber.vue'
 import AutoFormFieldObject from './AutoFormFieldObject.vue'
 
-export const INPUT_COMPONENTS = {
+export const INPUT_COMPONENTS: InputComponents = {
   date: AutoFormFieldDate,
   select: AutoFormFieldEnum,
   radio: AutoFormFieldEnum,

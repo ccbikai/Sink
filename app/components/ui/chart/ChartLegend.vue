@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { VisBulletLegend } from '@unovis/vue'
-import type { BulletLegendItemInterface } from '@unovis/ts'
-import { BulletLegend } from '@unovis/ts'
-import { nextTick, onMounted, ref } from 'vue'
+import type { BulletLegendItemInterface } from "@unovis/ts"
+import { BulletLegend } from "@unovis/ts"
+import { VisBulletLegend } from "@unovis/vue"
+import { nextTick, onMounted, ref } from "vue"
 import { buttonVariants } from '@/components/ui/button'
 
 const props = withDefaults(defineProps<{ items: BulletLegendItemInterface[] }>(), {
@@ -10,40 +10,47 @@ const props = withDefaults(defineProps<{ items: BulletLegendItemInterface[] }>()
 })
 
 const emits = defineEmits<{
-  'legendItemClick': [d: BulletLegendItemInterface, i: number]
-  'update:items': [payload: BulletLegendItemInterface[]]
+  "legendItemClick": [d: BulletLegendItemInterface, i: number]
+  "update:items": [payload: BulletLegendItemInterface[]]
 }>()
 
 const elRef = ref<HTMLElement>()
 
-onMounted(() => {
+function keepStyling() {
   const selector = `.${BulletLegend.selectors.item}`
   nextTick(() => {
     const elements = elRef.value?.querySelectorAll(selector)
-    const classes = buttonVariants({ variant: 'ghost', size: 'xs' }).split(' ')
-    elements?.forEach(el => el.classList.add(...classes, '!inline-flex', '!mr-2'))
+    const classes = buttonVariants({ variant: "ghost", size: "xs" }).split(" ")
+
+    elements?.forEach(el => el.classList.add(...classes, "inline-flex!", "mr-2!"))
   })
+}
+
+onMounted(() => {
+  keepStyling()
 })
 
 function onLegendItemClick(d: BulletLegendItemInterface, i: number) {
-  emits('legendItemClick', d, i)
+  emits("legendItemClick", d, i)
   const isBulletActive = !props.items[i].inactive
   const isFilterApplied = props.items.some(i => i.inactive)
   if (isFilterApplied && isBulletActive) {
     // reset filter
-    emits('update:items', props.items.map(item => ({ ...item, inactive: false })))
+    emits("update:items", props.items.map(item => ({ ...item, inactive: false })))
   }
   else {
     // apply selection, set other item as inactive
-    emits('update:items', props.items.map(item => item.name === d.name ? ({ ...d, inactive: false }) : { ...item, inactive: true }))
+    emits("update:items", props.items.map(item => item.name === d.name ? ({ ...d, inactive: false }) : { ...item, inactive: true }))
   }
+  keepStyling()
 }
 </script>
 
 <template>
   <div
-    ref="elRef"
-    class="w-max"
+    ref="elRef" class="w-max" :style="{
+      '--vis-legend-bullet-size': '16px',
+    }"
   >
     <VisBulletLegend
       :items="items"

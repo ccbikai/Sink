@@ -55,16 +55,31 @@ onBeforeMount(() => {
 
 <template>
   <main class="space-y-6">
-    <div class="flex flex-col gap-6 sm:gap-2 sm:flex-row sm:justify-between">
+    <div
+      class="
+        flex flex-col gap-6
+        sm:flex-row sm:justify-between sm:gap-2
+      "
+    >
       <DashboardNav class="flex-1">
         <DashboardTimePicker ref="timePicker" @update:time-range="changeTime" />
       </DashboardNav>
       <DashboardFilters @change="changeFilter" />
     </div>
     <div class="relative space-y-4">
-      <DashboardRealtimeChart class="md:absolute top-0 left-0 z-10" />
+      <DashboardRealtimeChart
+        class="
+          top-0 left-0 z-10
+          md:absolute
+        "
+      />
       <LazyDashboardRealtimeGlobe />
-      <DashboardRealtimeLogs class="md:absolute top-0 right-0 h-full z-10" />
+      <DashboardRealtimeLogs
+        class="
+          top-0 right-0 z-10 h-full
+          md:absolute
+        "
+      />
     </div>
   </main>
 </template>

@@ -99,7 +99,7 @@ const iconMaps = {
   <div class="w-full truncate">
     <component
       :is="iconMaps[name.toLowerCase()] || iconMaps[type]"
-      class="w-5 h-5 py-0.5 float-left"
+      class="float-left h-5 w-5 py-0.5"
     />
     <span>{{ name }}</span>
   </div>

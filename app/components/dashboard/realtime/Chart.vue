@@ -30,21 +30,35 @@ onMounted(async () => {
 </script>
 
 <template>
-  <Card class="md:w-80 h-72 flex flex-col p-4 md:m-2">
+  <Card
+    class="
+      flex h-72 flex-col gap-0 p-4
+      md:m-2 md:w-80
+    "
+  >
     <div class="h-24">
-      <CardHeader v-if="stats.visits" class="flex flex-row justify-between items-center pb-2 space-y-0 px-0 pt-2">
-        <CardTitle class="text-sm font-medium flex items-center gap-2">
-          <span class="size-1.5 inline-flex animate-ping rounded-full bg-green-400 opacity-75" />
+      <CardHeader
+        v-if="stats.visits" class="
+          flex flex-row items-center justify-between space-y-0 px-0 pt-2 pb-2
+        "
+      >
+        <CardTitle class="flex items-center gap-2 text-sm font-medium">
+          <span
+            class="
+              inline-flex size-1.5 animate-ping rounded-full bg-green-400
+              opacity-75
+            "
+          />
           {{ $t('dashboard.visits') }}
         </CardTitle>
-        <MousePointerClick class="w-4 h-4 text-muted-foreground" />
+        <MousePointerClick class="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent class="px-0 pb-4">
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !stats.visits }" :value="stats.visits" />
+        <NumberFlow class="text-2xl font-bold" :class="{ 'opacity-60 blur-md': !stats.visits }" :value="stats.visits" />
       </CardContent>
     </div>
     <DashboardAnalysisViews
-      class="w-full h-40 border-none !p-0"
+      class="h-40 w-full border-none p-0! shadow-none"
       mode="simple"
       chart-type="bar"
     />

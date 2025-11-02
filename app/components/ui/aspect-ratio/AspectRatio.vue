@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { AspectRatio, type AspectRatioProps } from 'radix-vue'
+import type { AspectRatioProps } from "reka-ui"
+import { AspectRatio } from "reka-ui"
 
 const props = defineProps<AspectRatioProps>()
 </script>
 
 <template>
-  <AspectRatio v-bind="props">
+  <AspectRatio
+    data-slot="aspect-ratio"
+    v-bind="props"
+  >
     <slot />
   </AspectRatio>
 </template>

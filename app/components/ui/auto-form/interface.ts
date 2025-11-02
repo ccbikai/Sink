@@ -1,5 +1,5 @@
 import type { Component, InputHTMLAttributes } from 'vue'
-import type { ZodAny, z } from 'zod'
+import type { z, ZodAny } from 'zod'
 import type { INPUT_COMPONENTS } from './constant'
 
 export interface FieldProps {
@@ -16,6 +16,20 @@ export interface Shape {
   required?: boolean
   options?: string[]
   schema?: ZodAny
+}
+
+export interface InputComponents {
+  date: Component
+  select: Component
+  radio: Component
+  checkbox: Component
+  switch: Component
+  textarea: Component
+  number: Component
+  string: Component
+  file: Component
+  array: Component
+  object: Component
 }
 
 export interface ConfigItem {

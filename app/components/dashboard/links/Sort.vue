@@ -18,8 +18,18 @@ const emit = defineEmits(['update:sortBy'])
         <TooltipProvider>
           <Tooltip :delay-duration="100">
             <TooltipTrigger class="flex items-center">
-              <ArrowUpDown class="h-4 w-4 sm:mr-2" />
-              <span class="hidden sm:inline">
+              <ArrowUpDown
+                class="
+                  h-4 w-4
+                  sm:mr-2
+                "
+              />
+              <span
+                class="
+                  hidden
+                  sm:inline
+                "
+              >
                 {{ $t(`links.sort.${sortBy}`) }}
               </span>
             </TooltipTrigger>

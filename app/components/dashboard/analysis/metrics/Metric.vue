@@ -18,12 +18,12 @@ const filters = inject('filters')
 
 const total = ref(0)
 const metrics = ref([])
-const top6 = ref([])
+const top10 = ref([])
 
 async function getLinkMetrics() {
   total.value = 0
   metrics.value = []
-  top6.value = []
+  top10.value = []
   const { data } = await useAPI('/api/stats/metrics', {
     query: {
       type: props.type,
@@ -41,7 +41,7 @@ async function getLinkMetrics() {
       item.percent = Math.floor(item.count / total.value * 100) || (item.count ? 1 : 0)
       return item
     })
-    top6.value = metrics.value.slice(0, 6)
+    top10.value = metrics.value.slice(0, 10)
   }
 }
 
@@ -55,13 +55,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <Card class="flex flex-col">
+  <Card class="flex flex-col gap-0 p-0">
     <template v-if="metrics.length">
-      <DashboardAnalysisMetricsList
-        class="flex-1"
-        :metrics="top6"
-        :type="type"
-      />
+      <CardContent class="p-0">
+        <DashboardAnalysisMetricsList
+          class="flex-1"
+          :metrics="top10"
+          :type="type"
+        />
+      </CardContent>
       <CardFooter class="py-2">
         <Dialog>
           <DialogTrigger
@@ -71,11 +73,16 @@ onMounted(() => {
             <Button
               variant="link"
             >
-              <Maximize class="w-4 h-4 mr-2" />
+              <Maximize class="mr-2 h-4 w-4" />
               {{ $t('dashboard.details') }}
             </Button>
           </DialogTrigger>
-          <DialogContent class="max-w-[95svw] max-h-[95svh] md:max-w-screen-md grid-rows-[auto_minmax(0,1fr)_auto]">
+          <DialogContent
+            class="
+              max-h-[95svh] max-w-[95svw] grid-rows-[auto_minmax(0,1fr)_auto]
+              md:max-w-(--breakpoint-md)
+            "
+          >
             <DialogHeader>
               <DialogTitle>{{ name }}</DialogTitle>
             </DialogHeader>
@@ -89,21 +96,21 @@ onMounted(() => {
       </CardFooter>
     </template>
     <template v-else>
-      <div class="flex justify-between items-center px-4 h-12">
+      <div class="flex h-12 items-center justify-between px-4">
         <Skeleton
-          class="w-32 h-4 rounded-full"
+          class="h-4 w-32 rounded-full"
         />
         <Skeleton
-          class="w-20 h-4 rounded-full"
+          class="h-4 w-20 rounded-full"
         />
       </div>
       <div
-        v-for="i in 3"
+        v-for="i in 5"
         :key="i"
         class="px-4 py-4"
       >
         <Skeleton
-          class="w-full h-4 rounded-full"
+          class="h-4 w-full rounded-full"
         />
       </div>
     </template>

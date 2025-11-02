@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { MenubarGroup, type MenubarGroupProps } from 'radix-vue'
+import type { MenubarGroupProps } from "reka-ui"
+import { MenubarGroup } from "reka-ui"
 
 const props = defineProps<MenubarGroupProps>()
 </script>
 
 <template>
-  <MenubarGroup v-bind="props">
+  <MenubarGroup
+    data-slot="menubar-group"
+    v-bind="props"
+  >
     <slot />
   </MenubarGroup>
 </template>

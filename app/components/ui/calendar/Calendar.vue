@@ -1,18 +1,15 @@
 <script lang="ts" setup>
-import { type HTMLAttributes, computed } from 'vue'
-import { CalendarRoot, type CalendarRootEmits, type CalendarRootProps, useForwardPropsEmits } from 'radix-vue'
-import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from '.'
-import { cn } from '@/utils'
+import type { CalendarRootEmits, CalendarRootProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { CalendarRoot, useForwardPropsEmits } from "reka-ui"
+import { cn } from "@/lib/utils"
+import { CalendarCell, CalendarCellTrigger, CalendarGrid, CalendarGridBody, CalendarGridHead, CalendarGridRow, CalendarHeadCell, CalendarHeader, CalendarHeading, CalendarNextButton, CalendarPrevButton } from "."
 
-const props = defineProps<CalendarRootProps & { class?: HTMLAttributes['class'] }>()
-
+const props = defineProps<CalendarRootProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<CalendarRootEmits>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
@@ -20,13 +17,17 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
 <template>
   <CalendarRoot
     v-slot="{ grid, weekDays }"
+    data-slot="calendar"
     :class="cn('p-3', props.class)"
     v-bind="forwarded"
   >
     <CalendarHeader>
-      <CalendarPrevButton />
       <CalendarHeading />
-      <CalendarNextButton />
+
+      <div class="flex items-center gap-1">
+        <CalendarPrevButton />
+        <CalendarNextButton />
+      </div>
     </CalendarHeader>
 
     <div class="flex flex-col gap-y-4 mt-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">

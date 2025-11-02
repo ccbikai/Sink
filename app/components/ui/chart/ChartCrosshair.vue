@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { VisCrosshair, VisTooltip } from '@unovis/vue'
 import type { BulletLegendItemInterface } from '@unovis/ts'
 import { omit } from '@unovis/ts'
+import { VisCrosshair, VisTooltip } from '@unovis/vue'
 import { type Component, createApp } from 'vue'
 import { ChartTooltip } from '.'
 
@@ -25,7 +25,7 @@ function template(d: any) {
     const omittedData = Object.entries(omit(d, [props.index])).map(([key, value]) => {
       const legendReference = props.items.find(i => i.name === key)
       return { ...legendReference, value }
-    }).filter(i => i.name)
+    })
     const TooltipComponent = props.customTooltip ?? ChartTooltip
     createApp(TooltipComponent, { title: d[props.index].toString(), data: omittedData }).mount(componentDiv)
     wm.set(d, componentDiv.innerHTML)
@@ -39,12 +39,6 @@ function color(d: unknown, i: number) {
 </script>
 
 <template>
-  <VisTooltip
-    :horizontal-shift="20"
-    :vertical-shift="20"
-  />
-  <VisCrosshair
-    :template="template"
-    :color="color"
-  />
+  <VisTooltip :horizontal-shift="20" :vertical-shift="20" />
+  <VisCrosshair :template="template" :color="color" />
 </template>

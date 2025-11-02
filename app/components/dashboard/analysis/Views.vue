@@ -71,13 +71,23 @@ function formatTime(tick) {
 </script>
 
 <template>
-  <Card class="px-0 py-6 md:px-6">
-    <CardTitle v-if="mode === 'full'" class="px-6 md:px-0">
+  <Card
+    class="
+      px-0 py-6
+      md:px-6
+    "
+  >
+    <CardTitle
+      v-if="mode === 'full'" class="
+        px-6
+        md:px-0
+      "
+    >
       {{ $t('dashboard.views') }}
     </CardTitle>
     <component
       :is="chart"
-      class="w-full h-full"
+      class="h-full w-full"
       index="time"
       :data="views"
       :categories="mode === 'full' ? ['visits', 'visitors'] : ['visits']"

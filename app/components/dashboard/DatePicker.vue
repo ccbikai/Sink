@@ -128,7 +128,12 @@ onBeforeMount(() => {
   </Select>
 
   <Dialog v-model:open="openCustomDateRange">
-    <DialogContent class="w-auto max-w-[95svw] max-h-[95svh] md:max-w-screen-md grid-rows-[auto_minmax(0,1fr)_auto]">
+    <DialogContent
+      class="
+        max-h-[95svh] w-auto max-w-[95svw] grid-rows-[auto_minmax(0,1fr)_auto]
+        md:max-w-(--breakpoint-md)
+      "
+    >
       <DialogHeader>
         <DialogTitle>{{ $t('dashboard.date_picker.custom_title') }}</DialogTitle>
       </DialogHeader>
@@ -147,7 +152,7 @@ onBeforeMount(() => {
         </div>
         <TabsContent
           value="date"
-          class="overflow-y-auto h-80"
+          class="h-80 overflow-y-auto"
         >
           <Calendar
             :model-value="customDate"
@@ -158,7 +163,7 @@ onBeforeMount(() => {
         </TabsContent>
         <TabsContent
           value="range"
-          class="overflow-y-auto h-80"
+          class="h-80 overflow-y-auto"
         >
           <RangeCalendar
             :model-value="customDateRange"

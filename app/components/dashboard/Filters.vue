@@ -3,6 +3,7 @@ import { createReusableTemplate, useMediaQuery, useUrlSearchParams, watchDebounc
 import { safeDestr } from 'destr'
 import { Check, ChevronsUpDown } from 'lucide-vue-next'
 import { VList } from 'virtua/vue'
+import { cn } from '@/lib/utils'
 
 const emit = defineEmits(['change'])
 
@@ -48,12 +49,19 @@ onBeforeMount(() => {
       variant="outline"
       role="combobox"
       :aria-expanded="isOpen"
-      class="flex justify-between px-3 w-full sm:w-48"
+      class="
+        flex w-full justify-between px-3
+        sm:w-48
+      "
     >
-      <div class="flex-1 text-left truncate" :class="selectedLinks.length ? 'text-foreground' : 'text-muted-foreground'">
+      <div
+        class="flex-1 truncate text-left" :class="selectedLinks.length ? `
+          text-foreground
+        ` : `text-muted-foreground`"
+      >
         {{ selectedLinks.length ? selectedLinks.join(', ') : $t('dashboard.filter_placeholder') }}
       </div>
-      <ChevronsUpDown class="ml-2 w-4 h-4 opacity-50 shrink-0" />
+      <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </Button>
   </TriggerTemplate>
   <FilterTemplate>
@@ -69,11 +77,14 @@ onBeforeMount(() => {
           >
             <CommandItem
               :value="link.slug"
+              class="py-2"
             >
               <Check
                 :class="cn(
-                  'mr-2 h-4 w-4',
-                  selectedLinks.includes(link.slug) ? 'opacity-100' : 'opacity-0',
+                  'h-4 w-4',
+                  selectedLinks.includes(link.slug) ? 'opacity-100' : `
+                    opacity-0
+                  `,
                 )"
               />
               {{ link.slug }}
@@ -87,7 +98,12 @@ onBeforeMount(() => {
     <PopoverTrigger as-child>
       <TriggerComponent />
     </PopoverTrigger>
-    <PopoverContent class="p-0 w-full sm:w-48">
+    <PopoverContent
+      class="
+        w-full p-0
+        sm:w-48
+      "
+    >
       <FilterComponent />
     </PopoverContent>
   </Popover>

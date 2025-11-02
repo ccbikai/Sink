@@ -36,38 +36,50 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="grid gap-4 sm:gap-3 lg:gap-4 sm:grid-cols-3">
-    <Card>
-      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
+  <div
+    class="
+      grid gap-4
+      sm:grid-cols-3 sm:gap-3
+      lg:gap-4
+    "
+  >
+    <Card class="gap-0">
+      <CardHeader
+        class="flex flex-row items-center justify-between space-y-0 pb-2"
+      >
         <CardTitle class="text-sm font-medium">
           {{ $t('dashboard.visits') }}
         </CardTitle>
-        <MousePointerClick class="w-4 h-4 text-muted-foreground" />
+        <MousePointerClick class="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visits }" :value="counters.visits" />
+        <NumberFlow class="text-2xl font-bold" :class="{ 'opacity-60 blur-md': !counters.visits }" :value="counters.visits" />
       </CardContent>
     </Card>
-    <Card>
-      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
+    <Card class="gap-0">
+      <CardHeader
+        class="flex flex-row items-center justify-between space-y-0 pb-2"
+      >
         <CardTitle class="text-sm font-medium">
           {{ $t('dashboard.visitors') }}
         </CardTitle>
-        <Users class="w-4 h-4 text-muted-foreground" />
+        <Users class="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.visitors }" :value="counters.visitors" />
+        <NumberFlow class="text-2xl font-bold" :class="{ 'opacity-60 blur-md': !counters.visitors }" :value="counters.visitors" />
       </CardContent>
     </Card>
-    <Card>
-      <CardHeader class="flex flex-row justify-between items-center pb-2 space-y-0">
+    <Card class="gap-0">
+      <CardHeader
+        class="flex flex-row items-center justify-between space-y-0 pb-2"
+      >
         <CardTitle class="text-sm font-medium">
           {{ $t('dashboard.referers') }}
         </CardTitle>
-        <Flame class="w-4 h-4 text-muted-foreground" />
+        <Flame class="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <NumberFlow class="text-2xl font-bold" :class="{ 'blur-md opacity-60': !counters.referers }" :value="counters.referers" />
+        <NumberFlow class="text-2xl font-bold" :class="{ 'opacity-60 blur-md': !counters.referers }" :value="counters.referers" />
       </CardContent>
     </Card>
   </div>

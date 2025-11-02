@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { HoverCardTrigger, type HoverCardTriggerProps } from 'radix-vue'
+import type { HoverCardTriggerProps } from "reka-ui"
+import { HoverCardTrigger } from "reka-ui"
 
 const props = defineProps<HoverCardTriggerProps>()
 </script>
 
 <template>
-  <HoverCardTrigger v-bind="props">
+  <HoverCardTrigger
+    data-slot="hover-card-trigger"
+    v-bind="props"
+  >
     <slot />
   </HoverCardTrigger>
 </template>

@@ -38,7 +38,10 @@ const styles = {
 <template>
   <a
     :href="href"
-    class="rounded text-center transition focus-visible:ring-2 ring-offset-2 ring-gray-200"
+    class="
+      rounded text-center ring-gray-200 ring-offset-2 transition
+      focus-visible:ring-2
+    "
     :class="[
       block && 'w-full',
       sizes[size],

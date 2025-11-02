@@ -1,18 +1,16 @@
 <script lang="ts" setup>
-import { type HTMLAttributes, computed } from 'vue'
-import { RangeCalendarRoot, type RangeCalendarRootEmits, type RangeCalendarRootProps, useForwardPropsEmits } from 'radix-vue'
-import { RangeCalendarCell, RangeCalendarCellTrigger, RangeCalendarGrid, RangeCalendarGridBody, RangeCalendarGridHead, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarNextButton, RangeCalendarPrevButton } from '.'
-import { cn } from '@/utils'
+import type { RangeCalendarRootEmits, RangeCalendarRootProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { RangeCalendarRoot, useForwardPropsEmits } from "reka-ui"
+import { cn } from "@/lib/utils"
+import { RangeCalendarCell, RangeCalendarCellTrigger, RangeCalendarGrid, RangeCalendarGridBody, RangeCalendarGridHead, RangeCalendarGridRow, RangeCalendarHeadCell, RangeCalendarHeader, RangeCalendarHeading, RangeCalendarNextButton, RangeCalendarPrevButton } from "."
 
-const props = defineProps<RangeCalendarRootProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<RangeCalendarRootProps & { class?: HTMLAttributes["class"] }>()
 
 const emits = defineEmits<RangeCalendarRootEmits>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
@@ -20,13 +18,17 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
 <template>
   <RangeCalendarRoot
     v-slot="{ grid, weekDays }"
+    data-slot="range-calendar"
     :class="cn('p-3', props.class)"
     v-bind="forwarded"
   >
     <RangeCalendarHeader>
-      <RangeCalendarPrevButton />
       <RangeCalendarHeading />
-      <RangeCalendarNextButton />
+
+      <div class="flex items-center gap-1">
+        <RangeCalendarPrevButton />
+        <RangeCalendarNextButton />
+      </div>
     </RangeCalendarHeader>
 
     <div class="flex flex-col gap-y-4 mt-4 sm:flex-row sm:gap-x-4 sm:gap-y-0">

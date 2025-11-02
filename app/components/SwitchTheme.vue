@@ -9,10 +9,16 @@ const colorMode = useColorMode()
     <DropdownMenuTrigger as-child>
       <Button variant="ghost">
         <Sun
-          class="absolute w-5 h-5 transition-all scale-100 dark:scale-0"
+          class="
+            absolute h-5 w-5 scale-100 transition-all
+            dark:scale-0
+          "
         />
         <Moon
-          class="w-5 h-5 transition-all scale-0 dark:scale-100"
+          class="
+            h-5 w-5 scale-0 transition-all
+            dark:scale-100
+          "
         />
         <span class="sr-only">{{ $t('theme.toggle') }}</span>
       </Button>
@@ -25,21 +31,21 @@ const colorMode = useColorMode()
         class="cursor-pointer"
         @click="colorMode.preference = 'light'"
       >
-        <Sun class="w-4 h-4 mr-1" />
+        <Sun class="mr-1 h-4 w-4" />
         {{ $t('theme.light') }}
       </DropdownMenuItem>
       <DropdownMenuItem
         class="cursor-pointer"
         @click="colorMode.preference = 'dark'"
       >
-        <Moon class="w-4 h-4 mr-1" />
+        <Moon class="mr-1 h-4 w-4" />
         {{ $t('theme.dark') }}
       </DropdownMenuItem>
       <DropdownMenuItem
         class="cursor-pointer"
         @click="colorMode.preference = 'system'"
       >
-        <Laptop class="w-4 h-4 mr-1" />
+        <Laptop class="mr-1 h-4 w-4" />
         {{ $t('theme.system') }}
       </DropdownMenuItem>
     </DropdownMenuContent>

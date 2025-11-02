@@ -1,5 +1,7 @@
 onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
   - esbuild
+  - maplibre-gl
   - sharp
   - simple-git-hooks
   - unrs-resolver

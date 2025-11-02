@@ -58,11 +58,21 @@ const Tooltip = {
 </script>
 
 <template>
-  <Card class="flex flex-col md:h-[500px]">
+  <Card
+    class="
+      flex flex-col
+      md:h-[500px]
+    "
+  >
     <CardHeader>
       <CardTitle>{{ $t('dashboard.locations') }}</CardTitle>
     </CardHeader>
-    <CardContent class="flex-1 flex [&_[data-radix-aspect-ratio-wrapper]]:flex-1">
+    <CardContent
+      class="
+        flex flex-1
+        **:data-reka-aspect-ratio-wrapper:flex-1
+      "
+    >
       <AspectRatio :ratio="65 / 30">
         <VisSingleContainer
           v-if="worldMapTopoJSON.type"

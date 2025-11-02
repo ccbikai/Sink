@@ -1,11 +1,15 @@
 <script lang="ts" setup>
-import { RangeCalendarGridBody, type RangeCalendarGridBodyProps } from 'radix-vue'
+import type { RangeCalendarGridBodyProps } from "reka-ui"
+import { RangeCalendarGridBody } from "reka-ui"
 
 const props = defineProps<RangeCalendarGridBodyProps>()
 </script>
 
 <template>
-  <RangeCalendarGridBody v-bind="props">
+  <RangeCalendarGridBody
+    data-slot="range-calendar-grid-body"
+    v-bind="props"
+  >
     <slot />
   </RangeCalendarGridBody>
 </template>

@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
-import { RadioGroupRoot, type RadioGroupRootEmits, type RadioGroupRootProps, useForwardPropsEmits } from 'radix-vue'
-import { cn } from '@/utils'
+import type { RadioGroupRootEmits, RadioGroupRootProps } from "reka-ui"
+import type { HTMLAttributes } from "vue"
+import { reactiveOmit } from "@vueuse/core"
+import { RadioGroupRoot, useForwardPropsEmits } from "reka-ui"
+import { cn } from "@/lib/utils"
 
-const props = defineProps<RadioGroupRootProps & { class?: HTMLAttributes['class'] }>()
+const props = defineProps<RadioGroupRootProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<RadioGroupRootEmits>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, "class")
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>
 
 <template>
   <RadioGroupRoot
-    :class="cn('grid gap-2', props.class)"
+    data-slot="radio-group"
+    :class="cn('grid gap-3', props.class)"
     v-bind="forwarded"
   >
     <slot />

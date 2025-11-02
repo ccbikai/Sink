@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { beautifyObjectName } from './utils'
 import type { FieldProps } from './interface'
-import AutoFormLabel from './AutoFormLabel.vue'
+import { Checkbox } from '@/components/ui/checkbox'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
-import { Checkbox } from '@/components/ui/checkbox'
+import { computed } from 'vue'
+import AutoFormLabel from './AutoFormLabel.vue'
+import { beautifyObjectName, maybeBooleanishToBoolean } from './utils'
 
 const props = defineProps<FieldProps>()
 
@@ -20,10 +20,10 @@ const booleanComponent = computed(() => props.config?.component === 'switch' ? S
           <slot v-bind="slotProps">
             <component
               :is="booleanComponent"
-              v-bind="{ ...slotProps.componentField }"
-              :disabled="disabled"
-              :checked="slotProps.componentField.modelValue"
-              @update:checked="slotProps.componentField['onUpdate:modelValue']"
+              :disabled="maybeBooleanishToBoolean(config?.inputProps?.disabled) ?? disabled"
+              :name="slotProps.componentField.name"
+              :model-value="slotProps.componentField.modelValue"
+              @update:model-value="slotProps.componentField['onUpdate:modelValue']"
             />
           </slot>
         </FormControl>
