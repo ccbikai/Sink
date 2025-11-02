@@ -1,4 +1,4 @@
-# ⚡ Sink
+# ⚡ Sink by Green Computer Systems
 
 **A Simple / Speedy / Secure Link Shortener with Analytics, 100% run on Cloudflare.**
 
@@ -141,9 +141,10 @@ We currently do not support native MCP Server, but we have OpenAPI documentation
 
 ## 💖 Credits
 
-1. [**Cloudflare**](https://www.cloudflare.com/)
-2. [**NuxtHub**](https://hub.nuxt.com/)
-3. [**Astroship**](https://astroship.web3templates.com/)
+1. [**Green Computer Systems**](https://green.computer/)
+2. [**Cloudflare**](https://www.cloudflare.com/)
+3. [**NuxtHub**](https://hub.nuxt.com/)
+4. [**Astroship**](https://astroship.web3templates.com/)
 
 ## ☕ Sponsor
 

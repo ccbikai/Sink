@@ -17,6 +17,18 @@ useHead(() => ({
         .dark .cf-logo-bg {
           fill: #fff;
         }
+        .gcs-logo-black {
+          display: block;
+        }
+        .gcs-logo-white {
+          display: none;
+        }
+        .dark .gcs-logo-black {
+          display: none;
+        }
+        .dark .gcs-logo-white {
+          display: block;
+        }
       `,
     },
   ],
@@ -43,12 +55,17 @@ useHead(() => ({
         v-if="isHome"
         class="flex items-center justify-center mt-4 sm:ml-auto sm:mt-0"
       >
-        <div v-html="cloudflareLogo" />
         <img
-          :src="colorMode.value === 'dark' ? gcsLogoWhite : gcsLogoBlack"
+          :src="gcsLogoBlack"
           alt="GCS Systems Logo"
-          class="h-8 ml-4"
+          class="w-[204px] mr-4 gcs-logo-black"
         >
+        <img
+          :src="gcsLogoWhite"
+          alt="GCS Systems Logo"
+          class="w-[204px] mr-4 gcs-logo-white"
+        >
+        <div v-html="cloudflareLogo" />
       </div>
       <span
         class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
