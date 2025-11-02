@@ -168,7 +168,7 @@ const { previewMode } = useRuntimeConfig().public
             v-if="!isEdit"
             class="relative"
           >
-            <div class="absolute top-1 right-0 flex space-x-3">
+            <div class="absolute top-0 right-0 flex space-x-3">
               <Shuffle
                 class="h-4 w-4 cursor-pointer"
                 @click="randomSlug"
