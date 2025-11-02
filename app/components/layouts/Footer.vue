@@ -1,9 +1,12 @@
 <script setup>
 import { BloggerIcon, GitHubIcon, GmailIcon, MastodonIcon, TelegramIcon, XIcon } from 'vue3-simple-icons'
 import cloudflareLogoRaw from '~/assets/images/cloudflare-logo.svg?raw'
+import gcsLogoBlack from '~/assets/images/gcs-logo-black.png'
+import gcsLogoWhite from '~/assets/images/gcs-logo-white.png'
 
 const { title, email, telegram, blog, twitter, mastodon, github } = useAppConfig()
 const route = useRoute()
+const colorMode = useColorMode()
 const isHome = computed(() => route.path === '/')
 const cloudflareLogo = computed(() => cloudflareLogoRaw)
 
@@ -30,17 +33,23 @@ useHead(() => ({
       >{{ title }}</a>
       <a
         class="mt-4 text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l sm:border-gray-200 sm:mt-0"
-        href="https://html.zone"
+        href="https://Green.Computer"
         target="_blank"
-        title="HTML.ZONE"
+        title="Green.Computer"
       >
         &copy; {{ new Date().getFullYear() }} Product of GREEN COMPUTER SYSTEMS
       </a>
       <div
         v-if="isHome"
         class="flex items-center justify-center mt-4 sm:ml-auto sm:mt-0"
-        v-html="cloudflareLogo"
-      />
+      >
+        <div v-html="cloudflareLogo" />
+        <img
+          :src="colorMode.value === 'dark' ? gcsLogoWhite : gcsLogoBlack"
+          alt="GCS Systems Logo"
+          class="h-8 ml-4"
+        >
+      </div>
       <span
         class="inline-flex justify-center mt-4 space-x-5 sm:ml-auto sm:mt-0 sm:justify-start"
       >

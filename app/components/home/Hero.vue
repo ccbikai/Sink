@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted } from 'vue'
 import { AreaChart } from 'lucide-vue-next'
+import { onMounted } from 'vue'
 import { GitHubIcon } from 'vue3-simple-icons'
 
 const { title, description, github } = useAppConfig()
