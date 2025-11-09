@@ -99,7 +99,6 @@ const { title, github } = useAppConfig()
                 :title="`${title} Dashboard`"
               >{{ $t('dashboard.title') }}</a>
              
-
               <SwitchLanguage />
 
               <SwitchTheme />
